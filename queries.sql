@@ -85,20 +85,21 @@ CREATE TABLE Matches (
     LocalNationalTeam varchar(100) NOT NULL, /* Determinar PK */
     VisitorNationalTeam varchar(100) NOT NULL, /* Determinar PK */
     Date TIMESTAMP NOT NULL,
+    City varchar(50) NOT NULL,
     FOREIGN KEY (LocalNationalTeam) REFERENCES NationalTeams (CountryName),
     FOREIGN KEY (VisitorNationalTeam) REFERENCES NationalTeams (CountryName)
 );
 
-INSERT INTO Matches (LocalNationalTeam, VisitorNationalTeam, Date) VALUES
+INSERT INTO Matches (LocalNationalTeam, VisitorNationalTeam, Date, City) VALUES
 /* FECHA 1 */
-('Argentina','Canadá', '2024-06-20 21:00:00'),
-('Perú','Chile', '2024-06-21 21:00:00'),
-('Ecuador','Venezuela', '2024-06-22 19:00:00'),
-('México','Jamaica', '2024-06-22 22:00:00'),
-('Estados Unidos','Bolivia', '2024-06-23 19:00:00'),
-('Uruguay','Panamá', '2024-06-23 22:00:00'),
-('Colombia','Paraguay', '2024-06-24 19:00:00'),
-('Brasil','Costa Rica', '2024-06-24 20:00:00');
+('Argentina','Canadá', '2024-06-20 21:00:00', 'Atlanta'),
+('Perú','Chile', '2024-06-21 21:00:00', 'Arlington'),
+('Ecuador','Venezuela', '2024-06-22 19:00:00', 'Santa Clara'),
+('México','Jamaica', '2024-06-22 22:00:00', 'Houston'),
+('Estados Unidos','Bolivia', '2024-06-23 19:00:00', 'Arlington'),
+('Uruguay','Panamá', '2024-06-23 22:00:00', 'Miami'),
+('Colombia','Paraguay', '2024-06-24 19:00:00', 'Houston'),
+('Brasil','Costa Rica', '2024-06-24 20:00:00', 'Inglewood');
 
 /* MATCH_RESULTS */
 CREATE TABLE MatchResults (
