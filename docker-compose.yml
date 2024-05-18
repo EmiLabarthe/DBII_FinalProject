@@ -1,0 +1,17 @@
+version: '3'
+services:
+  Api:
+    image: <image_name>
+    ports:
+      - <host_port>:<container_port>
+    volumes:
+      - <host_path>:<container_path>
+    environment:
+      - <key>=<value>
+    depends_on:
+      - service2
+  Front:
+    image: <image_name>
+    # Add more services as needed
+  DB:
+    image:
