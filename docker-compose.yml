@@ -1,17 +1,30 @@
 version: '3'
 services:
-  Api:
-    image: <image_name>
+  api:
     ports:
-      - <host_port>:<container_port>
-    volumes:
-      - <host_path>:<container_path>
+      - "8080:80"
+    #volumes:
+    #  - ./PencaUcuApi:/App
+    build:
+      context: ./PencaUcuApi
+      dockerfile: Dockerfile
     environment:
-      - <key>=<value>
+      - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
-      - service2
-  Front:
-    image: <image_name>
+      - db
+    develop:
+      watch:
+        - action: rebuild
+          path: ./PencaUcuApi
+    #front:
+    #image: <image_name>
     # Add more services as needed
-  DB:
-    image:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pencaucu
+    volumes:
+      - ./Database:/docker-entrypoint-initdb.d

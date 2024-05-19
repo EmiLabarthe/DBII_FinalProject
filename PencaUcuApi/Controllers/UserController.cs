@@ -9,9 +9,11 @@ namespace PencaUcuApi.Controllers;
 public class UserController : ControllerBase
 {
     private readonly MyDbContext _dbContext;
+    private readonly ILogger<UserController> _logger;
 
-    public UserController(MyDbContext dbContext)
+    public UserController(ILogger<UserController> logger, MyDbContext dbContext)
     {
+        _logger = logger;
         _dbContext = dbContext;
     }
 
@@ -23,10 +25,18 @@ public class UserController : ControllerBase
         return Ok(users);
     }
 
+    [HttpGet("Prueba")]
+    public IActionResult Prueba()
+    {
+        return Ok("Bien");
+    }
+
     [HttpPost]
     public IActionResult Post([FromBody] User user)
     {
         // Implement your POST logic here
-        return Ok();
+        return Ok("Funcionó y ahora?");
     }
+
+
 }
