@@ -1,6 +1,14 @@
 create database UcuPenca2024;
 use UcuPenca2024;
 
+/* GROUP_STAGES */
+CREATE TABLE GroupStages (
+    Name varchar(1) PRIMARY KEY
+);
+
+INSERT INTO GroupStages (Name) VALUES
+('A'), ('B'), ('C'), ('D');
+
 /* USERS */
 CREATE TABLE Users (
     Id varchar(20) PRIMARY KEY,
@@ -21,7 +29,6 @@ INSERT INTO Users (Id, FirstName, LastName, Gender, Email) VALUES
 ('88888888', 'Sebastián', 'López', 'Masculino', 'sebastian.lopez@ucu.com'),
 ('99999999', 'Natalia', 'Sánchez', 'Femenino', 'natalia.sanchez@ucu.com'),
 ('12121212', 'Alejandro', 'Ruiz', 'Masculino', 'alejandro.ruiz@ucu.com');
-
 
 /* STUDENTS */
 CREATE TABLE Students (
@@ -56,9 +63,10 @@ INSERT INTO Careers (Name) VALUES
 
 /* STUDENT-CAREER */
 CREATE TABLE StudentCareer (
-    StudentId varchar(20) PRIMARY KEY,
-    CareerId varchar(50) PRIMARY KEY,
-    FOREIGN KEY (StudentId) REFERENCES Users (Id),
+    StudentId varchar(20),
+    CareerId bigint,
+    PRIMARY KEY (StudentId, CareerId),
+    FOREIGN KEY (StudentId) REFERENCES Students (StudentId),
     FOREIGN KEY (CareerId) REFERENCES Careers (Id)
 );
 
@@ -68,22 +76,22 @@ INSERT INTO StudentCareer (StudentId, CareerId) VALUES
 
 /* NATIONAL_TEAMS */
 CREATE TABLE NationalTeams (
-    CountryName varchar(20) PRIMARY KEY, /* Determinar ID */
+    CountryName varchar(20) PRIMARY KEY,
     GroupStageId varchar(1) NOT NULL,
     FOREIGN KEY (GroupStageId) REFERENCES GroupStages (Name)
 );
 
-INSERT INTO NationalTeams (CountryName) VALUES
-('Argentina'), ('Perú'), ('Chile'), ('Canadá'),
-('México'), ('Ecuador'), ('Venezuela'), ('Jamaica'),
-('Estados Unidos'), ('Uruguay'), ('Panamá'), ('Bolivia'),
-('Brasil'), ('Colombia'), ('Paraguay'), ('Costa Rica');
+INSERT INTO NationalTeams (CountryName, GroupStageId) VALUES
+('Argentina', 'A'), ('Perú', 'A'), ('Chile', 'A'), ('Canadá', 'A'),
+('México', 'B'), ('Ecuador', 'B'), ('Venezuela', 'B'), ('Jamaica', 'B'),
+('Estados Unidos', 'C'), ('Uruguay', 'C'), ('Panamá', 'C'), ('Bolivia', 'C'),
+('Brasil', 'D'), ('Colombia', 'D'), ('Paraguay', 'D'), ('Costa Rica', 'D');
 
 /* MATCHES - NationalTeam vs NationalTeam */
 CREATE TABLE Matches (
     Id bigint PRIMARY KEY AUTO_INCREMENT,
-    LocalNationalTeam varchar(100) NOT NULL, /* Determinar PK */
-    VisitorNationalTeam varchar(100) NOT NULL, /* Determinar PK */
+    LocalNationalTeam varchar(20) NOT NULL,
+    VisitorNationalTeam varchar(20) NOT NULL,
     Date TIMESTAMP NOT NULL,
     FOREIGN KEY (LocalNationalTeam) REFERENCES NationalTeams (CountryName),
     FOREIGN KEY (VisitorNationalTeam) REFERENCES NationalTeams (CountryName)
@@ -106,11 +114,10 @@ CREATE TABLE MatchResults (
     MatchId bigint NOT NULL,
     LocalNationalTeamGoals int DEFAULT 0,
     VisitorNationalTeamGoals int DEFAULT 0,
-    WinnerId varchar(20), /* Determinar PK */
+    WinnerId varchar(20),
     FOREIGN KEY (MatchId) REFERENCES Matches (Id),
     FOREIGN KEY (WinnerId) REFERENCES NationalTeams (CountryName)
 );
-
 
 /* PREDICTIONS */
 CREATE TABLE Predictions (
@@ -124,16 +131,16 @@ CREATE TABLE Predictions (
 );
 
 INSERT INTO Predictions (StudentId, MatchId, LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals) VALUES
-('11111111', 0, 3, 1), ('22222222', 0, 2, 2), ('44444444', 0, 3, 0),
-('11111111', 1, 0, 0), ('22222222', 1, 2, 3),
-('44444444', 2, 3, 0);
-
+('11111111', 1, 3, 1), ('22222222', 1, 2, 2), ('44444444', 1, 3, 0),
+('11111111', 2, 0, 0), ('22222222', 2, 2, 3),
+('44444444', 3, 3, 0);
 
 /* STUDENT-TOURNAMENT_PREDICTIONS */
 CREATE TABLE StudentTournamentPrediction (
-    StudentId varchar(20) PRIMARY KEY,
-    ChampionId varchar(20) PRIMARY KEY,  /* Determinar PK */
-    ViceChampionId varchar(20) PRIMARY KEY,  /* Determinar PK */
+    StudentId varchar(20),
+    ChampionId varchar(20),
+    ViceChampionId varchar(20),
+    PRIMARY KEY (StudentId, ChampionId, ViceChampionId),
     FOREIGN KEY (StudentId) REFERENCES Students (StudentId),
     FOREIGN KEY (ChampionId) REFERENCES NationalTeams (CountryName),
     FOREIGN KEY (ViceChampionId) REFERENCES NationalTeams (CountryName)
@@ -141,22 +148,12 @@ CREATE TABLE StudentTournamentPrediction (
 
 INSERT INTO StudentTournamentPrediction (StudentId, ChampionId, ViceChampionId) VALUES
 ('11111111', 'Uruguay', 'Argentina'), ('22222222', 'Brasil', 'Chile'), ('44444444', 'Uruguay', 'México'),
-('66666666', 'Colombia', 'Argentina'), ('77777777', 'Argentina', 'Paraguay'), ('99999999', 'Brasil', 'Perú'),;
-
-
-/* GROUP_STAGES */
-CREATE TABLE GroupStages (
-    Name varchar(1) PRIMARY KEY,
-);
-
-INSERT INTO GroupStages (Name) VALUES
-('A'), ('B'), ('C'), ('D');
-
+('66666666', 'Colombia', 'Argentina'), ('77777777', 'Argentina', 'Paraguay'), ('99999999', 'Brasil', 'Perú');
 
 /* NATIONAL_TEAMS-GROUP_STAGES */
 CREATE TABLE NationalTeamGroupStage (
     Id bigint PRIMARY KEY AUTO_INCREMENT,
-    NationalTeamId varchar(20) PRIMARY KEY, /* Determinar PK */
+    NationalTeamId varchar(20),
     Points int DEFAULT 0,
     Wins int DEFAULT 0,
     Draws int DEFAULT 0,
