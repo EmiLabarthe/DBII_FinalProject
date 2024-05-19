@@ -21,11 +21,5 @@ public class MyDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        // Explicitly configure the primary key if needed
-        modelBuilder.Entity<Administrator>()
-            .HasKey(a => a.AdminId);
-        modelBuilder.Entity<StudentCareer>()
-            .HasKey(a => a.CareerId);
     }
 }

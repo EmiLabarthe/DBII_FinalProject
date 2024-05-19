@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PencaUcuApi.Models;
 public class Prediction
 {
+    [Key]
     public long Id { get; set; }
     public string StudentId { get; set; }
     public long MatchId { get; set; }

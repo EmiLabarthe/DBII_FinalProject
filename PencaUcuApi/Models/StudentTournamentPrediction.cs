@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PencaUcuApi.Models;
 public class StudentTournamentPrediction
 {
+    [Key]
     public string StudentId { get; set; }
     public string ChampionId { get; set; }
     public string ViceChampionId { get; set; }

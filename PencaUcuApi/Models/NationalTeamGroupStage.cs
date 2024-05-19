@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PencaUcuApi.Models;
 public class NationalTeamGroupStage
 {
+    [Key]
     public long Id { get; set; }
     public string NationalTeamId { get; set; } // Ponemos esto o el NationalTeam como objeto?
     public int Points { get; set; }

@@ -1,8 +1,9 @@
-namespace PencaUcuApi.Models;
+using System.ComponentModel.DataAnnotations;
 
-// Modelo de prueba
+namespace PencaUcuApi.Models;
 public class NationalTeam
 {
+    [Key]
     public string Name { get; set; }
     public int Id { get; set; }
 

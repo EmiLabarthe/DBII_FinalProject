@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PencaUcuApi.Models;
 public class MatchResult
 {
+    [Key]
     public long Id { get; set; }
     public long MatchId { get; set; }
     public int LocalNationalTeamGoals { get; set; }
