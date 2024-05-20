@@ -2,8 +2,6 @@ services:
   api:
     ports:
       - "8080:80"
-    #volumes:
-    #  - ./PencaUcuApi:/App
     build:
       context: ./PencaUcuApi
       dockerfile: Dockerfile
@@ -15,9 +13,19 @@ services:
       watch:
         - action: rebuild
           path: ./PencaUcuApi
-    #front:
-    #image: <image_name>
-    # Add more services as needed
+  web:
+    ports:
+      - "4200:4200"
+    build:
+      context: ./penca-angular-app
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    develop:
+      watch:
+        - action: sync
+          path: ./penca-angular-app
+          target: /usr/src/app
   db:
     image: mysql
     ports:
