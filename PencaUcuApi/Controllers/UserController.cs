@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PencaUcuApi.Models;
 
 namespace PencaUcuApi.Controllers;
-
+// FIXME: Hacer rest decente
 [ApiController]
 [Route("[controller]")]
 public class UserController : ControllerBase
