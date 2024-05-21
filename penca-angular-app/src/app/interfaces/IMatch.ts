@@ -3,5 +3,5 @@ export interface IMatch {
     LocalNationalTeam: string;
     VisitorNationalTeam: string;
     Date: Date;
-    City: string;
+    StadiumId: number;
 }

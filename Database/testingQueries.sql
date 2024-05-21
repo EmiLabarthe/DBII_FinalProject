@@ -16,7 +16,7 @@ CREATE TABLE Users (
     LastName varchar(50) NOT NULL,
     Gender varchar(20) NOT NULL,
     Email varchar(50) NOT NULL,
-    Password varchar(20) NOT NULL,
+    Password varchar(254) NOT NULL,
 );
 
 INSERT INTO Users (Id, FirstName, LastName, Gender, Email) VALUES
