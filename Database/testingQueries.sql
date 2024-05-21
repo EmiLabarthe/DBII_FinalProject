@@ -15,7 +15,8 @@ CREATE TABLE Users (
     FirstName varchar(50) NOT NULL,
     LastName varchar(50) NOT NULL,
     Gender varchar(20) NOT NULL,
-    Email varchar(50) NOT NULL
+    Email varchar(50) NOT NULL,
+    Password varchar(20) NOT NULL,
 );
 
 INSERT INTO Users (Id, FirstName, LastName, Gender, Email) VALUES
@@ -87,26 +88,72 @@ INSERT INTO NationalTeams (CountryName, GroupStageId) VALUES
 ('Estados Unidos', 'C'), ('Uruguay', 'C'), ('Panamá', 'C'), ('Bolivia', 'C'),
 ('Brasil', 'D'), ('Colombia', 'D'), ('Paraguay', 'D'), ('Costa Rica', 'D');
 
+
+/* STADIUMS */
+CREATE TABLE Stadiums (
+    Id bigint PRIMARY KEY AUTO_INCREMENT,
+    Name varchar(20) NOT NULL,
+    State varchar(20) NOT NULL,
+    City varchar(20) NOT NULL
+);
+
+INSERT INTO Stadiums (Name, State, City) VALUES
+('Mercedes-Benz Stadium', 'Georgia', 'Atlanta'),
+('AT&T Stadium', 'Texas', 'Arlington'),
+('NRG Stadium', 'Texas', 'Houston'),
+('Q2 Stadium', 'Texas', 'Austin'),
+('Levi''s® Stadium', 'California', 'Santa Clara'),
+('SoFi Stadium', 'California', 'Inglewood'),
+('Hard Rock Stadium', 'Florida', 'Miami'),
+('Children''s Mercy Park', 'Kansas', 'Kansas City'),
+('GEHA Field at Arrowhead', 'Missouri', 'Kansas City'),
+('MetLife Stadium', 'New Jersey', 'East Rutherford'),
+('Allegiant Stadium', 'Nevada', 'Las Vegas'),
+('State Farm Stadium', 'Arizona', 'Glendale'),
+('Inter&Co Stadium', 'Florida', 'Orlando');
+
+
 /* MATCHES - NationalTeam vs NationalTeam */
 CREATE TABLE Matches (
     Id bigint PRIMARY KEY AUTO_INCREMENT,
     LocalNationalTeam varchar(20) NOT NULL,
     VisitorNationalTeam varchar(20) NOT NULL,
     Date TIMESTAMP NOT NULL,
+    StadiumId bigint NOT NULL,
     FOREIGN KEY (LocalNationalTeam) REFERENCES NationalTeams (CountryName),
-    FOREIGN KEY (VisitorNationalTeam) REFERENCES NationalTeams (CountryName)
+    FOREIGN KEY (VisitorNationalTeam) REFERENCES NationalTeams (CountryName),
+    FOREIGN KEY (StadiumId) REFERENCES Stadiums (Id)
 );
 
-INSERT INTO Matches (LocalNationalTeam, VisitorNationalTeam, Date) VALUES
+INSERT INTO Matches (LocalNationalTeam, VisitorNationalTeam, Date, StadiumId) VALUES
 /* FECHA 1 */
-('Argentina','Canadá', '2024-06-20 21:00:00'),
-('Perú','Chile', '2024-06-21 21:00:00'),
-('Ecuador','Venezuela', '2024-06-22 19:00:00'),
-('México','Jamaica', '2024-06-22 22:00:00'),
-('Estados Unidos','Bolivia', '2024-06-23 19:00:00'),
-('Uruguay','Panamá', '2024-06-23 22:00:00'),
-('Colombia','Paraguay', '2024-06-24 19:00:00'),
-('Brasil','Costa Rica', '2024-06-24 20:00:00');
+('Argentina','Canadá', '2024-06-20 21:00:00', 0),
+('Perú','Chile', '2024-06-21 21:00:00', 1),
+('Ecuador','Venezuela', '2024-06-22 19:00:00', 4),
+('México','Jamaica', '2024-06-22 22:00:00', 2),
+('Estados Unidos','Bolivia', '2024-06-23 19:00:00', 1),
+('Uruguay','Panamá', '2024-06-23 22:00:00', 6),
+('Colombia','Paraguay', '2024-06-24 19:00:00', 2),
+('Brasil','Costa Rica', '2024-06-24 20:00:00', 5),
+/* FECHA 2 */
+('Perú','Canadá', '2024-06-25 17:00:00', 7),
+('Chile','Argentina', '2024-06-25 21:00:00', 9),
+('Ecuador','Jamaica', '2024-06-26 15:00:00', 10),
+('Venezuela','México', '2024-06-26 18:00:00', 5),
+('Panamá','Estados Unidos', '2024-06-27 18:00:00', 0),
+('Uruguay','Bolivia', '2024-06-27 21:00:00', 9),
+('Colombia','Costa Rica', '2024-06-28 15:00:00', 11),
+('Paraguay','Brasil', '2024-06-28 18:00:00', 10),
+/* FECHA 3 */
+('Argentina','Perú', '2024-06-29 20:00:00', 6),
+('Canadá','Chile', '2024-06-29 20:00:00', 12),
+('México','Ecuador', '2024-06-30 17:00:00', 11),
+('Jamaica','Venezuela', '2024-06-30 19:00:00', 3),
+('Estados Unidos','Uruguay', '2024-07-01 20:00:00', 8),
+('Bolivia','Panamá', '2024-07-01 21:00:00', 12),
+('Brasil','Colombia', '2024-07-02 18:00:00', 4),
+('Costa Rica','Paraguay', '2024-07-02 20:00:00', 3);
+
 
 /* MATCH_RESULTS */
 CREATE TABLE MatchResults (

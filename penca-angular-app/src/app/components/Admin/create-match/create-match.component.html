@@ -1,0 +1,36 @@
+<div class="container">
+    <div [hidden]="submitted">
+        <h1>Registro de Partido</h1>
+        <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
+            <div class="form-group">
+                <label for="localNationalTeam">Selección 'Local'</label>
+                <select class="form-control" id="localNationalTeam" required [(ngModel)]="model.localNationalTeam" name="localNationalTeam"
+                    #localNationalTeam="ngModel">
+                    <option *ngFor="let nationalTeam of nationalTeams" [value]="localNationalTeam">{{localNationalTeam}}</option>
+                </select>
+                <div [hidden]="localNationalTeam.valid || localNationalTeam.pristine" class="alert alert-danger">
+                    El campo 'Selección Local' es obligatorio
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="visitorNationalTeam">Selección 'Visitante'</label>
+                <select class="form-control" id="visitorNationalTeam" required [(ngModel)]="model.visitorNationalTeam" name="visitorNationalTeam"
+                    #visitorNationalTeam="ngModel">
+                    <option *ngFor="let nationalTeam of nationalTeams" [value]="visitorNationalTeam">{{visitorNationalTeam}}</option>
+                </select>
+                <div [hidden]="visitorNationalTeam.valid || visitorNationalTeam.pristine" class="alert alert-danger">
+                    El campo 'Selección Visitante' es obligatorio
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="city">Ciudad</label>
+                <input type="text" class="form-control" id="city" required [(ngModel)]="model.description" name="city"
+                    #city="ngModel">
+                <div [hidden]="city.valid || city.pristine" class="alert alert-danger">
+                    El campo 'Ciudad' es obligatorio
+                </div>
+            </div>
+            <button type="button" class="btn btn-success" (click)="createMatch()">Registrar Partido</button>
+        </form>
+    </div>
+</div>
