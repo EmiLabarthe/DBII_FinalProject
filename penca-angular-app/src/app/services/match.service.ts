@@ -17,7 +17,7 @@ export class MatchService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   /** GET matches from the server
    * 
@@ -79,6 +79,20 @@ export class MatchService {
       map(() => true), // If the operation is successful, response is mapped into a 'true' boolean
       catchError(this.handleError<boolean>(`delete id=${id}`))
     );
+  }
+
+/**
+ * Handles the Http-operation that failed; letting the app continue its course.
+ * 
+ * @param operation - name of the operation that failed
+ * @param result - optional value to return as the observable result
+ */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      console.log(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 
 }
