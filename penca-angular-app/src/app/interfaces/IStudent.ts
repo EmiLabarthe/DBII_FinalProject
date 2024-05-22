@@ -1,4 +1,5 @@
-export interface IStudent {
-    StudentId: string;
+import { IUser } from "./IUser";
+
+export interface IStudent extends IUser {
     Score: number;
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IMatch } from '../interfaces/IMatch';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap, switchMap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class MatchService {
 
   private cachedMatch: IMatch | null = null;
 
-  private matchesUrl = 'http://localhost:3000/api/matches';  // URL to web api - CHANGE PORT!!
+  private matchesUrl = 'http://localhost:8080/api/matches';  // URL to web api - CHECK PORT!!
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -38,8 +38,8 @@ export class MatchService {
    * @param id 
    * @returns IMatch found, or 404 if id not found
    */
-  getMatch(id: string): Observable<IMatch> {
-    if (this.cachedMatch && this.cachedMatch._id === id) {
+  getMatch(id: bigint): Observable<IMatch> {
+    if (this.cachedMatch && this.cachedMatch.Id === id) {
       return of(this.cachedMatch); // Return the cached match if it equals the requested ID
     } else {
       const url = `${this.matchesUrl}/${id}`;
@@ -61,9 +61,9 @@ export class MatchService {
    * @param image 
    * @returns 
    */
-  add(localNationalTeamName: string, visitorNationalTeamName: string, date: Date, stadiumId: string): Observable<IMatch> {
+  add(localNationalTeamName: string, visitorNationalTeamName: string, date: Date, stadiumId: number): Observable<IMatch> {
     return this.http.post<IMatch>(this.matchesUrl, { localNationalTeamName, visitorNationalTeamName, date, stadiumId }, this.httpOptions).pipe(
-        tap((newMatch: IMatch) => console.log(`added match w/ id=${newMatch._id}`)),
+        tap((newMatch: IMatch) => console.log(`added match w/ id=${newMatch.Id}`)),
         catchError(this.handleError<IMatch>('add'))
       );
   }

@@ -1,5 +1,5 @@
 export interface IMatch {
-    _id: string;
+    Id: bigint;
     LocalNationalTeam: string;
     VisitorNationalTeam: string;
     Date: Date;
