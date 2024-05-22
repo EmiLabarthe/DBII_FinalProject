@@ -8,12 +8,13 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { MatchesComponent } from './components/Student/matches/matches.component';
 import { CreateMatchComponent } from './components/Admin/create-match/create-match.component';
+import { LoginComponent } from './components/login/login.component';
 import { MenuComponent } from './components/Student/menu/menu.component';
-import { LoginComponent } from './login/login.component';
-
-
+import { MatchesComponent } from './components/Student/matches/matches.component';
+import { RankingComponent } from './components/Student/ranking/ranking.component';
+import { RegisterComponent } from './components/Student/register/register.component';
+import { FixtureComponent } from './components/Student/fixture/fixture.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,10 @@ import { LoginComponent } from './login/login.component';
     MatchesComponent,
     CreateMatchComponent,
     MenuComponent,
-    LoginComponent
+    LoginComponent,
+    RankingComponent,
+    RegisterComponent,
+    FixtureComponent,
   ],
   imports: [
     BrowserModule,

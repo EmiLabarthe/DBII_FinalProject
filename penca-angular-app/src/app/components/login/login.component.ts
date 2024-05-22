@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError } from 'rxjs';
 import { AdministratorService } from 'src/app/services/administrator.service';
 import { StudentService } from 'src/app/services/student.service';
-import { IStudent } from '../interfaces/IStudent';
-import { IUser } from '../interfaces/IUser';
+import { IStudent } from '../../interfaces/IStudent';
+import { IUser } from '../../interfaces/IUser';
 
 @Component({
   selector: 'app-login',
@@ -12,12 +12,12 @@ import { IUser } from '../interfaces/IUser';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  
+
   model = { Id: 'Cédula de Identidad', Password: 'Contraseña', Type: 'Tipo de usuario' };
   userTypes= ['Administrador', 'Estudiante'];
-  
+
   constructor(private studentService: StudentService, private adminService: AdministratorService) { }
-  
+
   login(): void {
     if(this.model.Type.localeCompare(this.userTypes[0])) { // Administrator login
       this.adminService.login(this.model.Id, this.model.Password)
@@ -49,5 +49,5 @@ export class LoginComponent {
       });
     }
   }
-  
+
 }
