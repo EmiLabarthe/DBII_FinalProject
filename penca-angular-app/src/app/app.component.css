@@ -1,0 +1,40 @@
+.view {
+  display: block;
+}
+
+.page-header {
+  padding: 0;
+  height: 65px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  vertical-align: middle;
+  border-bottom: 3px solid rgb(17, 130, 250);
+}
+.logo {
+  display: flex;
+  align-self: center;
+  padding: 0px;
+  margin: 0;
+  height: inherit;
+}
+h1 {
+  text-align: center;
+  align-self: center;
+  color: rgb(17, 130, 250);
+  font-family: "kapra-bold", sans-serif;
+  font-weight: 850;
+  font-size: 20px;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .page-header {
+    justify-content: center;
+  }
+  h1 {
+    font-weight: 800;
+    font-size: 42px;
+  }
+}

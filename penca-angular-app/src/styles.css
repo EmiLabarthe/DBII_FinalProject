@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+.container {
+  max-width: 100%;
+  padding: 1rem;
+}
+
+.row {
+  background-color: rgb(17, 130, 250);
+  margin: 3px 0px;
+  height: 35px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  color: #ffffff;
+}
+
+h2 {
+  width: 100%;
+  align-self: center;
+  background-color: rgb(17, 130, 250);
+  color: #ffffff;
+  font-family: "kapra-bold", sans-serif;
+  font-weight: 850;
+  font-size: 20px;
+  margin: 0;
+  padding: 1rem 0;
+}

@@ -1,0 +1,111 @@
+.container {
+    margin: 20px auto;
+    padding: 0;
+    max-width: 800px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+h1 {
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: black;
+    border-bottom: #002E85 solid 2px;
+}
+
+.container form {
+    padding: 20px;
+}
+
+
+.form-section {
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+label {
+    font-weight: bold;
+    color: black;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input{
+    display: flex;
+    width: 95%;
+    height: 25px;
+    overflow: auto;
+}
+
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s;
+}
+
+
+.alert-danger {
+    color: #d9534f;
+}
+
+
+.btn-success,
+.btn-default,
+.btn-primary {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-success {
+    background-color: black;
+    color: #fff;
+    border: none;
+    margin-right: 10px;
+}
+
+.btn-success:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+.btn-default {
+    background-color: #fff;
+    color: #42b6e5;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.btn-default:hover {
+    background-color: #eee;
+}
+
+
+
+.select-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}

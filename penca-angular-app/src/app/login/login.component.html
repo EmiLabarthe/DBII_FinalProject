@@ -1,0 +1,39 @@
+<div class="container">
+    <h1>Login</h1>
+    <form #activityForm="ngForm">
+        <div class="form-group">
+            <label for="id">Cédula de Identidad</label>
+            
+            <select class="form-control" id="id" required [(ngModel)]="model.Id"
+                name="id" #localNationalTeam="ngModel">
+                <option *ngFor="let nationalTeam of nationalTeams" [value]="localNationalTeam">{{localNationalTeam}}
+                </option>
+            </select>
+            <div [hidden]="localNationalTeam.valid || localNationalTeam.pristine" class="alert alert-danger">
+                El campo 'Selección Local' es obligatorio
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="visitorNationalTeam">Selección 'Visitante'</label>
+            <select class="form-control" id="visitorNationalTeam" required [(ngModel)]="model.VisitorNationalTeam"
+                name="visitorNationalTeam" #visitorNationalTeam="ngModel">
+                <option *ngFor="let nationalTeam of nationalTeams" [value]="visitorNationalTeam">{{visitorNationalTeam}}
+                </option>
+            </select>
+            <div [hidden]="visitorNationalTeam.valid || visitorNationalTeam.pristine" class="alert alert-danger">
+                El campo 'Selección Visitante' es obligatorio
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="stadium">Estadio</label>
+            <select class="form-control" id="stadium" required [(ngModel)]="model.StadiumId" name="stadium"
+                #stadium="ngModel">
+                <option *ngFor="let stadium of stadiums" [value]="stadium">{{stadium}}</option>
+            </select>
+            <div [hidden]="stadium.valid || stadium.pristine" class="alert alert-danger">
+                El campo 'Estadio' es obligatorio
+            </div>
+        </div>
+        <button type="button" class="btn btn-success" (click)="login()">Iniciar sesión</button>
+    </form>
+</div>
