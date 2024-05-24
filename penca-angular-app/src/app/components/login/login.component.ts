@@ -50,4 +50,7 @@ export class LoginComponent {
     }
   }
 
+  submitted = false;
+  onSubmit() { this.submitted = true; }
+
 }
