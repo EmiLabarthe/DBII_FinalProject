@@ -8,36 +8,36 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class MatchService {
-
+  
   private cachedMatch: IMatch | null = null;
-
+  
   private matchesUrl = 'http://localhost:8080/api/matches';  // URL to web api - CHECK PORT!!
-
+  
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-
+  
   constructor(private http: HttpClient) { }
-
+  
   /** GET matches from the server
-   * 
-   * @returns 
-   */
+  * 
+  * @returns 
+  */
   getMatches(): Observable<IMatch[]> {
     return this.http.get<IMatch[]>(this.matchesUrl)
-      .pipe(
-        tap(_ => console.log('fetched matches')),
-        catchError(this.handleError<IMatch[]>('getMatches', []))
-      );
+    .pipe(
+      tap(_ => console.log('fetched matches')),
+      catchError(this.handleError<IMatch[]>('getMatches', []))
+    );
   }
-
+  
   /** GET match by id. 
-   * 
-   * Checks if the id equals to the cachedMatch (avoiding api request).
-   * 
-   * @param id 
-   * @returns IMatch found, or 404 if id not found
-   */
+  * 
+  * Checks if the id equals to the cachedMatch (avoiding api request).
+  * 
+  * @param id 
+  * @returns IMatch found, or 404 if id not found
+  */
   getMatch(id: bigint): Observable<IMatch> {
     if (this.cachedMatch && this.cachedMatch.Id === id) {
       return of(this.cachedMatch); // Return the cached match if it equals the requested ID
@@ -52,47 +52,51 @@ export class MatchService {
       );
     }
   }
-
+  
   /** POST: add new match to the server
    * 
-   * @param name 
-   * @param category 
-   * @param description 
-   * @param image 
+   * @param localNationalTeamName 
+   * @param visitorNationalTeamName 
+   * @param date 
+   * @param stadiumId 
    * @returns 
    */
   add(localNationalTeamName: string, visitorNationalTeamName: string, date: Date, stadiumId: number): Observable<IMatch> {
-    return this.http.post<IMatch>(this.matchesUrl, { localNationalTeamName, visitorNationalTeamName, date, stadiumId }, this.httpOptions).pipe(
+    return this.http.post<IMatch>(this.matchesUrl, 
+      { LocalNationalTeamName: localNationalTeamName, VisitorNationalTeamName: visitorNationalTeamName, Date: date, StadiumId: stadiumId }, 
+      this.httpOptions)
+      .pipe(
         tap((newMatch: IMatch) => console.log(`added match w/ id=${newMatch.Id}`)),
         catchError(this.handleError<IMatch>('add'))
       );
+    }
+    
+    /** DELETE: remove specified Match from the server
+    * 
+    * @param id 
+    */
+    delete(id: number): Observable<boolean> {
+      const url = `${this.matchesUrl}/${id}`;
+      return this.http.delete(url).pipe(
+        tap(_ => console.log(`deleted match id=${id}`)),
+        map(() => true), // If the operation is successful, response is mapped into a 'true' boolean
+        catchError(this.handleError<boolean>(`delete id=${id}`))
+      );
+    }
+    
+    /**
+    * Handles the Http-operation that failed; letting the app continue its course.
+    * 
+    * @param operation - name of the operation that failed
+    * @param result - optional value to return as the observable result
+    */
+    private handleError<T>(operation = 'operation', result?: T) {
+      return (error: any): Observable<T> => {
+        console.error(error);
+        console.log(`${operation} failed: ${error.message}`);
+        return of(result as T);
+      };
+    }
+    
   }
-
-  /** DELETE: remove specified Match from the server
-   * 
-   * @param id 
-   */
-  delete(id: number): Observable<boolean> {
-    const url = `${this.matchesUrl}/${id}`;
-    return this.http.delete(url).pipe(
-      tap(_ => console.log(`deleted match id=${id}`)),
-      map(() => true), // If the operation is successful, response is mapped into a 'true' boolean
-      catchError(this.handleError<boolean>(`delete id=${id}`))
-    );
-  }
-
-/**
- * Handles the Http-operation that failed; letting the app continue its course.
- * 
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
-}
+  

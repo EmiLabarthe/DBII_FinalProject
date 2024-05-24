@@ -10,8 +10,7 @@ export class AdministratorService {
 
   private cachedAdministrator: IUser | null = null;
 
-  private administratorsUrl = 'http://localhost:8080/api/administrators';  // URL to web api - CHECK PORT!!
-
+  private administratorsUrl = 'http://localhost:8080/api/administrators';  // URL to web api
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -58,13 +57,12 @@ export class AdministratorService {
    * @param id 
    * @param password 
    * @returns 
-   */
   add(id: string, password: string): Observable<IUser> {
     return this.http.post<IUser>(this.administratorsUrl, { Id: id, Password: password }, this.httpOptions).pipe(
         tap((newAdministrator: IUser) => console.log(`added administrator w/ id=${newAdministrator.Id}`)),
         catchError(this.handleError<IUser>('add'))
       );
-  }
+  }*/
 
   /** POST: log of specified administrator
    * 

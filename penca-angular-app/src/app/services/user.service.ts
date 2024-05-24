@@ -3,41 +3,43 @@ import { IUser } from '../interfaces/IUser';
 import { IStudent } from '../interfaces/IStudent';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map, of, tap } from 'rxjs';
+import { AdministratorService } from './administrator.service';
+import { StudentService } from './student.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
+  
   private cachedUser: IUser | null = null;
-
-  private usersUrl = 'http://localhost:8080/api/users';  // URL to web api - CHECK PORT!!
-
+  
+  private usersUrl = 'http://localhost:8080/api/users';  // URL to web api
+  
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-
-  constructor(private http: HttpClient) { }
-
+  
+  constructor(private http: HttpClient, private administratorService: AdministratorService, private studentService: StudentService) { }
+  
   /** GET users from the server
-   * 
-   * @returns 
-   */
+  * 
+  * @returns 
+  */
   getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.usersUrl)
-      .pipe(
-        tap(_ => console.log('fetched users')),
-        catchError(this.handleError<IUser[]>('getusers', []))
-      );
+    .pipe(
+      tap(_ => console.log('fetched users')),
+      catchError(this.handleError<IUser[]>('getusers', []))
+    );
   }
-
+  
   /** GET user by id. 
-   * 
-   * Checks if the id equals to the cachedUser (avoiding api request).
-   * 
-   * @param id 
-   * @returns IUser found, or 404 if id not found
-   */
+  * 
+  * Checks if the id equals to the cachedUser (avoiding api request).
+  * 
+  * @param id 
+  * @returns IUser found, or 404 if id not found
+  */
   getUser(id: string): Observable<IUser> {
     if (this.cachedUser && this.cachedUser.Id === id) {
       return of(this.cachedUser); // Return the cached user if it equals the requested ID
@@ -52,56 +54,55 @@ export class UserService {
       );
     }
   }
-
-
+  
+  
   /** POST - creates and register a new student
-   * 
-   * @param id 
-   * @param password 
-   * @returns 
-   */
+  * 
+  * @param id 
+  * @param firstName 
+  * @param lastName 
+  * @param gender 
+  * @param mailAddress 
+  * @param password 
+  * @returns 
+  */
   add(id: string, firstName: string, lastName: string, gender: string, mailAddress: string, password: string): Observable<IStudent> {
     const url= `${this.usersUrl}/register`;
-    return this.http.post<IStudent>(url, { Id: id, Password: password, FirstName: firstName, LastName: lastName, Gender: gender, Email: mailAddress }, this.httpOptions).pipe(
-        tap((newStudent: IStudent) => console.log(`added student w/ id=${newStudent.Id}`)),
-        catchError(this.handleError<IStudent>('add'))
-      );
+    return this.http.post<IStudent>
+    (url, { Id: id, Password: password, FirstName: firstName, LastName: lastName, Gender: gender, Email: mailAddress }, this.httpOptions)
+    .pipe(
+      tap((newStudent: IStudent) => 
+        console.log(`added student w/ id=${newStudent.Id}`)),
+      catchError(this.handleError<IStudent>('add'))
+    );
   }
-
+  
   /** POST: log of specified student
-   * 
-   * @param id 
-   * @param password 
-   * @returns 
-   */
+  * 
+  * @param id 
+  * @param password 
+  * @returns 
+  */
   logStudentIn(id: string, password: string): Observable<IStudent> {
-    const url = 'http://localhost:8080/api/students/login';
-    return this.http.post<IStudent>(url, { Id: id, Password: password }, this.httpOptions).pipe(
-        tap((student: IStudent) => console.log(`logged student w/ id=${student.Id}`)),
-        catchError(this.handleError<IStudent>('login'))
-      );
+    return this.studentService.login(id, password);
   }
-
+  
   /** POST: log of specified admin
-   * 
-   * @param id 
-   * @param password 
-   * @returns 
-   */
+  * 
+  * @param id 
+  * @param password 
+  * @returns 
+  */
   logAdministratorIn(id: string, password: string): Observable<IUser> {
-    const url = 'http://localhost:8080/api/administrators/login';
-    return this.http.post<IUser>(url, { Id: id, Password: password }, this.httpOptions).pipe(
-        tap((admin: IUser) => console.log(`logged administrator w/ id=${admin.Id}`)),
-        catchError(this.handleError<IUser>('login'))
-      );
+    return this.administratorService.login(id, password);
   }
-
+  
   /**
- * Handles the Http-operation that failed; letting the app continue its course.
- * 
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
+  * Handles the Http-operation that failed; letting the app continue its course.
+  * 
+  * @param operation - name of the operation that failed
+  * @param result - optional value to return as the observable result
+  */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
