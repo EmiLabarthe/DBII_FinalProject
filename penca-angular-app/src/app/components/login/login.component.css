@@ -1,6 +1,6 @@
 
-
-/* MacBook Pro 14" - 1 */
+/* Big screen */
+/* Rectangles and names in comments are references with Figma */
 .container{
     width: 100%;
     height: 100%;
@@ -70,11 +70,9 @@ h1{
 
 .field{
     box-sizing: border-box;
-    
     position: relative;
     width: 70%;
     height: 50px;
-    
     background: #3868D0;
     border: 1px solid #082868;
     border-radius: 10px;
@@ -218,15 +216,18 @@ background: url(logo_copa_blanco.png)*/
         justify-content: space-around;
         height: 100%;
     }
+    
     .logo-container{
         width: 90%;
         height: 15%;
         margin-top: 0px;
         margin-bottom: 0;
     }
+
     img{
         width: 400px;
     }
+
     .form-container{
         left: initial;
         width: 80%;
