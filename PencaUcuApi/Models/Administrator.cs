@@ -1,7 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 
-// TODO: Actualizar modelos 
-
 namespace PencaUcuApi.Models;
 public class Administrator
 {
