@@ -3,7 +3,23 @@ using Microsoft.EntityFrameworkCore;
 using PencaUcuApi.Models;
 
 namespace PencaUcuApi.Controllers;
-// FIXME: Hacer rest decente
+// TODO: 
+/*
+
+Endpoints:
+POST
+/register	
+Params:     los de user	
+Devuelve:   200- Ok(User) o 409- Conflict  	
+            Solo para estudiantes, debe crear el estudiante tmb. 
+
+POST
+/login	
+Params:     str psw, str mail	
+Devuelve:   200- Ok o 401-Unauthorized 
+
+En ambos hay que hashear la contraseña 		
+*/
 [ApiController]
 [Route("[controller]")]
 public class UserController : ControllerBase

@@ -3,6 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace PencaUcuApi.Controllers;
 [ApiController]
 [Route("[controller]")]
+/*
+Endpoints:
+/get_fixture	
+Params:     -	
+Devuelve:   200- Ok ((Seleccion, grupo) y (Partidos, fase)) o 400- Bad request	
+Para armar grupos y partidos de fase a medida que se va avanzando
+*/
 public class FixtureController : ControllerBase
 {
     private readonly MyDbContext _dbContext;

@@ -3,6 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace PencaUcuApi.Controllers;
 [ApiController]
 [Route("[controller]")]
+/*
+Endpoints:
+GET
+/get_scores	
+Params:     -
+Devuelve:   200- Ok (Nombre y puntaje) o 400- Bad request	
+Lista de todos los puntajes con el nombre de la persona
+*/
 public class RankingController : ControllerBase
 {
     private readonly MyDbContext _dbContext;
