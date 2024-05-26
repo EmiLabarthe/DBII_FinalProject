@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PencaUcuApi.DTOs;
 using PencaUcuApi.Models;
 public class MyDbContext : DbContext
 {
@@ -16,6 +17,7 @@ public class MyDbContext : DbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<StudentCareer> StudentCareers { get; set; }
     public DbSet<StudentTournamentPrediction> StudentTournamentPredictions { get; set; }
+    public DbSet<StudentWithUserDTO> StudentScoreDTOs { get; set; }
     public MyDbContext(DbContextOptions<MyDbContext> options)
         : base(options)
     {
@@ -24,5 +26,7 @@ public class MyDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<StudentWithUserDTO>().HasNoKey();
     }
 }
