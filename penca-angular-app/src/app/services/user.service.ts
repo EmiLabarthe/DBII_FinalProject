@@ -13,7 +13,7 @@ export class UserService {
   
   private cachedUser: IUser | null = null;
   
-  private usersUrl = 'http://localhost:8080/api/users';  // URL to web api
+  private usersUrl = 'http://localhost:8080/User';  // URL to web api
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -67,12 +67,12 @@ export class UserService {
   * @returns 
   */
   add(id: string, firstName: string, lastName: string, gender: string, mailAddress: string, password: string): Observable<IStudent> {
-    const url= `${this.usersUrl}/register`;
+    const url = `${this.usersUrl}`;
     return this.http.post<IStudent>
     (url, { Id: id, Password: password, FirstName: firstName, LastName: lastName, Gender: gender, Email: mailAddress }, this.httpOptions)
     .pipe(
-      tap((newStudent: IStudent) => 
-        console.log(`added student w/ id=${newStudent.Id}`)),
+      tap((response: any) => 
+        console.log(response.message)),
       catchError(this.handleError<IStudent>('add'))
     );
   }
