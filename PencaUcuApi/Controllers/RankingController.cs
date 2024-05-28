@@ -29,8 +29,8 @@ public class RankingController : ControllerBase
     [HttpGet("Scores")]
     public IActionResult GetScores()
     {
-        var users = _dbContext.Set<StudentWithUserDTO>().FromSqlRaw("select FirstName, LastName, Score from Students s inner join Users u on s.StudentId = u.Id order by Score DESC;").ToList();
-        return Ok(users);
+        var students = _dbContext.Set<StudentWithUserDTO>().FromSqlRaw("select FirstName, LastName, Score from Students s inner join Users u on s.StudentId = u.Id order by Score DESC;").ToList();
+        return Ok(students);
     }
     /*
         [HttpPost]

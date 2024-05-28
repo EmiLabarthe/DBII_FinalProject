@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using PencaUcuApi.DTOs;
 
 namespace PencaUcuApi.Models;
 public class Student
@@ -10,5 +11,10 @@ public class Student
     {
         StudentId = studentId;
         Score = score;
+    }
+
+    public StudentDTO ToDto()
+    {
+        return new StudentDTO(StudentId, Score);
     }
 }

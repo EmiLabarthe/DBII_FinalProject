@@ -18,6 +18,7 @@ public class MyDbContext : DbContext
     public DbSet<StudentCareer> StudentCareers { get; set; }
     public DbSet<StudentTournamentPrediction> StudentTournamentPredictions { get; set; }
     public DbSet<StudentWithUserDTO> StudentScoreDTOs { get; set; }
+    public DbSet<StudentWithUserDTO> StudentDTOs { get; set; }
     public MyDbContext(DbContextOptions<MyDbContext> options)
         : base(options)
     {
@@ -28,5 +29,6 @@ public class MyDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<StudentWithUserDTO>().HasNoKey();
+        modelBuilder.Entity<StudentDTO>().HasNoKey();
     }
 }
