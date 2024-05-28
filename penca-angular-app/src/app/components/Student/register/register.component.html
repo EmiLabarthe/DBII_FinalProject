@@ -10,7 +10,7 @@
           <div class="label-container">
             <label for="firstName">Nombre</label>
           </div>
-          <input type="text" class="form-control field" id="firstName" [(ngModel)]="model.FirstName" #firstName="ngModel" required>
+          <input type="text" class="form-control field" id="firstName" name="firstName" [(ngModel)]="model.FirstName" #firstName="ngModel" required>
         </div>
         <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">
           Debe completar el campo 'Nombre'.
@@ -19,7 +19,7 @@
           <div class="label-container">
             <label for="lastName">Apellido</label>
           </div>
-          <input type="text" class="form-control field" id="lastName" [(ngModel)]="model.LastName" #lastName="ngModel" required>
+          <input type="text" class="form-control field" id="lastName" name="lastName" [(ngModel)]="model.LastName" #lastName="ngModel" required>
         </div>
         <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
           Debe completar el campo 'Apellido'.
@@ -28,7 +28,7 @@
           <div class="label-container">
             <label for="id">Cédula de Identidad</label>
           </div>
-          <input type="text" class="form-control field" id="id" [(ngModel)]="model.Id" #id="ngModel" required>
+          <input type="text" class="form-control field" id="id" name="id" [(ngModel)]="model.Id" #id="ngModel" required>
         </div>
         <div [hidden]="id.valid || id.pristine" class="alert alert-danger">
           Debe completar el campo 'Cédula de Identidad'.
@@ -37,7 +37,7 @@
           <div class="label-container">
             <label for="mailAddress">Dirección Mail</label>
           </div>
-          <input type="text" class="form-control field" id="mailAddress" [(ngModel)]="model.Email" #mailAddress="ngModel" required>
+          <input type="text" class="form-control field" id="mailAddress" name="mailAddress" [(ngModel)]="model.Email" #mailAddress="ngModel" required>
         </div>
         <div [hidden]="mailAddress.valid || mailAddress.pristine" class="alert alert-danger">
           Debe completar el campo 'Dirección Mail'.
@@ -46,7 +46,7 @@
           <div class="label-container">
             <label for="gender">Género</label>
           </div>
-          <select class="form-control field" id="gender" name="gender" [(ngModel)]="model.Gender" #gender="ngModel" required>
+          <select class="form-control field" id="gender" name="gender" name="gender" [(ngModel)]="model.Gender" #gender="ngModel" required>
             <option *ngFor="let gender of genders" [value]="gender">{{gender}}</option>
           </select>
           <div [hidden]="gender.valid || gender.pristine" class="alert alert-danger">
@@ -57,7 +57,7 @@
           <div class="label-container">
             <label for="password">Contraseña</label>
           </div>
-          <input type="password" class="form-control field" id="password" [(ngModel)]="model.Password" #password="ngModel">
+          <input type="password" class="form-control field" id="password" name="password" [(ngModel)]="model.Password" #password="ngModel">
         </div>
         <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
           Debe completar el campo 'Contraseña'.

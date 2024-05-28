@@ -50,9 +50,26 @@ public class UserController : ControllerBase
     [HttpPost]
     public IActionResult Post([FromBody] User user)
     {
-        // Implement your POST logic here
-        return Ok("Funcionó y ahora?");
+        if(ModelState.IsValid){
+
+            _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO Users (Id, FirstName, LastName, Gender, Email, Password) VALUES ({user.Id}, {user.FirstName}, {user.LastName}, {user.Gender}, {user.Email}, {user.Password})");
+            _dbContext.SaveChanges();
+
+            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, new { message="Usuario creado con éxito"});
+        }
+
+        return BadRequest(ModelState);
     }
 
+    [HttpGet("{id}")]
+    public IActionResult GetUserById(int id)
+    {
+        var user = _dbContext.Users.Find(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+        return Ok(user);
+    }
 
 }

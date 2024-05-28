@@ -14,10 +14,11 @@ import {IMatch} from "../../../interfaces/IMatch";
 export class RegisterComponent {
   constructor(private userService: UserService) { }
 
-  model = { Id:'55960889', FirstName: 'Luis', LastName: 'Suárez',
-    Gender: 'Masculino', Email: 'pistolero@cabra.com', Password: 'lakabra' } as IStudent;
+  model = { Id:'', FirstName: '', LastName: '',
+    Gender: '', Email: '', Password: '' } as IStudent;
 
   genders= ['Masculino', 'Femenino', 'Otros'];
+
   async register() {
     this.userService.add(this.model.Id, this.model.FirstName, this.model.LastName,
       this.model.Gender, this.model.Email, this.model.Password)
