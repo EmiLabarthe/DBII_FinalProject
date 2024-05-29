@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
+using PencaUcuApi.DTOs;
 using PencaUcuApi.Models;
 
 namespace PencaUcuApi.Controllers;
@@ -48,16 +50,16 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] User user)
+
+    public async Task<IActionResult> Post([FromBody] User user)
     {
         if(ModelState.IsValid){
 
             _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO Users (Id, FirstName, LastName, Gender, Email, Password) VALUES ({user.Id}, {user.FirstName}, {user.LastName}, {user.Gender}, {user.Email}, {user.Password})");
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, new { message="Usuario creado con éxito"});
         }
-
         return BadRequest(ModelState);
     }
 
@@ -70,6 +72,35 @@ public class UserController : ControllerBase
             return NotFound();
         }
         return Ok(user);
+    }
+
+    // api/users/
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Put([FromBody] UserDTO user)
+    {
+        User? entity = await _dbContext
+            .Set<User>()
+            .FromSqlRaw(
+                "SELECT * FROM Users WHERE Id = @id",
+                new MySqlParameter("@id", user.Id)
+            )
+            .FirstOrDefaultAsync();
+
+        if (entity == null)
+        {
+            return NotFound();
+        }
+
+        entity.FirstName = user.FirstName;
+        entity.LastName = user.LastName;
+        entity.Email = user.Email;
+        entity.Gender = user.Gender;
+
+        _dbContext.Update<User>(entity);
+        await _dbContext.SaveChangesAsync();
+        return new OkObjectResult(entity.ToDto());
     }
 
 }

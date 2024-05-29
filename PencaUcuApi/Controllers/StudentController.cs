@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using PencaUcuApi.DTOs;
 using PencaUcuApi.Models;
 
@@ -8,12 +9,6 @@ namespace PencaUcuApi.Controllers;
 [ApiController]
 [Route("[controller]")]
 /*
-Endpoints:
-GET
-/profile
-Params:     str ci
-Devuelve:   200- Ok (Datos del estudiante) o 400- Bad Request
-
 GET
 /career_choice
 Params:     str id_career, str ci
@@ -43,40 +38,53 @@ public class StudentController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StudentDTO>))]
     public async Task<IActionResult> Get()
     {
-        var students = await _dbContext
-            .Set<StudentDTO>()
+        var response = await _dbContext
+            .Set<Student>()
             .FromSqlRaw("SELECT StudentId, Score FROM Students")
             .ToListAsync();
-        return Ok(students);
+
+        var studentDtos = response.Select(student => student.ToDto()).ToList();
+
+        return Ok(studentDtos);
     }
 
     // api/students/{id}
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Get(long id)
+    public async Task<IActionResult> Get(string id)
     {
-        var result = await _dbContext
+        var student = await _dbContext
             .Set<Student>()
-            .FromSqlRaw("SELECT StudentId, Score FROM Students")
-            .ToListAsync();
+            .FromSqlRaw(
+                "SELECT StudentId, Score FROM Students WHERE StudentId = @id",
+                new MySqlParameter("@id", id)
+            )
+            .FirstOrDefaultAsync();
 
-        return new OkObjectResult(result[0].ToDto());
+        if (student == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(student.ToDto());
     }
 
+    // api/students/
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] object data)
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(StudentDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Post([FromBody] StudentDTO student)
     {
-        // TODO: Implement your logic here
-        return Ok("Post method called");
+        Student entity = new Student(student.StudentId, student.Score);
+
+        var result = await _dbContext.Set<Student>().AddAsync(entity);
+        await _dbContext.SaveChangesAsync();
+
+        return new CreatedResult($"https://localhost:8080/api/students/{result.Id}", null);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] object data)
-    {
-        // TODO: Implement your logic here
-        return Ok($"Put method called with id: {id}");
-    }
+    
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)

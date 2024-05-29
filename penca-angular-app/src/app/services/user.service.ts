@@ -69,7 +69,7 @@ export class UserService {
   add(id: string, firstName: string, lastName: string, gender: string, mailAddress: string, password: string): Observable<IStudent> {
     const url = `${this.usersUrl}`;
     return this.http.post<IStudent>
-    (url, { Id: id, Password: password, FirstName: firstName, LastName: lastName, Gender: gender, Email: mailAddress }, this.httpOptions)
+    (url, { Id: id, FirstName: firstName, LastName: lastName, Email: mailAddress, Gender: gender, Password: password }, this.httpOptions)
     .pipe(
       tap((response: any) => 
         console.log(response.message)),
