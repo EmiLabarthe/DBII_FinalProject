@@ -66,7 +66,7 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetUserById(int id)
     {
-        var user = _dbContext.Users.Find(id);
+        var user = _dbContext.Users.FromSqlRaw("SELECT * FROM Users WHERE Id = {0}", id).FirstOrDefault();
         if (user == null)
         {
             return NotFound();
