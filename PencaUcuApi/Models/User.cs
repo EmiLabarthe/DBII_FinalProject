@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using PencaUcuApi.DTOs;
 
 namespace PencaUcuApi.Models;
+
 public class User
 {
     [Key]
@@ -10,7 +12,15 @@ public class User
     public string Gender { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public User(string id, string firstName, string lastName, string gender, string email, string password)
+
+    public User(
+        string id,
+        string firstName,
+        string lastName,
+        string gender,
+        string email,
+        string password
+    )
     {
         Id = id;
         FirstName = firstName;
@@ -18,5 +28,10 @@ public class User
         Gender = gender;
         Email = email;
         Password = password;
+    }
+
+    public UserDTO ToDto()
+    {
+        return new UserDTO(Id, FirstName, LastName, Email, Gender, Password);
     }
 }
