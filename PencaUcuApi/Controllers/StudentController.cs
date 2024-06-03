@@ -76,20 +76,40 @@ public class StudentController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Post([FromBody] StudentDTO student)
     {
-        Student entity = new Student(student.StudentId, student.Score);
+        if (student == null)
+        {
+            return BadRequest();
+        }
 
-        var result = await _dbContext.Set<Student>().AddAsync(entity);
+        int rowsAffected = await _dbContext.Database.ExecuteSqlRawAsync(
+            "INSERT INTO (StudentId, Score) VALUES (@id, @score)",
+            new MySqlParameter("@id", student.StudentId),
+            new MySqlParameter("@score", student.Score)
+        );
+
+        if (rowsAffected == 0)
+        {
+            return NotFound();
+        }
         await _dbContext.SaveChangesAsync();
 
         return new CreatedResult($"https://localhost:8080/api/students/{result.Id}", null);
     }
 
-    
-
+    // api/students/{id}
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(string id)
     {
-        // TODO: Implement your logic here
-        return Ok($"Delete method called with id: {id}");
+        int rowsAffected = await _dbContext.Database.ExecuteSqlRawAsync(
+            "DELETE FROM Students WHERE StudentId = @id",
+            new MySqlParameter("@id", id)
+        );
+
+        if (rowsAffected == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok($"Student with id: {id} has been deleted");
     }
 }
