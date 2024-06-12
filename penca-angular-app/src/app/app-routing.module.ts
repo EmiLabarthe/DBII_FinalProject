@@ -12,7 +12,7 @@ const routes: Routes = [
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'menu', component: MenuComponent },
+  { path: 'menu/:id', component: MenuComponent },
   { path: 'ranking', component: RankingComponent },
   { path: 'fixture', component: FixtureComponent },
   { path: 'create-match', component: CreateMatchComponent },
