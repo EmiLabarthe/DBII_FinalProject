@@ -5,6 +5,7 @@ import { AdministratorService } from 'src/app/services/administrator.service';
 import { StudentService } from 'src/app/services/student.service';
 import { IStudent } from '../../interfaces/IStudent';
 import { IUser } from '../../interfaces/IUser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +21,11 @@ export class LoginComponent {
   falseId = false;
   falsePass = false;
 
-  constructor(private studentService: StudentService, private adminService: AdministratorService) { }
+  constructor(private studentService: StudentService, private adminService: AdministratorService, private router: Router) { }
 
   login(): void {
     if(this.model.Id && this.model.Password && this.model.Type){
-      if(this.model.Type.localeCompare(this.userTypes[0])) { // Administrator login
+      if(this.model.Type == this.userTypes[0]) { // Administrator login
         this.adminService.login(this.model.Id, this.model.Password)
         .pipe(
           catchError((error) => {
@@ -34,7 +35,7 @@ export class LoginComponent {
           })
         ).subscribe({
           next: (response: IUser) => {
-            alert('Inicio de sesión aprobado. ¡Bienvenido!');
+            this.router.navigate([`/menu/${this.model.Id}`]);
             this.model = { Id: '', Password: '', Type: '' };
           }
         });
@@ -48,8 +49,8 @@ export class LoginComponent {
           })
         ).subscribe({
           next: (response: IStudent) => {
-            alert('Inicio de sesión aprobado. ¡Bienvenido!');
-            this.model = { Id: 'Cédula de Identidad', Password: 'Contraseña', Type: 'Tipo de usuario' };
+            this.router.navigate([`/menu/${this.model.Id}`]);
+            this.model = { Id: '', Password: '', Type: '' };
           }
           
         });
@@ -62,8 +63,6 @@ export class LoginComponent {
       this.falsePass = true;
     }
   }
-
-  
 
   submitted = false;
   onSubmit() { this.submitted = true; }
