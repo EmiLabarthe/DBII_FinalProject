@@ -93,7 +93,7 @@ public class StudentController : ControllerBase
         }
         await _dbContext.SaveChangesAsync();
 
-        return new CreatedResult($"https://localhost:8080/api/students/{result.Id}", null);
+        return new CreatedResult($"https://localhost:8080/api/students/{student.StudentId}", null);
     }
 
     // api/students/{id}
