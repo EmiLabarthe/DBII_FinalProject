@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="logo-container">
+    <img src="../../../assets/images/logo_copa_blanco.png"/>
+  </div>
+  <div class="form-container">
+    <form (ngSubmit)="register()" class="my-form">
+      <h1>Registro de Estudiante</h1>
+      <div class="fields-group">
+        <div class="form-group">
+          <div class="label-container">
+            <label for="firstName">Nombre</label>
+          </div>
+          <input type="text" class="form-control field" id="firstName" name="firstName" [(ngModel)]="model.FirstName" #firstName="ngModel" required>
+        </div>
+        <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">
+          Debe completar el campo 'Nombre'.
+        </div>
+        <div class="form-group">
+          <div class="label-container">
+            <label for="lastName">Apellido</label>
+          </div>
+          <input type="text" class="form-control field" id="lastName" name="lastName" [(ngModel)]="model.LastName" #lastName="ngModel" required>
+        </div>
+        <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
+          Debe completar el campo 'Apellido'.
+        </div>
+        <div class="form-group">
+          <div class="label-container">
+            <label for="id">Cédula de Identidad</label>
+          </div>
+          <input type="text" class="form-control field" id="id" name="id" [(ngModel)]="model.Id" #id="ngModel" required>
+        </div>
+        <div [hidden]="id.valid || id.pristine" class="alert alert-danger">
+          Debe completar el campo 'Cédula de Identidad'.
+        </div>
+        <div class="form-group">
+          <div class="label-container">
+            <label for="mailAddress">Dirección Mail</label>
+          </div>
+          <input type="text" class="form-control field" id="mailAddress" name="mailAddress" [(ngModel)]="model.Email" #mailAddress="ngModel" required>
+        </div>
+        <div [hidden]="mailAddress.valid || mailAddress.pristine" class="alert alert-danger">
+          Debe completar el campo 'Dirección Mail'.
+        </div>
+        <div class="form-group">
+          <div class="label-container">
+            <label for="gender">Género</label>
+          </div>
+          <select class="form-control field" id="gender" name="gender" name="gender" [(ngModel)]="model.Gender" #gender="ngModel" required>
+            <option *ngFor="let gender of genders" [value]="gender">{{gender}}</option>
+          </select>
+          <div [hidden]="gender.valid || gender.pristine" class="alert alert-danger">
+            Debe completar el campo 'Género'.
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="label-container">
+            <label for="password">Contraseña</label>
+          </div>
+          <input type="password" class="form-control field" id="password" name="password" [(ngModel)]="model.Password" #password="ngModel">
+        </div>
+        <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+          Debe completar el campo 'Contraseña'.
+        </div>
+      </div>
+      <button type="button" class="btn btn-login" (click)="register()">Registrarme</button>
+    </form>
+  </div>
+</div>
