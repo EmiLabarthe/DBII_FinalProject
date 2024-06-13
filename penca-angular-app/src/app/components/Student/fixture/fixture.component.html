@@ -1,1 +1,20 @@
-<p>fixture works!</p>
+<div class="page">
+    <div class="navbar">
+        <div class="logo" routerLink="/login"><img src="../../../assets/images/logo_copa_blanco.png"/></div>
+        <div class="buttons-container">
+            <div class="section">PREDICCIONES</div>
+            <div class="section">FIXTURE</div>
+            <div class="section">RANKING</div>
+            <div class="section">FELI</div>
+        </div>
+    </div>
+</div>
+
+<div class="fixtureContainer">
+  <div *ngFor="let item of fixture" class="matchContainer">
+    <div class="matchItemContainer">{{ item.localNationalTeam }} vs {{ item.visitorNationalTeam }}</div>
+    <div class="matchItemContainer">{{ item.date }}</div>
+    <div class="matchItemContainer">{{ item.stadiumName }}</div>
+    <div class="matchItemContainer">{{ item.city }}, {{ item.state }}</div>
+  </div>
+</div>
