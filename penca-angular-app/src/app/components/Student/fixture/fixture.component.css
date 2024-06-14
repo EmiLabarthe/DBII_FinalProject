@@ -79,6 +79,11 @@
   .section:hover{
       background-color: #2657d2b5;
   }
+
+  .date{
+    display: flex;
+    flex-direction: column;
+  }
   
   /* RANKING */
   .ranking {

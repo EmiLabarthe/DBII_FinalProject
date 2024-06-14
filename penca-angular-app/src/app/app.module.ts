@@ -16,7 +16,6 @@ import { RankingComponent } from './components/Student/ranking/ranking.component
 import { RegisterComponent } from './components/Student/register/register.component';
 import { FixtureComponent } from './components/Student/fixture/fixture.component';
 import { PredictionsComponent } from './components/Student/predictions/predictions.component';
-
 @NgModule({
   declarations: [
     AppComponent,
