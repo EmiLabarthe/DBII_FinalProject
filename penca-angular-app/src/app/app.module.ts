@@ -15,6 +15,7 @@ import { MatchesComponent } from './components/Student/matches/matches.component
 import { RankingComponent } from './components/Student/ranking/ranking.component';
 import { RegisterComponent } from './components/Student/register/register.component';
 import { FixtureComponent } from './components/Student/fixture/fixture.component';
+import { PredictionsComponent } from './predictions/predictions.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FixtureComponent } from './components/Student/fixture/fixture.component
     RankingComponent,
     RegisterComponent,
     FixtureComponent,
+    PredictionsComponent,
   ],
   imports: [
     BrowserModule,
