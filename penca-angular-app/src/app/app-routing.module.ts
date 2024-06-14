@@ -6,6 +6,7 @@ import {RegisterComponent} from "./components/Student/register/register.componen
 import {RankingComponent} from "./components/Student/ranking/ranking.component";
 import {FixtureComponent} from "./components/Student/fixture/fixture.component";
 import {CreateMatchComponent} from "./components/Admin/create-match/create-match.component";
+import { PredictionsComponent } from './components/Student/predictions/predictions.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'ranking', component: RankingComponent },
   { path: 'fixture', component: FixtureComponent },
   { path: 'create-match', component: CreateMatchComponent },
+  { path: 'predictions/:studentId', component: PredictionsComponent },
 ];
 
 @NgModule({
