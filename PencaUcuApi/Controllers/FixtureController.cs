@@ -32,7 +32,7 @@ public class FixtureController : ControllerBase
                 var query = await _dbContext.FixtureItemDTO
                     .FromSqlRaw("SELECT M.LocalNationalTeam, M.VisitorNationalTeam, M.Date, S.Name as StadiumName, S.State, S.City FROM Matches as M LEFT JOIN Stadiums as S ON M.StadiumId = S.Id")
                     .ToListAsync();
-                Console.WriteLine(query);
+                    
                 var fixtureItems = query.Select(m => new FixtureItem(
                     m.LocalNationalTeam ?? throw new ArgumentNullException(nameof(m.LocalNationalTeam)),
                     m.VisitorNationalTeam ?? throw new ArgumentNullException(nameof(m.VisitorNationalTeam)),
