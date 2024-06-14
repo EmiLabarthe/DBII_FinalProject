@@ -26,10 +26,10 @@ public class RankingController : ControllerBase
         _dbContext = dbContext;
     }
 
-    [HttpGet("Scores")]
+    [HttpGet]
     public IActionResult GetScores()
     {
-        var students = _dbContext.Set<StudentWithUserDTO>().FromSqlRaw("select FirstName, LastName, Score from Students s inner join Users u on s.StudentId = u.Id order by Score DESC;").ToList();
+        var students = _dbContext.Set<StudentWithUserDTO>().FromSqlRaw("SELECT FirstName, LastName, Score FROM Students s INNER JOIN Users u ON s.StudentId = u.Id ORDER BY Score DESC;").ToList();
         return Ok(students);
     }
     /*
