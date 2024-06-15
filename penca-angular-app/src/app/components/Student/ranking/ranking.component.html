@@ -22,14 +22,18 @@
 
 <div class="rankingContainer">
     <div class="titlesContainer">
-        <div class="titleItem">#</div>
-        <div class="titleItem">Nombre</div>
-        <div class="titleItem">Puntuación</div>
+        <div class="position-name-title">
+            <div class="titleItem positionTitle">#</div>
+            <div class="titleItem">Nombre</div>
+        </div>
+        <div class="titleItem puntuationTitle">Puntuación</div>
     </div>
     <div class="participantsContainer">
-        <div *ngFor="let item of ranking" class="participants">
-            <div class="numberContainer">1</div> 
-            <div class="nameContainer">{{ item.firstName }} {{ item.lastName }}</div> 
+        <div *ngFor="let item of ranking; let i = index" [ngClass]="i % 2 === 0 ? 'color1' : 'color2'" class="participants">
+            <div class="position-name-container">
+                <div class="numberContainer">{{ i + 1 }}</div> 
+                <div class="nameContainer">{{ item.firstName }} {{ item.lastName }}</div> 
+            </div>
             <div class="scoreContainer">{{item.score}}</div>
         </div>
     </div>
