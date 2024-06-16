@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PencaUcuApi.Models;
 
 namespace PencaUcuApi.Controllers;
 [ApiController]
@@ -46,11 +48,27 @@ public class PredictionController : ControllerBase
         return Ok("Get method called");
     }
 
-    [HttpPost]
-    public IActionResult Post([FromBody] object data)
+    [HttpGet("tournament/{id}")]
+    public IActionResult GetTournamentPredictionByStudentId(string id)
     {
-        // TODO: Implement your logic here
-        return Ok("Post method called");
+        var prediction = _dbContext.StudentTournamentPredictions.FromSqlRaw("SELECT * FROM StudentTournamentPrediction WHERE StudentId = @p0", id)
+        .FirstOrDefault();
+        if(prediction == null){
+            return NotFound();
+        }
+        return Ok(prediction);
+    }
+
+    [HttpPost("tournament")]
+    public async Task<IActionResult> PostTournamentPrediction([FromBody] StudentTournamentPrediction data)
+    {
+        if(ModelState.IsValid){
+            _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO StudentTournamentPrediction(StudentId, ChampionId, ViceChampionId) VALUES ({data.StudentId},{data.ChampionId},{data.ViceChampionId});");
+            await _dbContext.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetTournamentPredictionByStudentId), new { id = data.StudentId }, new { message = $"Prediction {data.ChampionId}, {data.ViceChampionId} has been uploaded."});
+        }
+        
+        return BadRequest(ModelState);
     }
 
     [HttpPut("{id}")]

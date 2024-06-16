@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -28,9 +29,11 @@ public class UserController : ControllerBase
 {
     private readonly MyDbContext _dbContext;
     private readonly ILogger<UserController> _logger;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public UserController(ILogger<UserController> logger, MyDbContext dbContext)
+    public UserController(ILogger<UserController> logger, MyDbContext dbContext, IHttpClientFactory httpClient)
     {
+        _httpClientFactory = httpClient;
         _logger = logger;
         _dbContext = dbContext;
     }
@@ -50,7 +53,6 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-
     public async Task<IActionResult> Post([FromBody] User user)
     {
         if(ModelState.IsValid){
@@ -58,19 +60,68 @@ public class UserController : ControllerBase
             _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO Users (Id, FirstName, LastName, Gender, Email, Password) VALUES ({user.Id}, {user.FirstName}, {user.LastName}, {user.Gender}, {user.Email}, {user.Password})");
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, new { message="Usuario creado con éxito"});
+            var student = new StudentDTO(user.Id, 0);
+            /*
+            using (var httpClient = _httpClientFactory.CreateClient())
+            {
+                var result = await httpClient.PostAsJsonAsync("http://localhost:8080/Student", student);
+                if (!result.IsSuccessStatusCode)
+                {
+                    _logger.LogError("Error al llamar al controlador Student: {StatusCode}", result.StatusCode);
+                    return StatusCode((int)result.StatusCode, "Error al llamar al controlador Student.");
+                }
+            }*/
+            var result = await PostStudent(student);
+            if (result is ObjectResult objectResult && objectResult.StatusCode >= 200 && objectResult.StatusCode <= 299)
+        {
+            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, new { message = "Usuario creado con éxito" });
         }
+        else
+        {
+            _logger.LogError("Error al llamar al controlador Student: {StatusCode}", result);
+            return StatusCode((int)HttpStatusCode.InternalServerError, "Error al llamar al controlador Student.");
+        }
+        }
+
+
+
         return BadRequest(ModelState);
+    }
+
+    [HttpPost("student")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(StudentDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> PostStudent([FromBody] StudentDTO student)
+    {
+        if (student == null)
+        {
+            return BadRequest();
+        }
+
+        int rowsAffected = await _dbContext.Database.ExecuteSqlRawAsync(
+            "INSERT INTO Students (StudentId, Score) VALUES (@id, @score)",
+            new MySqlParameter("@id", student.StudentId),
+            new MySqlParameter("@score", student.Score)
+        );
+
+        if (rowsAffected == 0)
+        {
+            return NotFound();
+        }
+
+        return CreatedAtAction(nameof(Get), new { id = student.StudentId }, new { message = "Student saved" });
     }
 
     [HttpGet("{id}")]
     public IActionResult GetUserById(int id)
     {
-        var user = _dbContext.Users.FromSqlRaw("SELECT * FROM Users WHERE Id = {0}", id).FirstOrDefault();
+        var user = _dbContext.Users.FromSqlRaw("SELECT * FROM Users WHERE Id = {0}", id)
+        .FirstOrDefault();
         if (user == null)
         {
             return NotFound();
         }
+
         return Ok(user);
     }
 

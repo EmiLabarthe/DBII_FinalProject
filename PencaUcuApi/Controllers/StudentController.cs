@@ -70,7 +70,7 @@ public class StudentController : ControllerBase
         return Ok(student.ToDto());
     }
 
-    // api/students/
+    // /students
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(StudentDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -82,7 +82,7 @@ public class StudentController : ControllerBase
         }
 
         int rowsAffected = await _dbContext.Database.ExecuteSqlRawAsync(
-            "INSERT INTO (StudentId, Score) VALUES (@id, @score)",
+            "INSERT INTO Students (StudentId, Score) VALUES (@id, @score)",
             new MySqlParameter("@id", student.StudentId),
             new MySqlParameter("@score", student.Score)
         );
@@ -91,9 +91,8 @@ public class StudentController : ControllerBase
         {
             return NotFound();
         }
-        await _dbContext.SaveChangesAsync();
 
-        return new CreatedResult($"https://localhost:8080/api/students/{student.StudentId}", null);
+        return CreatedAtAction(nameof(Get), new { id = student.StudentId }, new { message = "Student saved" });
     }
 
     // api/students/{id}
