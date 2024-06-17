@@ -11,6 +11,9 @@
 npm-debug.log
 yarn-error.log
 
+# Docker-compose.yml file
+docker-compose.yml
+
 # IDEs and editors
 .idea/
 .project
