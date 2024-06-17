@@ -21,18 +21,19 @@ public class PredictionController : ControllerBase
     }
 
     [HttpGet("items/{studentId}")] // prediction/items/studentId
-    public async Task<IActionResult> GetItems(string studentId)
+    public async Task<IActionResult> GetItemsByStudentId(string studentId)
     {
+        Console.WriteLine("Buenas1");
         try
         {
-            Console.WriteLine("Buenas");
+            Console.WriteLine("Buenas2");
             var query = await _dbContext
                 .PredictionItemDTO.FromSqlRaw(
-                    "SELECT M.LocalNationalTeam, P.LocalNationalTeamGoals, M.VisitorNationalTeam, P.VisitorNationalTeamGoals, M.Date, S.Name as StadiumName, S.State, S.City "
+                    "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
                         + "FROM Predictions as P "
                         + "INNER JOIN Matches as M ON P.MatchId = M.Id "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + "WHERE P.StudentId = @studentId AND M.Date",
+                        + "WHERE P.StudentId = @studentId AND M.Date;",
                     new MySqlParameter("@studentId", studentId)
                 )
                 .ToListAsync();
@@ -46,9 +47,9 @@ public class PredictionController : ControllerBase
             var predictionItems = query
                 .Select(p => new PredictionItem(
                     p.LocalNationalTeam,
-                    p.LocalNationalTeamGoals ?? 0,
+                    p.LocalNationalTeamPredictedGoals ?? 0,
                     p.VisitorNationalTeam,
-                    p.VisitorNationalTeamGoals ?? 0,
+                    p.VisitorNationalTeamPredictedGoals ?? 0,
                     p.Date,
                     p.StadiumName,
                     p.State,
@@ -73,14 +74,14 @@ public class PredictionController : ControllerBase
     }
 
     [HttpGet("{id}")] // predictionId
-    public async Task<IActionResult> GetItem(string id)
+    public async Task<IActionResult> GetById(string id)
     {
         var today = DateTime.Now;
         try
         {
             var query = await _dbContext
                 .PredictionItemDTO.FromSqlRaw(
-                    "SELECT M.LocalNationalTeam, P.LocalNationalTeamGoals, M.VisitorNationalTeam, P.VisitorNationalTeamGoals, M.Date, S.Name as StadiumName, S.State, S.City "
+                    "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
                         + "FROM Predictions as P "
                         + "INNER JOIN Matches as M ON P.MatchId = M.Id "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
@@ -98,9 +99,9 @@ public class PredictionController : ControllerBase
             var predictionItemDTO = query.First();
             var predictionItem = new PredictionItem(
                 predictionItemDTO.LocalNationalTeam,
-                predictionItemDTO.LocalNationalTeamGoals ?? 0,
+                predictionItemDTO.LocalNationalTeamPredictedGoals ?? 0,
                 predictionItemDTO.VisitorNationalTeam,
-                predictionItemDTO.VisitorNationalTeamGoals ?? 0,
+                predictionItemDTO.VisitorNationalTeamPredictedGoals ?? 0,
                 predictionItemDTO.Date,
                 predictionItemDTO.StadiumName,
                 predictionItemDTO.State,

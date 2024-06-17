@@ -1,18 +1,4 @@
 services:
-  api:
-    ports:
-      - "8080:80"
-    build:
-      context: ./PencaUcuApi
-      dockerfile: Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-      - db
-    develop:
-      watch:
-        - action: rebuild
-          path: ./PencaUcuApi
   db:
     image: mysql
     ports:

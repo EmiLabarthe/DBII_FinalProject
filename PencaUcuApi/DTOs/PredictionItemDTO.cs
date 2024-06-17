@@ -3,11 +3,9 @@ namespace PencaUcuApi.DTOs;
 public class PredictionItemDTO
 {
     public string? LocalNationalTeam { get; set; }
-    public string? LocalNationalTeamFlagURL { get; set; }
-    public int? LocalNationalTeamGoals { get; set; }
+    public int? LocalNationalTeamPredictedGoals { get; set; }
     public string? VisitorNationalTeam { get; set; }
-    public string? VisitorNationalTeamFlagURL { get; set; }
-    public int? VisitorNationalTeamGoals { get; set; }
+    public int? VisitorNationalTeamPredictedGoals { get; set; }
     public DateTime Date { get; set; }
     public string? StadiumName { get; set; }
     public string? State { get; set; }
@@ -17,11 +15,9 @@ public class PredictionItemDTO
 
     public PredictionItemDTO(
         string localTeam,
-        string localNationalTeamFlagURL,
-        int localNationalTeamGoals,
-        string visitorTeam, 
-        string visitorNationalTeamFlagURL,
-        int visitorNationalTeamGoals,
+        int localNationalTeamPredictedGoals,
+        string visitorTeam,
+        int visitorNationalTeamPredictedGoals,
         DateTime matchDate,
         string stadium,
         string state,
@@ -29,11 +25,9 @@ public class PredictionItemDTO
     )
     {
         LocalNationalTeam = localTeam;
-        LocalNationalTeamFlagURL = localNationalTeamFlagURL;
-        LocalNationalTeamGoals = localNationalTeamGoals;
+        LocalNationalTeamPredictedGoals = localNationalTeamPredictedGoals;
         VisitorNationalTeam = visitorTeam;
-        VisitorNationalTeamFlagURL = visitorNationalTeamFlagURL;
-        VisitorNationalTeamGoals = visitorNationalTeamGoals;
+        VisitorNationalTeamPredictedGoals = visitorNationalTeamPredictedGoals;
         Date = matchDate;
         StadiumName = stadium;
         State = state;

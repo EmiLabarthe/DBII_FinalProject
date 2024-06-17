@@ -10,7 +10,7 @@ import { IPredictionItem } from '../interfaces/IPredictionItem';
 })
 export class PredictionService {
   
-  private predictionsUrl= 'http://localhost:8080/api/Prediction';
+  private predictionsUrl= 'http://localhost:8080/Prediction';
   private studentId: string | null = null;
   
   httpOptions = {
@@ -66,13 +66,13 @@ export class PredictionService {
   * 
   * @param studentId 
   * @param matchId 
-  * @param localNationalTeamGoals 
-  * @param visitorNationalTeamGoals 
+  * @param LocalNationalTeamPredictedGoals 
+  * @param VisitorNationalTeamPredictedGoals 
   * @returns 
   */
-  add(studentId: string, matchId: string, localNationalTeamGoals: number, visitorNationalTeamGoals: number): Observable<IPrediction> {    
+  add(studentId: string, matchId: string, LocalNationalTeamPredictedGoals: number, VisitorNationalTeamPredictedGoals: number): Observable<IPrediction> {    
     return this.http.post<IPrediction>
-    (this.predictionsUrl, { StudentId: studentId, MatchId: matchId, LocalNationalTeamPredictedGoals: localNationalTeamGoals, VisitorNationalTeamPredictedGoals: visitorNationalTeamGoals }, this.httpOptions)
+    (this.predictionsUrl, { StudentId: studentId, MatchId: matchId, LocalNationalTeamPredictedGoals: LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals: VisitorNationalTeamPredictedGoals }, this.httpOptions)
     .pipe(
       tap((response: any) => 
         console.log(response.message)),
@@ -83,14 +83,14 @@ export class PredictionService {
   /** PUT - update a student specific (and existing) prediction from the server
   * 
   * @param predictionId 
-  * @param localNationalTeamGoals 
-  * @param visitorNationalTeamGoals 
+  * @param LocalNationalTeamPredictedGoals 
+  * @param VisitorNationalTeamPredictedGoals 
   * @returns 
   */
-  update(predictionId: bigint, localNationalTeamGoals: number, visitorNationalTeamGoals: number): Observable<IPrediction> {
+  update(predictionId: bigint, LocalNationalTeamPredictedGoals: number, VisitorNationalTeamPredictedGoals: number): Observable<IPrediction> {
     const predictionUrl= `${this.predictionsUrl}/${predictionId}`;
     return this.http.put<IPrediction>(predictionUrl, 
-      { LocalNationalTeamPredictedGoals: localNationalTeamGoals, VisitorNationalTeamPredictedGoals: visitorNationalTeamGoals }
+      { LocalNationalTeamPredictedGoals: LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals: VisitorNationalTeamPredictedGoals }
     )
     .pipe(
       tap(_ => console.log(`fetched prediction '${predictionId}' predictions`)),
