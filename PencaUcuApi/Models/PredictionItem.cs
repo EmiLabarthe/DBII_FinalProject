@@ -5,29 +5,35 @@ namespace PencaUcuApi.Models
     public class PredictionItem
     {
         public string LocalNationalTeam { get; set; }
-        public string LocalNationalTeamFlagURL { get; set; }
         public int LocalNationalTeamGoals { get; set; }
         public string VisitorNationalTeam { get; set; }
-        public string VisitorNationalTeamFlagURL { get; set; }
         public int VisitorNationalTeamGoals { get; set; }
         public DateTime Date { get; set; }
         public string StadiumName { get; set; }
         public string State { get; set; }
         public string City { get; set; }
-        public PredictionItem(string localNationalTeam, string localNationalTeamURL, int localNationalTeamGoals, 
-        string visitorNationalTeam, string visitorNationalTeamURL, int visitorNationalTeamGoals, DateTime date, 
-        string stadiumName, string state, string city)
+
+        public PredictionItem(
+            string localNationalTeam,
+            int localNationalTeamGoals,
+            string visitorNationalTeam,
+            int visitorNationalTeamGoals,
+            DateTime date,
+            string stadiumName,
+            string state,
+            string city
+        )
         {
-            LocalNationalTeam = localNationalTeam;
-            LocalNationalTeamFlagURL = localNationalTeamURL;
+            LocalNationalTeam =
+                localNationalTeam ?? throw new ArgumentNullException(nameof(localNationalTeam));
             LocalNationalTeamGoals = localNationalTeamGoals;
-            VisitorNationalTeam = visitorNationalTeam;
-            VisitorNationalTeamFlagURL = visitorNationalTeamURL;
+            VisitorNationalTeam =
+                visitorNationalTeam ?? throw new ArgumentNullException(nameof(visitorNationalTeam));
             VisitorNationalTeamGoals = visitorNationalTeamGoals;
             Date = date;
-            StadiumName = stadiumName;
-            State = state;
-            City = city;
+            StadiumName = stadiumName ?? throw new ArgumentNullException(nameof(stadiumName));
+            State = state ?? throw new ArgumentNullException(nameof(state));
+            City = city ?? throw new ArgumentNullException(nameof(city));
         }
-}
+    }
 }

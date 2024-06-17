@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IPrediction } from 'src/app/interfaces/IPrediction';
 import { IPredictionItem } from 'src/app/interfaces/IPredictionItem';
 import { PredictionService } from 'src/app/services/prediction.service';
@@ -12,26 +13,34 @@ export class PredictionsComponent {
   
   predictions: IPredictionItem[] | undefined;
   
-  constructor(private predictionService: PredictionService) { }
+  studentId: string | undefined;
+  
+  constructor(private route: ActivatedRoute, private predictionService: PredictionService) { }
   
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      const studentId = params['studentId'];
+      this.studentId= studentId;
+    });
     this.getPredictionItems();
   }
   
   getPredictionItems(): void {
-    this.predictionService.getPredictionItems()
-    .subscribe({
+    this.predictionService.getPredictionItems(this.studentId!).subscribe({
       next: (response: IPredictionItem[]) => {
-        this.predictions= response;
+        this.predictions = response;
         console.log(response);
+      },
+      error: (error) => {
+        console.error('Error fetching prediction items:', error);
       }
     });
   }
   
-  addGoal(){
-
+  addGoal(predictionId: string) {
+    
   }
-  subtractGoal(){
-
+  subtractGoal(predictionId: string) {
+    
   }
 }

@@ -10,7 +10,7 @@ import { IPredictionItem } from '../interfaces/IPredictionItem';
 })
 export class PredictionService {
   
-  private predictionsUrl= 'http://localhost:8080/api/predictions';
+  private predictionsUrl= 'http://localhost:8080/api/Prediction';
   private studentId: string | null = null;
   
   httpOptions = {
@@ -25,7 +25,7 @@ export class PredictionService {
   * @returns student predictions array as IPrediction[]
   */
   getPredictions(studentId: string): Observable<IPrediction[]> {
-    const url = `${this.predictionsUrl}/${studentId}`;
+    const url = `${this.predictionsUrl}/studentId/${studentId}`;
     return this.http.get<IPrediction[]>(url)
     .pipe(
       tap(_ => console.log(`fetched student '${studentId}' predictions`)),
@@ -39,7 +39,7 @@ export class PredictionService {
   * @returns student predictions array as IPrediction[]
   */
   getPrediction(predictionId: string): Observable<IPrediction> {
-    const url = `${this.predictionsUrl}/${predictionId}`;
+    const url = `${this.predictionsUrl}/prediction/${predictionId}`;
     return this.http.get<IPrediction>(url)
     .pipe(
       tap(_ => console.log(`fetched prediction id= '${predictionId}'.`)),
@@ -54,10 +54,10 @@ export class PredictionService {
   * @returns student prediction-items array as IPredictionItems[]
   */
   getPredictionItems(studentId: string): Observable<IPredictionItem[]> {
-    const url = `${this.predictionsUrl}/${studentId}`;
+    const url = `${this.predictionsUrl}/items/${studentId}`;
     return this.http.get<IPredictionItem[]>(url)
     .pipe(
-      tap(_ => console.log(`fetched student '${this.studentId}' predictions`)),
+      tap(_ => console.log(`fetched student '${this.studentId}' prediction items`)),
       catchError(this.handleError<IPredictionItem[]>('getPredictions', []))
     );
   }
