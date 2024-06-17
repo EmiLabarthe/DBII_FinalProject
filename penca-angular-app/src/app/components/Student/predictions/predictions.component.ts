@@ -31,7 +31,7 @@ export class PredictionsComponent {
   addGoal(){
 
   }
-  substractGoal(){
-    
+  subtractGoal(){
+
   }
 }

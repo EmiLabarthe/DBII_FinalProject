@@ -13,19 +13,6 @@ services:
       watch:
         - action: rebuild
           path: ./PencaUcuApi
-  web:
-    ports:
-      - "4200:4200"
-    build:
-      context: ./penca-angular-app
-      dockerfile: Dockerfile
-    depends_on:
-      - api
-    develop:
-      watch:
-        - action: sync
-          path: ./penca-angular-app
-          target: /usr/src/app
   db:
     image: mysql
     ports:

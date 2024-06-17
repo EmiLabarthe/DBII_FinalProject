@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'ranking', component: RankingComponent },
   { path: 'fixture', component: FixtureComponent },
   { path: 'create-match', component: CreateMatchComponent },
-  { path: 'predictions/:studentId', component: PredictionsComponent },
+  { path: ':studentId/predictions', component: PredictionsComponent },
 ];
 
 @NgModule({
