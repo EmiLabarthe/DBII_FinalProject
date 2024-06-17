@@ -1,1 +1,8 @@
-<p>predictions works!</p>
+<div class="predictions">
+    <div class="prediction-item" *ngFor="let prediction of predictions">
+
+        <button type="button" class="btn add" (click)="addGoal(prediction.Id)"></button>
+        <input type="number" class="form-control" placeholder="-" min="0" max="99" maxlength="2">
+        <button type="button" class="btn substract" (click)="substractGoal(prediction.Id)"></button>
+    </div>
+</div>
