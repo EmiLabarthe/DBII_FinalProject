@@ -1,1 +1,61 @@
-<p>select-champion works!</p>
+<div class="container">
+  <div class="logo-container">
+    <img src="../../../assets/images/logo_copa_blanco.png" />
+  </div>
+  <div class="form-container">
+    <form (ngSubmit)="upload()" class="my-form">
+      <h1>Predicción de torneo</h1>
+      <div class="fields-group">
+        <div class="form-group">
+          <div class="label-container">
+            <label for="ChampionId">Campeón</label>
+          </div>
+          <select
+            class="form-control field"
+            id="ChampionId"
+            name="ChampionId"
+            [(ngModel)]="model.ChampionId"
+            #ChampionId="ngModel"
+            required
+          >
+            <option *ngFor="let team of teams" [value]="team">
+              {{ team }}
+            </option>
+          </select>
+          <div
+            [hidden]="ChampionId.valid || ChampionId.pristine"
+            class="alert alert-danger"
+          >
+            Debe completar el campo 'Campeón'.
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="label-container">
+            <label for="ViceChampionId">Vice campeón</label>
+          </div>
+          <select
+            class="form-control field"
+            id="ViceChampionId"
+            name="ViceChampionId"
+            [(ngModel)]="model.ViceChampionId"
+            #ViceChampionId="ngModel"
+            required
+          >
+            <option *ngFor="let team of teams" [value]="team">
+              {{ team }}
+            </option>
+          </select>
+          <div
+            [hidden]="ViceChampionId.valid || ViceChampionId.pristine"
+            class="alert alert-danger"
+          >
+            Debe completar el campo 'Campeón'.
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-login" (click)="upload()">
+        Guardar predicción
+      </button>
+    </form>
+  </div>
+</div>
