@@ -1,4 +1,4 @@
-export interface IMatchPrediction {
+export interface IPrediction {
     Id: bigint;
     StudentId: string;
     MatchId: bigint;

@@ -15,7 +15,8 @@ import { MatchesComponent } from './components/Student/matches/matches.component
 import { RankingComponent } from './components/Student/ranking/ranking.component';
 import { RegisterComponent } from './components/Student/register/register.component';
 import { FixtureComponent } from './components/Student/fixture/fixture.component';
-
+import { PredictionsComponent } from './components/Student/predictions/predictions.component';
+import { SelectChampionComponent } from './components/Student/select-champion/select-champion.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,8 @@ import { FixtureComponent } from './components/Student/fixture/fixture.component
     RankingComponent,
     RegisterComponent,
     FixtureComponent,
+    PredictionsComponent,
+    SelectChampionComponent,
   ],
   imports: [
     BrowserModule,

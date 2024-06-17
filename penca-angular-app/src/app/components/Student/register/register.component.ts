@@ -5,6 +5,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../../services/user.service";
 import {NATIONAL_TEAMS} from "../../../constants/nationalTeams";
 import {IMatch} from "../../../interfaces/IMatch";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,7 @@ import {IMatch} from "../../../interfaces/IMatch";
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   model = { Id:'', FirstName: '', LastName: '',
     Gender: '', Email: '', Password: '' } as IStudent;
@@ -25,6 +26,7 @@ export class RegisterComponent {
       .subscribe({
         next: (response: IStudent) => {
           console.log(response);
+          this.router.navigate(['/select-champion/', this.model.Id])
           alert('Usuario registrado con éxito. ¡Bienvenido a la UcuPenca2024!');
         }
       });
