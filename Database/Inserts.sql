@@ -1,4 +1,5 @@
 use UcuPenca2024;
+SET NAMES 'utf8';
 
 INSERT INTO GroupStages (Name) VALUES
 ('A'), ('B'), ('C'), ('D');
@@ -30,7 +31,7 @@ INSERT INTO Careers (Name) VALUES
 ('Facultad de Ciencias de la Salud'),
 ('Facultad de Ciencias Empresariales'),
 ('Facultad de Derecho y Artes Liberales'),
-('Facultad de Ingeniería y Tecnologías');
+(N'Facultad de Ingeniería y Tecnologías');
 
 INSERT INTO StudentCareer (StudentId, CareerId) VALUES
 ('11111111', 1), ('22222222', 1), ('44444444', 2), ('55555555', 2),
