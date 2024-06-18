@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using PencaUcuApi.DTOs;
 using PencaUcuApi.Models;
 
 namespace PencaUcuApi.Controllers;
@@ -20,21 +21,59 @@ public class PredictionController : ControllerBase
         _dbContext = dbContext;
     }
 
-    [HttpGet("items/{studentId}")] // prediction/items/studentId
-    public async Task<IActionResult> GetItemsByStudentId(string studentId)
+    [HttpGet("{predictionId}")] // Prediction/:predictionId
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetPrediction(string predictionId)
     {
-        Console.WriteLine("Buenas1");
         try
         {
-            var today = DateTime.Now;
-            Console.WriteLine("Buenas2");
+            var currentTime = DateTime.Now;
+            var query = await _dbContext
+                .PredictionDTO.FromSqlRaw(
+                    $"SELECT * FROM Predictions as P WHERE P.Id = @id;",
+                    new MySqlParameter("@id", predictionId)
+                )
+                .ToListAsync();
+            Console.WriteLine(query);
+
+            if (!query.Any())
+            {
+                return NotFound("Prediction item not found");
+            }
+
+            var res = query.First();
+            var predictionDto = new PredictionDTO(
+                res.StudentId,
+                res.MatchId ?? 0,
+                res.LocalNationalTeamPredictedGoals ?? 0,
+                res.VisitorNationalTeamPredictedGoals ?? 0
+            );
+
+            return Ok(predictionDto);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching prediction id ={PredictionId}", predictionId);
+            return BadRequest("An error occurred while fetching the prediction");
+        }
+    }
+
+    [HttpGet("items/{studentId}")] // Prediction/items/studentId
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionItem[]))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetItemsByStudentId(string studentId)
+    {
+        try
+        {
+            var currentTime = DateTime.Now;
             var query = await _dbContext
                 .PredictionItemDTO.FromSqlRaw(
                     "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
                         + "FROM Predictions as P "
                         + "INNER JOIN Matches as M ON P.MatchId = M.Id "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + $"WHERE P.StudentId = @studentId and M.Date > {today};",
+                        + $"WHERE P.StudentId = @studentId and M.Date > {currentTime};",
                     new MySqlParameter("@studentId", studentId)
                 )
                 .ToListAsync();
@@ -74,20 +113,22 @@ public class PredictionController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")] // predictionId
-    public async Task<IActionResult> GetById(string id)
+    [HttpGet("{predictionId}/item")] // Prediction/:predictionId
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionItem))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetItemById(string predictionId)
     {
-        var today = DateTime.Now;
         try
         {
+            var currentTime = DateTime.Now;
             var query = await _dbContext
                 .PredictionItemDTO.FromSqlRaw(
                     "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
                         + "FROM Predictions as P "
                         + "INNER JOIN Matches as M ON P.MatchId = M.Id "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + $"WHERE P.Id = @id and M.Date > {today};",
-                    new MySqlParameter("@id", id)
+                        + $"WHERE P.Id = @id and M.Date > {currentTime};",
+                    new MySqlParameter("@id", predictionId)
                 )
                 .ToListAsync();
             Console.WriteLine(query);
@@ -113,17 +154,53 @@ public class PredictionController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error fetching prediction data for id {PredictionId}", id);
+            _logger.LogError(
+                ex,
+                "Error fetching prediction data for id {PredictionId}",
+                predictionId
+            );
             return BadRequest("An error occurred while fetching the prediction data");
         }
     }
 
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PredictionDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Post([FromBody] PredictionDTO data)
+    {
+        if (ModelState.IsValid)
+        {
+            _dbContext.Database.ExecuteSqlInterpolated(
+                $"INSERT INTO Predictions(StudentId, MatchId, LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals) VALUES ({data.StudentId},{data.MatchId},{data.LocalNationalTeamPredictedGoals},{data.VisitorNationalTeamPredictedGoals});"
+            );
+            await _dbContext.SaveChangesAsync();
+            return CreatedAtAction(
+                nameof(GetPrediction),
+                new { id = data.StudentId },
+                new
+                {
+                    message = $"Prediction of student '{data.StudentId}, for match '{data.MatchId}' has been uploaded."
+                }
+            );
+        }
+
+        return BadRequest(ModelState);
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult Put(int id, [FromBody] object data)
+    {
+        // TODO: Implement your logic here
+        return Ok($"Put method called with id: {id}");
+    }
+
+    // TOURNAMENT PREDICTIONS
     [HttpGet("tournament/{id}")]
     public IActionResult GetTournamentPredictionByStudentId(string id)
     {
         var prediction = _dbContext
             .StudentTournamentPredictions.FromSqlRaw(
-                "SELECT * FROM StudentTournamentPrediction WHERE StudentId = @p0",
+                "SELECT * FROM StudentTournamentPrediction WHERE StudentId = @id",
                 id
             )
             .FirstOrDefault();
@@ -156,13 +233,6 @@ public class PredictionController : ControllerBase
         }
 
         return BadRequest(ModelState);
-    }
-
-    [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] object data)
-    {
-        // TODO: Implement your logic here
-        return Ok($"Put method called with id: {id}");
     }
 
     [HttpDelete("{id}")]
