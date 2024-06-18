@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NATION_FLAGS } from 'src/app/constants/nationFlags';
 import { IPrediction } from 'src/app/interfaces/IPrediction';
 import { IPredictionItem } from 'src/app/interfaces/IPredictionItem';
 import { PredictionService } from 'src/app/services/prediction.service';
@@ -12,6 +13,8 @@ import { PredictionService } from 'src/app/services/prediction.service';
 export class PredictionsComponent {
   
   predictions: IPredictionItem[] | undefined;
+
+  nationFlags= NATION_FLAGS;
   
   studentId: string | undefined;
   
@@ -37,10 +40,7 @@ export class PredictionsComponent {
     });
   }
   
-  addGoal(predictionId: string) {
-    
-  }
-  subtractGoal(predictionId: string) {
-    
+  save(){
+
   }
 }

@@ -1,0 +1,18 @@
+.predictions {
+    position: absolute;
+    width: 229px;
+    height: 36.96px;
+    top: 35.02px;
+    font-family: "Mochiy Pop One";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 36px;
+    margin: 20px;
+    /* identical to box height */ 
+    color: #ffffff;
+}
+
+.nations-item {
+    display: flex;
+}

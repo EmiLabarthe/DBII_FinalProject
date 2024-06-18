@@ -1,8 +1,31 @@
 <div class="predictions">
-    <div class="prediction-item" *ngFor="let prediction of predictions">
-
-        <button type="button" class="btn add" (click)="addGoal(prediction.PredictionId)"></button>
-        <input type="number" class="form-control" placeholder="-" min="0" max="99" maxlength="2">
-        <button type="button" class="btn substract" (click)="subtractGoal(prediction.PredictionId)"></button>
+    <div class="match-item" *ngFor="let prediction of predictions">
+        <div class="match-item date">
+            <div>{{ prediction.Date | date: 'fullDate' }}</div>
+            <div>{{ prediction.Date | date:'hh:mm:ss a' }}</div>
+        </div>
+        <div class="nations-item">
+            <div class="nation">
+                <img src="{{nationFlags.get(prediction.LocalNationalTeam)}}"
+                    alt="Bandera de {{prediction.LocalNationalTeam}}">
+                <div class="name">{{prediction.LocalNationalTeam}}</div>
+            </div>
+            <div class="localGoals-item">
+                <input type="number" class="form-control" placeholder="{{prediction.LocalNationalTeamPredictedGoals}}" min="0" max="99" maxlength="2">
+            </div>
+            -
+            <div class="visitorGoals-item">
+                <input type="number" class="form-control" placeholder="{{prediction.VisitorNationalTeamPredictedGoals}}" min="0" max="99" maxlength="2">
+            </div>
+            <div class="nation">
+                <img src="{{nationFlags.get(prediction.VisitorNationalTeam)}}"
+                    alt="Bandera de {{prediction.VisitorNationalTeam}}">
+                <div class="name">{{prediction.VisitorNationalTeam}}</div>
+            </div>
+        </div>
+        <div class="stadium-data">
+            <div class="matchItemContainer">{{ prediction.StadiumName }}</div>
+            <div class="matchItemContainer">{{ prediction.City }}, {{ prediction.State }}</div>
+        </div>
     </div>
 </div>
