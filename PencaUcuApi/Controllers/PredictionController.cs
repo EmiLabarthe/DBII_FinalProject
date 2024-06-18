@@ -45,11 +45,12 @@ public class PredictionController : ControllerBase
             var res = query.First();
             var predictionDto = new PredictionDTO(
                 res.StudentId,
-                res.MatchId ?? 0,
-                res.LocalNationalTeamPredictedGoals ?? 0,
-                res.VisitorNationalTeamPredictedGoals ?? 0
+                res.MatchId,
+                res.LocalNationalTeamPredictedGoals,
+                res.VisitorNationalTeamPredictedGoals
             );
-
+            Console.WriteLine("stId", predictionDto.StudentId);
+            Console.WriteLine("mchId", predictionDto.MatchId);
             return Ok(predictionDto);
         }
         catch (Exception ex)
@@ -59,37 +60,37 @@ public class PredictionController : ControllerBase
         }
     }
 
-    [HttpGet("items/{studentId}")] // Prediction/items/studentId
+    [HttpGet("items/{studentId}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionItem[]))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetItemsByStudentId(string studentId)
     {
         try
         {
-            var currentTime = DateTime.Now;
+            var currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var query = await _dbContext
                 .PredictionItemDTO.FromSqlRaw(
                     "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
                         + "FROM Predictions as P "
                         + "INNER JOIN Matches as M ON P.MatchId = M.Id "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + $"WHERE P.StudentId = @studentId and M.Date > {currentTime};",
-                    new MySqlParameter("@studentId", studentId)
+                        + "WHERE P.StudentId = @studentId AND M.Date > @currentTime",
+                    new MySqlParameter("@studentId", studentId),
+                    new MySqlParameter("@currentTime", currentTime)
                 )
                 .ToListAsync();
-            Console.WriteLine(query);
 
             if (!query.Any())
             {
-                return NotFound("Student (id= '" + studentId + "') prediction items not found");
+                return NotFound($"Student (id= '{studentId}') prediction items not found");
             }
 
             var predictionItems = query
                 .Select(p => new PredictionItem(
                     p.LocalNationalTeam,
-                    p.LocalNationalTeamPredictedGoals ?? 0,
+                    p.LocalNationalTeamPredictedGoals,
                     p.VisitorNationalTeam,
-                    p.VisitorNationalTeamPredictedGoals ?? 0,
+                    p.VisitorNationalTeamPredictedGoals,
                     p.Date,
                     p.StadiumName,
                     p.State,
@@ -103,12 +104,11 @@ public class PredictionController : ControllerBase
         {
             _logger.LogError(
                 ex,
-                "Error fetching predictions items for student with id '" + studentId + "'."
+                "Error fetching predictions items for student with id '{StudentId}'.",
+                studentId
             );
             return BadRequest(
-                "An error occurred while fetching the prediction-items for student with id '"
-                    + studentId
-                    + "'."
+                $"An error occurred while fetching the prediction-items for student with id '{studentId}'."
             );
         }
     }
@@ -141,9 +141,9 @@ public class PredictionController : ControllerBase
             var predictionItemDTO = query.First();
             var predictionItem = new PredictionItem(
                 predictionItemDTO.LocalNationalTeam,
-                predictionItemDTO.LocalNationalTeamPredictedGoals ?? 0,
+                predictionItemDTO.LocalNationalTeamPredictedGoals,
                 predictionItemDTO.VisitorNationalTeam,
-                predictionItemDTO.VisitorNationalTeamPredictedGoals ?? 0,
+                predictionItemDTO.VisitorNationalTeamPredictedGoals,
                 predictionItemDTO.Date,
                 predictionItemDTO.StadiumName,
                 predictionItemDTO.State,
@@ -170,8 +170,16 @@ public class PredictionController : ControllerBase
     {
         if (ModelState.IsValid)
         {
-            _dbContext.Database.ExecuteSqlInterpolated(
-                $"INSERT INTO Predictions(StudentId, MatchId, LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals) VALUES ({data.StudentId},{data.MatchId},{data.LocalNationalTeamPredictedGoals},{data.VisitorNationalTeamPredictedGoals});"
+            var sql =
+                "INSERT INTO Predictions (StudentId, MatchId, LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals) "
+                + "VALUES (@studentId, @matchId, @localGoals, @visitorGoals)";
+
+            await _dbContext.Database.ExecuteSqlRawAsync(
+                sql,
+                new MySqlParameter("@studentId", data.StudentId),
+                new MySqlParameter("@matchId", data.MatchId),
+                new MySqlParameter("@localGoals", data.LocalNationalTeamPredictedGoals),
+                new MySqlParameter("@visitorGoals", data.VisitorNationalTeamPredictedGoals)
             );
             await _dbContext.SaveChangesAsync();
             return CreatedAtAction(

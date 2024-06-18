@@ -3,15 +3,15 @@ namespace PencaUcuApi.DTOs;
 public class PredictionDTO
 {
     
-    public int? Id;
-    public string? StudentId;
-    public int? MatchId;
-    public int? LocalNationalTeamPredictedGoals { get; set; }
-    public int? VisitorNationalTeamPredictedGoals { get; set; }
+    public int Id;
+    public string StudentId;
+    public long MatchId;
+    public int LocalNationalTeamPredictedGoals { get; set; }
+    public int VisitorNationalTeamPredictedGoals { get; set; }
 
     public PredictionDTO() { }
 
-    public PredictionDTO(string studentId, int matchId, int localNationalTeamPredictedGoals, int visitorNationalTeamPredictedGoals)
+    public PredictionDTO(string studentId, long matchId, int localNationalTeamPredictedGoals, int visitorNationalTeamPredictedGoals)
     {
         StudentId = studentId;
         MatchId = matchId;

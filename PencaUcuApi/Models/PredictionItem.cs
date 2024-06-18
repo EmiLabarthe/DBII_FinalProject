@@ -15,9 +15,9 @@ namespace PencaUcuApi.Models
 
         public PredictionItem(
             string localNationalTeam,
-            int LocalNationalTeamPredictedGoals,
+            int localNationalTeamPredictedGoals,
             string visitorNationalTeam,
-            int VisitorNationalTeamPredictedGoals,
+            int visitorNationalTeamPredictedGoals,
             DateTime date,
             string stadiumName,
             string state,
@@ -28,6 +28,8 @@ namespace PencaUcuApi.Models
                 localNationalTeam ?? throw new ArgumentNullException(nameof(localNationalTeam));
             VisitorNationalTeam =
                 visitorNationalTeam ?? throw new ArgumentNullException(nameof(visitorNationalTeam));
+            LocalNationalTeamPredictedGoals = localNationalTeamPredictedGoals;
+            VisitorNationalTeamPredictedGoals = visitorNationalTeamPredictedGoals;
             Date = date;
             StadiumName = stadiumName ?? throw new ArgumentNullException(nameof(stadiumName));
             State = state ?? throw new ArgumentNullException(nameof(state));
