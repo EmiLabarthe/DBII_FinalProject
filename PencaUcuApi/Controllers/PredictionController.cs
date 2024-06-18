@@ -26,6 +26,7 @@ public class PredictionController : ControllerBase
         Console.WriteLine("Buenas1");
         try
         {
+            var today = DateTime.Now;
             Console.WriteLine("Buenas2");
             var query = await _dbContext
                 .PredictionItemDTO.FromSqlRaw(
@@ -33,7 +34,7 @@ public class PredictionController : ControllerBase
                         + "FROM Predictions as P "
                         + "INNER JOIN Matches as M ON P.MatchId = M.Id "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + "WHERE P.StudentId = @studentId AND M.Date;",
+                        + $"WHERE P.StudentId = @studentId and M.Date > {today};",
                     new MySqlParameter("@studentId", studentId)
                 )
                 .ToListAsync();
