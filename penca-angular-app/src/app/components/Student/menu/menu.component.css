@@ -67,6 +67,8 @@ background: #1C66BE;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: none;
+    background-color: #184098;
 
     height: 100%;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -113,4 +115,24 @@ background: #1C66BE;
   /* identical to box height */
 
   color: #ffffff;
+}
+
+.settingsContainer{
+  justify-content: right;
+  width: 10%;
+  margin-right: 10px;
+}
+
+.settingsContainer:hover {
+  background-color: initial;
+}
+
+.settings{
+  background: none;
+  height: 50px;
+  width: 50px;
+}
+
+.settings:hover {
+  filter: brightness(0.7); /* Darker effect on hover */
 }
