@@ -8,7 +8,7 @@ namespace PencaUcuApi.DTOs
         public string VisitorNationalTeam { get; set; }
         public int VisitorNationalTeamGoals { get; set; }
         public int? VisitorNationalTeamPredictedGoals { get; set; }
-        public int Points { get; set; }
+        public int Points { get; set; } = 0;
         public DateTime Date { get; set; }
         public string StadiumName { get; set; }
         public string State { get; set; }

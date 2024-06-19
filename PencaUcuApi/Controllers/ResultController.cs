@@ -149,7 +149,7 @@ public class ResultController : ControllerBase
             var query = await _dbContext
                 .PredictionResultItemDTO.FromSqlRaw(
                     "SELECT M.LocalNationalTeam, R.LocalNationalTeamGoals, P.LocalNationalTeamPredictedGoals, "
-                        + "M.VisitorNationalTeam, R.VisitorNationalTeamGoals, P.VisitorNationalTeamPredictedGoals, "
+                        + "M.VisitorNationalTeam, R.VisitorNationalTeamGoals, P.VisitorNationalTeamPredictedGoals, Points"
                         + "M.Date, S.Name as StadiumName, S.State, S.City "
                         + "FROM Matches AS M "
                         + "INNER JOIN MatchResults AS R ON M.Id = R.MatchId "

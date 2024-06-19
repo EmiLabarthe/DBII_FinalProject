@@ -10,7 +10,7 @@ import { IPredictionResultItem } from '../interfaces/IPredictionResultItem';
 })
 export class ResultService {
   
-  private resultsUrl= 'http://localhost:8080/Result';
+  private resultsUrl= 'http://localhost:5245/Result';
   private studentId: string | null = null;
   
   httpOptions = {
@@ -48,15 +48,15 @@ export class ResultService {
   
   /** POST - registers a new result for a match (for the first time)
   * 
-  * @param matchId 
+  * @param MatchId 
   * @param LocalNationalTeamGoals 
   * @param VisitorNationalTeamGoals 
   * @param WinnerId 
   * @returns 
   */
-  add(matchId: bigint, LocalNationalTeamGoals: number, VisitorNationalTeamGoals: number, WinnerId: string): Observable<IMatchResult> {    
+  add(MatchId: bigint, LocalNationalTeamGoals: number, VisitorNationalTeamGoals: number, WinnerId: string): Observable<IMatchResult> {    
     return this.http.post<IMatchResult>
-    (this.resultsUrl, { MatchId: matchId, LocalNationalTeamGoals: LocalNationalTeamGoals, VisitorNationalTeamGoals: VisitorNationalTeamGoals, WinnerId: WinnerId }, this.httpOptions)
+    (this.resultsUrl, { MatchId: MatchId, LocalNationalTeamGoals: LocalNationalTeamGoals, VisitorNationalTeamGoals: VisitorNationalTeamGoals, WinnerId: WinnerId }, this.httpOptions)
     .pipe(
       tap((response: any) => 
         console.log(response.message)),

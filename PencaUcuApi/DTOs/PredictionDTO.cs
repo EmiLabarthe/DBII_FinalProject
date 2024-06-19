@@ -4,8 +4,8 @@ public class PredictionDTO
 {
     
     public int Id;
-    public string StudentId;
-    public long MatchId;
+    public string StudentId  { get; set; }
+    public long MatchId { get; set; }
     public int LocalNationalTeamPredictedGoals { get; set; }
     public int VisitorNationalTeamPredictedGoals { get; set; }
 

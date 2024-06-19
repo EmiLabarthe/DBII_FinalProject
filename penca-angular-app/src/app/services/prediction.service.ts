@@ -10,7 +10,7 @@ import { IPredictionItem } from '../interfaces/IPredictionItem';
 })
 export class PredictionService {
   
-  private predictionsUrl= 'http://localhost:8080/Prediction';
+  private predictionsUrl= 'http://localhost:5245/Prediction';
   private studentId: string | null = null;
   
   httpOptions = {

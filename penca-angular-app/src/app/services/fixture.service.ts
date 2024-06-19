@@ -10,7 +10,7 @@ import { Observable, catchError, of, tap } from 'rxjs';
 
 export class FixtureService {
 
-  private fixtureURL = 'http://localhost:8080/Fixture';
+  private fixtureURL = 'http://localhost:5245/Fixture';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
