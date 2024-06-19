@@ -25,6 +25,9 @@ public class MyDbContext : DbContext
     public DbSet<FixtureItem> FixtureItem { get; set; }
     public DbSet<PredictionItem> PredictionItem { get; set; }
     public DbSet<PredictionItemDTO> PredictionItemDTO { get; set; }
+    public DbSet<MatchResultDTO> MatchResultsDTO { get; set; }
+    public DbSet<PredictionResultItem> PredictionResultItem { get; set; }
+    public DbSet<PredictionResultItemDTO> PredictionResultItemDTO { get; set; }
     public MyDbContext(DbContextOptions<MyDbContext> options)
         : base(options) { }
 
@@ -39,5 +42,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<FixtureItem>().HasNoKey();
         modelBuilder.Entity<PredictionItemDTO>().HasNoKey();
         modelBuilder.Entity<PredictionItem>().HasNoKey();
+        modelBuilder.Entity<PredictionResultItem>().HasNoKey();
+        modelBuilder.Entity<PredictionResultItemDTO>().HasNoKey();
+        modelBuilder.Entity<MatchResultDTO>().HasNoKey();
     }
 }

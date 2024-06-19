@@ -1,4 +1,4 @@
-export interface IResult {
+export interface IMatchResult {
     Id: bigint;
     MatchId: bigint;
     LocalNationalTeamGoals: number;

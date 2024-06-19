@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, tap } from 'rxjs';
-import { IResult } from '../interfaces/IResult';
+import { IMatchResult } from '../interfaces/IMatchResult';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { IPredictionResultItem } from '../interfaces/IPredictionResultItem';
@@ -22,27 +22,27 @@ export class ResultService {
   /** GET student results from the server
   * 
   * @param studentId 
-  * @returns student results array as IResult[]
+  * @returns student results array as IMatchResult[]
   */
-  getResults(): Observable<IResult[]> {
-    return this.http.get<IResult[]>(this.resultsUrl)
+  getResults(): Observable<IMatchResult[]> {
+    return this.http.get<IMatchResult[]>(this.resultsUrl)
     .pipe(
       tap(_ => console.log('fetched results')),
-      catchError(this.handleError<IResult[]>('getResults', []))
+      catchError(this.handleError<IMatchResult[]>('getResults', []))
     );
   }
   
-  /** GET result by resultId
+  /** GET result by id
   * 
-  * @param studentId 
-  * @returns student results array as IResult[]
+  * @param id 
+  * @returns student results array as IMatchResult[]
   */
-  getResult(resultId: string): Observable<IResult> {
-    const url = `${this.resultsUrl}/${resultId}`;
-    return this.http.get<IResult>(url)
+  getResult(id: bigint): Observable<IMatchResult> {
+    const url = `${this.resultsUrl}/${id}`;
+    return this.http.get<IMatchResult>(url)
     .pipe(
-      tap(_ => console.log(`fetched result id= '${resultId}'.`)),
-      catchError(this.handleError<IResult>('getResult'))
+      tap(_ => console.log(`fetched result id= '${id}'.`)),
+      catchError(this.handleError<IMatchResult>('getResult'))
     );
   }
   
@@ -54,13 +54,23 @@ export class ResultService {
   * @param WinnerId 
   * @returns 
   */
-  add(matchId: string, LocalNationalTeamGoals: number, VisitorNationalTeamGoals: number, WinnerId: string): Observable<IResult> {    
-    return this.http.post<IResult>
+  add(matchId: bigint, LocalNationalTeamGoals: number, VisitorNationalTeamGoals: number, WinnerId: string): Observable<IMatchResult> {    
+    return this.http.post<IMatchResult>
     (this.resultsUrl, { MatchId: matchId, LocalNationalTeamGoals: LocalNationalTeamGoals, VisitorNationalTeamGoals: VisitorNationalTeamGoals, WinnerId: WinnerId }, this.httpOptions)
     .pipe(
       tap((response: any) => 
         console.log(response.message)),
-      catchError(this.handleError<IResult>('add'))
+      catchError(this.handleError<IMatchResult>('add'))
+    );
+  }
+  
+  update(LocalNationalTeamGoals: number, VisitorNationalTeamGoals: number, WinnerId: string): Observable<IMatchResult> {    
+    return this.http.put<IMatchResult>
+    (this.resultsUrl, { LocalNationalTeamGoals: LocalNationalTeamGoals, VisitorNationalTeamGoals: VisitorNationalTeamGoals, WinnerId: WinnerId }, this.httpOptions)
+    .pipe(
+      tap((response: any) => 
+        console.log(response.message)),
+      catchError(this.handleError<IMatchResult>('update'))
     );
   }
   
@@ -70,13 +80,27 @@ export class ResultService {
   * @returns student result-items array as IPredictionResultItems[]
   */
   getPredictionResultItems(studentId: string): Observable<IPredictionResultItem[]> {
-    const url = `${this.resultsUrl}/prediction/${studentId}`;
+    const url = `${this.resultsUrl}/${studentId}-prediction`;
     return this.http.get<IPredictionResultItem[]>(url)
     .pipe(
       tap(_ => console.log(`fetched student '${this.studentId}' result items`)),
       catchError(this.handleError<IPredictionResultItem[]>('getPredictionResults', []))
     );
   }
+  
+  /** GET - result items from the server
+  * 
+  * @param studentId 
+  * @returns student result-items array as IPredictionResultItems[]
+  
+  getPredictionResultItem(matchId: string): Observable<IPredictionResultItem[]> {
+  const url = `${this.resultsUrl}/${matchId}/item`;
+  return this.http.get<IPredictionResultItem[]>(url)
+  .pipe(
+  tap(_ => console.log(`fetched student '${this.studentId}' result items`)),
+  catchError(this.handleError<IPredictionResultItem[]>('getPredictionResults', []))
+  );
+  } */
   
   /**
   * Handles the Http-operation that failed; letting the app continue its course.

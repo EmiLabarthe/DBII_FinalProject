@@ -1,3 +1,4 @@
+using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -21,80 +22,170 @@ public class ResultController : ControllerBase
         _dbContext = dbContext;
     }
 
-    [HttpGet("{resultId}")] // Result/:resultId
+    [HttpGet("{id}")] // Result/:id
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MatchResultDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetResult(string resultId)
+    public async Task<IActionResult> Get(long id)
     {
         try
         {
             var currentTime = DateTime.Now;
             var query = await _dbContext
-                .MatchResultDTO.FromSqlRaw(
-                    $"SELECT * FROM MatchResults as P WHERE P.Id = @id;",
-                    new MySqlParameter("@id", resultId)
+                .MatchResultsDTO.FromSqlRaw(
+                    $"SELECT * FROM MatchResults as R WHERE R.Id = @id;",
+                    new MySqlParameter("@id", id)
                 )
                 .ToListAsync();
             Console.WriteLine(query);
 
             if (!query.Any())
             {
-                return NotFound("Result item not found");
+                return NotFound("MatchResult not found");
             }
 
             var res = query.First();
             var MatchResultDto = new MatchResultDTO(
-                res.StudentId,
                 res.MatchId,
-                res.LocalNationalTeamPredictedGoals,
-                res.VisitorNationalTeamPredictedGoals
+                res.LocalNationalTeamGoals,
+                res.VisitorNationalTeamGoals,
+                res.WinnerId
             );
-            Console.WriteLine("matchId: ", MatchResultDto.MatchId);
             return Ok(MatchResultDto);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error fetching Result id ={ResultId}", resultId);
-            return BadRequest("An error occurred while fetching the Result");
+            _logger.LogError(ex, $"Error fetching the result {id}", id);
+            return BadRequest("An error occurred while fetching the result");
         }
     }
 
-    [HttpGet("items/{studentId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionPredictionResultItem[]))]
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(MatchResultDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Post([FromBody] MatchResultDTO data)
+    {
+        if (ModelState.IsValid)
+        {
+            var sql =
+                "INSERT INTO MatchResults (MatchId, LocalNationalTeamGoals, VisitorNationalTeamGoals, WinnerId) "
+                + "VALUES (@matchId, @localGoals, @visitorGoals, @winnerId)";
+
+            await _dbContext.Database.ExecuteSqlRawAsync(
+                sql,
+                new MySqlParameter("@matchId", data.MatchId),
+                new MySqlParameter("@localGoals", data.LocalNationalTeamGoals),
+                new MySqlParameter("@visitorGoals", data.VisitorNationalTeamGoals),
+                new MySqlParameter("@studentId", data.WinnerId)
+            );
+            await _dbContext.SaveChangesAsync();
+            return CreatedAtAction(
+                nameof(Get),
+                new { id = data.Id },
+                new { message = $"Result for match '{data.MatchId}' has been uploaded." }
+            );
+        }
+
+        return BadRequest(ModelState);
+    }
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MatchResultDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Put([FromBody] MatchResultDTO data)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await Get(data.Id);
+        if (result == null)
+        {
+            return NotFound($"Match result with id '{data.Id}' not found.");
+        }
+
+        try
+        {
+            var sql =
+                "UPDATE MatchResults "
+                + "SET LocalNationalTeamGoals = @localGoals, "
+                + "VisitorNationalTeamGoals = @visitorGoals, "
+                + "WinnerId = @winnerId "
+                + "WHERE Id = @id";
+
+            var rowsAffected = await _dbContext.Database.ExecuteSqlRawAsync(
+                sql,
+                new MySqlParameter("@id", data.Id),
+                new MySqlParameter("@localGoals", data.LocalNationalTeamGoals),
+                new MySqlParameter("@visitorGoals", data.VisitorNationalTeamGoals),
+                new MySqlParameter("@winnerId", data.WinnerId)
+            );
+
+            if (rowsAffected == 0)
+            {
+                return NotFound($"Match result with id '{data.Id}' not found.");
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return new OkObjectResult(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error updating match-result with id '{data.Id}'.", data.Id);
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "An error occurred while updating the match result."
+            );
+        }
+    }
+
+    [HttpGet("{studentId}-prediction")] // Result/:studentId-prediction
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionResultItem[]))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetItemsByStudentId(string studentId)
     {
         try
         {
-            var currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var query = await _dbContext
-                .PredictionPredictionResultItemDTO.FromSqlRaw(
-                    "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
-                        + "FROM Results as P "
-                        + "INNER JOIN Matches as M ON P.MatchId = M.Id "
+                .PredictionResultItemDTO.FromSqlRaw(
+                    "SELECT M.LocalNationalTeam, R.LocalNationalTeamGoals, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, R.VisitorNationalTeamGoals, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
+                        + "FROM Matches as M "
+                        + "INNER JOIN MatchResults as R ON M.Id = R.MatchId "
+                        + "INNER JOIN Predictions as P ON P.MatchId = M.Id "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + "WHERE P.StudentId = @studentId AND M.Date > @currentTime",
-                    new MySqlParameter("@studentId", studentId),
-                    new MySqlParameter("@currentTime", currentTime)
+                        + "WHERE P.StudentId = @studentId;",
+                    new MySqlParameter("@studentId", studentId)
                 )
                 .ToListAsync();
 
             if (!query.Any())
             {
-                return NotFound($"Student (id= '{studentId}') Result items not found");
+                return NotFound($"Student (id= '{studentId}') prediction-result items not found");
             }
 
             var predictionResultItems = query
-                .Select(p => new PredictionResultItem(
-                    p.LocalNationalTeam,
-                    p.LocalNationalTeamPredictedGoals,
-                    p.VisitorNationalTeam,
-                    p.VisitorNationalTeamPredictedGoals,
-                    p.Date,
-                    p.StadiumName,
-                    p.State,
-                    p.City
-                ))
+                .Select(p =>
+                {
+                    var points = GetPoints(
+                        p.LocalNationalTeamGoals,
+                        p.LocalNationalTeamPredictedGoals,
+                        p.VisitorNationalTeamGoals,
+                        p.VisitorNationalTeamPredictedGoals
+                    );
+                    return new PredictionResultItem(
+                        p.LocalNationalTeam,
+                        p.LocalNationalTeamGoals,
+                        p.LocalNationalTeamPredictedGoals,
+                        p.VisitorNationalTeam,
+                        p.VisitorNationalTeamGoals,
+                        p.VisitorNationalTeamPredictedGoals,
+                        points,
+                        p.Date,
+                        p.StadiumName,
+                        p.State,
+                        p.City
+                    );
+                })
                 .ToList();
 
             return Ok(predictionResultItems);
@@ -103,38 +194,38 @@ public class ResultController : ControllerBase
         {
             _logger.LogError(
                 ex,
-                "Error fetching Results items for student with id '{StudentId}'.",
+                "Error fetching prediction-result items for student with id '{StudentId}'.",
                 studentId
             );
             return BadRequest(
-                $"An error occurred while fetching the Result-items for student with id '{studentId}'."
+                $"An error occurred while fetching the prediction-result items for student with id '{studentId}'."
             );
         }
     }
 
-    [HttpGet("{ResultId}/item")] // Result/:ResultId
+    [HttpGet("{matchId}/item")] // Result/:matchtId/item
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionResultItem))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetItemById(string resultId)
+    public async Task<IActionResult> GetItemById(string matchId)
     {
         try
         {
-            var currentTime = DateTime.Now;
             var query = await _dbContext
                 .PredictionResultItemDTO.FromSqlRaw(
-                    "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
-                        + "FROM Results as P "
-                        + "INNER JOIN Matches as M ON P.MatchId = M.Id "
+                    "SELECT M.LocalNationalTeam, R.LocalNationalTeamGoals, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, R.VisitorNationalTeamGoals, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
+                        + "FROM Matches as M "
+                        + "INNER JOIN MatchResults as R ON M.Id = R.MatchId "
+                        + "INNER JOIN Predictions as P ON P.MatchId = M.Id "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + $"WHERE P.Id = @id and M.Date > {currentTime};",
-                    new MySqlParameter("@id", resultId)
+                        + "WHERE M.Id = @id;",
+                    new MySqlParameter("@id", matchId)
                 )
                 .ToListAsync();
             Console.WriteLine(query);
 
             if (!query.Any())
             {
-                return NotFound("Result item not found");
+                return NotFound("prediction-result item not found");
             }
 
             var predictionPredictionResultItemDTO = query.First();
@@ -152,97 +243,38 @@ public class ResultController : ControllerBase
                 predictionPredictionResultItemDTO.City
             );
 
-            return Ok(PredictionResultItem);
+            return Ok(predictionResultItem);
         }
         catch (Exception ex)
         {
             _logger.LogError(
                 ex,
-                "Error fetching Result data for id {ResultId}",
-                resultId
+                $"Error fetching prediction-result data for match with id= '{matchId}'",
+                matchId
             );
-            return BadRequest("An error occurred while fetching the Result data");
+            return BadRequest("An error occurred while fetching the prediction-result data");
         }
     }
 
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ResultDTO))]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Post([FromBody] ResultDTO data)
-    {
-        if (ModelState.IsValid)
-        {
-            var sql =
-                "INSERT INTO Results (StudentId, MatchId, LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals) "
-                + "VALUES (@studentId, @matchId, @localGoals, @visitorGoals)";
-
-            await _dbContext.Database.ExecuteSqlRawAsync(
-                sql,
-                new MySqlParameter("@studentId", data.StudentId),
-                new MySqlParameter("@matchId", data.MatchId),
-                new MySqlParameter("@localGoals", data.LocalNationalTeamPredictedGoals),
-                new MySqlParameter("@visitorGoals", data.VisitorNationalTeamPredictedGoals)
-            );
-            await _dbContext.SaveChangesAsync();
-            return CreatedAtAction(
-                nameof(GetResult),
-                new { id = data.StudentId },
-                new
-                {
-                    message = $"Result of student '{data.StudentId}, for match '{data.MatchId}' has been uploaded."
-                }
-            );
-        }
-
-        return BadRequest(ModelState);
-    }
-
-    [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] object data)
-    {
-        // TODO: Implement your logic here
-        return Ok($"Put method called with id: {id}");
-    }
-
-    // TOURNAMENT ResultS
-    [HttpGet("tournament/{id}")]
-    public IActionResult GetTournamentResultByStudentId(string id)
-    {
-        var Result = _dbContext
-            .StudentTournamentResults.FromSqlRaw(
-                "SELECT * FROM StudentTournamentResult WHERE StudentId = @id",
-                id
-            )
-            .FirstOrDefault();
-        if (Result == null)
-        {
-            return NotFound();
-        }
-        return Ok(Result);
-    }
-
-    [HttpPost("tournament")]
-    public async Task<IActionResult> PostTournamentResult(
-        [FromBody] StudentTournamentResult data
+    private int GetPoints(
+        int localGoals,
+        int localPredictedGoals,
+        int visitorGoals,
+        int visitorPredictedGoals
     )
     {
-        if (ModelState.IsValid)
+        if (localGoals == localPredictedGoals && visitorGoals == visitorPredictedGoals) // predicted the exact result correctly
         {
-            _dbContext.Database.ExecuteSqlInterpolated(
-                $"INSERT INTO StudentTournamentResult(StudentId, ChampionId, ViceChampionId) VALUES ({data.StudentId},{data.ChampionId},{data.ViceChampionId});"
-            );
-            await _dbContext.SaveChangesAsync();
-            return CreatedAtAction(
-                nameof(GetTournamentResultByStudentId),
-                new { id = data.StudentId },
-                new
-                {
-                    message = $"Result {data.ChampionId}, {data.ViceChampionId} has been uploaded."
-                }
-            );
+            return 4;
         }
-
-        return BadRequest(ModelState);
+        else if ( // predicted the winner correctly
+            (localGoals > visitorGoals && localPredictedGoals > visitorPredictedGoals)
+            || (localGoals < visitorGoals && localPredictedGoals < visitorPredictedGoals)
+        )
+        {
+            return 2;
+        }
+        return 0;
     }
 
     [HttpDelete("{id}")]

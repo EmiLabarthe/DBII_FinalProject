@@ -60,6 +60,45 @@ public class PredictionController : ControllerBase
         }
     }
 
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PredictionDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Post([FromBody] PredictionDTO data)
+    {
+        if (ModelState.IsValid)
+        {
+            var sql =
+                "INSERT INTO Predictions (StudentId, MatchId, LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals) "
+                + "VALUES (@studentId, @matchId, @localGoals, @visitorGoals)";
+
+            await _dbContext.Database.ExecuteSqlRawAsync(
+                sql,
+                new MySqlParameter("@studentId", data.StudentId),
+                new MySqlParameter("@matchId", data.MatchId),
+                new MySqlParameter("@localGoals", data.LocalNationalTeamPredictedGoals),
+                new MySqlParameter("@visitorGoals", data.VisitorNationalTeamPredictedGoals)
+            );
+            await _dbContext.SaveChangesAsync();
+            return CreatedAtAction(
+                nameof(GetPrediction),
+                new { id = data.Id },
+                new
+                {
+                    message = $"Prediction of student '{data.StudentId}', for match '{data.MatchId}' has been uploaded."
+                }
+            );
+        }
+
+        return BadRequest(ModelState);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, [FromBody] PredictionDTO data)
+    {
+        // TODO: Implement your logic here
+        return Ok($"Put method called with id: {id}");
+    }
+
     [HttpGet("items/{studentId}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionItem[]))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -161,45 +200,6 @@ public class PredictionController : ControllerBase
             );
             return BadRequest("An error occurred while fetching the prediction data");
         }
-    }
-
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PredictionDTO))]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Post([FromBody] PredictionDTO data)
-    {
-        if (ModelState.IsValid)
-        {
-            var sql =
-                "INSERT INTO Predictions (StudentId, MatchId, LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals) "
-                + "VALUES (@studentId, @matchId, @localGoals, @visitorGoals)";
-
-            await _dbContext.Database.ExecuteSqlRawAsync(
-                sql,
-                new MySqlParameter("@studentId", data.StudentId),
-                new MySqlParameter("@matchId", data.MatchId),
-                new MySqlParameter("@localGoals", data.LocalNationalTeamPredictedGoals),
-                new MySqlParameter("@visitorGoals", data.VisitorNationalTeamPredictedGoals)
-            );
-            await _dbContext.SaveChangesAsync();
-            return CreatedAtAction(
-                nameof(GetPrediction),
-                new { id = data.StudentId },
-                new
-                {
-                    message = $"Prediction of student '{data.StudentId}, for match '{data.MatchId}' has been uploaded."
-                }
-            );
-        }
-
-        return BadRequest(ModelState);
-    }
-
-    [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] object data)
-    {
-        // TODO: Implement your logic here
-        return Ok($"Put method called with id: {id}");
     }
 
     // TOURNAMENT PREDICTIONS
