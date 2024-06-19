@@ -1,39 +1,143 @@
 <div class="container">
-    <div [hidden]="submitted">
-        <h1>Registro de Partido</h1>
-        <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
-            <div class="form-group">
-                <label for="localNationalTeam">Selección 'Local'</label>
-                <select class="form-control" id="localNationalTeam" required [(ngModel)]="model.LocalNationalTeam" name="localNationalTeam"
-                    #localNationalTeam="ngModel">
-                    <option *ngFor="let nationalTeam of nationalTeams" [value]="nationalTeam">{{nationalTeam}}</option>
-                </select>
-                <div [hidden]="localNationalTeam.valid || localNationalTeam.pristine" class="alert alert-danger">
-                    El campo 'Selección Local' es obligatorio
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="visitorNationalTeam">Selección 'Visitante'</label>
-                <select class="form-control" id="visitorNationalTeam" required [(ngModel)]="model.VisitorNationalTeam" name="visitorNationalTeam"
-                    #visitorNationalTeam="ngModel">
-                    <option *ngFor="let nationalTeam of nationalTeams" [value]="visitorNationalTeam">{{visitorNationalTeam}}</option>
-                </select>
-                <div [hidden]="visitorNationalTeam.valid || visitorNationalTeam.pristine" class="alert alert-danger">
-                    El campo 'Selección Visitante' es obligatorio
-                </div>
-            </div>
+  <div [hidden]="submitted">
+    <h1>Registro de Partido</h1>
+    <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
+      
+      <div class="form-group">
+        <label for="localNationalTeam">Selección 'Local'</label>
+        <select
+          class="form-control"
+          id="localNationalTeam"
+          required
+          [(ngModel)]="model.LocalNationalTeam"
+          name="localNationalTeam"
+          #localNationalTeam="ngModel"
+        >
+          <option
+            *ngFor="let nationalTeam of nationalTeams"
+            [value]="nationalTeam.CountryName"
+          >
+            {{ nationalTeam.CountryName }}
+          </option>
+        </select>
+        <div
+          
+          class="alert alert-danger"
+        >
+          El campo 'Selección Local' es obligatorio
+        </div>
+      </div>
 
-            <div class="form-group">
-                <label for="stadium">Estadio</label>
-                <select class="form-control" id="stadium" required [(ngModel)]="model.StadiumId" name="stadium"
-                    #stadium="ngModel">
-                    <option *ngFor="let stadium of stadiums" [value]="stadium">{{stadium.Name}}</option>
-                </select>
-                <div [hidden]="stadium.valid || stadium.pristine" class="alert alert-danger">
-                    El campo 'Estadio' es obligatorio
-                </div>
-            </div>
-            <button type="button" class="btn btn-success" (click)="createMatch()">Registrar Partido</button>
-        </form>
-    </div>
+      <div class="form-group">
+        <label for="visitorNationalTeam">Selección 'Visitante'</label>
+        <select
+          class="form-control"
+          id="visitorNationalTeam"
+          required
+          [(ngModel)]="model.VisitorNationalTeam"
+          name="visitorNationalTeam"
+          #visitorNationalTeam="ngModel"
+        >
+          <option
+            *ngFor="let visitorNationalTeam of nationalTeams"
+            [value]="visitorNationalTeam.CountryName"
+          >
+            {{ visitorNationalTeam.CountryName }}
+          </option>
+        </select>
+        <div
+          
+          class="alert alert-danger"
+        >
+          El campo 'Selección Visitante' es obligatorio
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="stadium">Estadio</label>
+        <select
+          class="form-control"
+          id="stadium"
+          required
+          [(ngModel)]="model.StadiumId"
+          name="stadium"
+          #stadium="ngModel"
+        >
+          <option *ngFor="let stadium of stadiums" [value]="stadium.Id">
+            {{ stadium.Name }}
+          </option>
+        </select>
+        <div
+          
+          class="alert alert-danger"
+        >
+          El campo 'Estadio' es obligatorio
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Fecha</label>
+        <input
+          type="date"
+          class="form-control"
+          id="date"
+          required
+          [(ngModel)]="model2.Date"
+          name="date"
+          #date="ngModel"
+        />
+        <div
+          
+          class="alert alert-danger"
+        >
+          El campo 'Fecha' es obligatorio
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="time">Hora</label>
+        <input
+          type="time"
+          class="form-control"
+          id="time"
+          required
+          [(ngModel)]="model2.Time"
+          name="time"
+          #time="ngModel"
+        />
+        <div class="alert alert-danger">
+          El campo 'Hora' es obligatorio
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="StageId">Stage</label>
+        <select
+          class="form-control"
+          id="StageId"
+          required
+          [(ngModel)]="model.StageId"
+          name="stageId"
+          #localNationalTeam="ngModel"
+        >
+          <option
+            *ngFor="let stage of stages"
+            [value]="stage"
+          >
+            {{ stage }}
+          </option>
+        </select>
+        <div
+          
+          class="alert alert-danger"
+        >
+          El campo 'Stage' es obligatorio
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-success" (click)="createMatch()">
+        Registrar Partido
+      </button>
+    </form>
+  </div>
 </div>

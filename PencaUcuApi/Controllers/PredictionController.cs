@@ -93,7 +93,7 @@ public class PredictionController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] PredictionDTO data)
+    public IActionResult Put(int id, [FromBody] PredictionDTO data)
     {
         // TODO: Implement your logic here
         return Ok($"Put method called with id: {id}");
