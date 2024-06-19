@@ -3,13 +3,14 @@ import { Observable, catchError, of, tap } from 'rxjs';
 import { IPrediction } from '../interfaces/IPrediction';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { IPredictionItem } from '../interfaces/IPredictionItem';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PredictionService {
   
-  private predictionsUrl= 'http://localhost:8080/api/predictions';
+  private predictionsUrl= 'http://localhost:5245/Prediction';
   private studentId: string | null = null;
   
   httpOptions = {
@@ -20,21 +21,58 @@ export class PredictionService {
   
   /** GET student predictions from the server
   * 
+  * @param studentId 
   * @returns student predictions array as IPrediction[]
   */
-  getPredictions(): Observable<IPrediction[]> {
-    const url= `${this.predictionsUrl}/`;
-    return this.http.get<IPrediction[]>(this.getUrl())
+  getPredictions(studentId: string): Observable<IPrediction[]> {
+    const url = `${this.predictionsUrl}/studentId/${studentId}`;
+    return this.http.get<IPrediction[]>(url)
     .pipe(
-      tap(_ => console.log(`fetched student '${this.studentId}' predictions`)),
+      tap(_ => console.log(`fetched student '${studentId}' predictions`)),
       catchError(this.handleError<IPrediction[]>('getPredictions', []))
     );
   }
   
+  /** GET  prediction by predictionId
+  * 
+  * @param studentId 
+  * @returns student predictions array as IPrediction[]
+  */
+  getPrediction(predictionId: string): Observable<IPrediction> {
+    const url = `${this.predictionsUrl}/prediction/${predictionId}`;
+    return this.http.get<IPrediction>(url)
+    .pipe(
+      tap(_ => console.log(`fetched prediction id= '${predictionId}'.`)),
+      catchError(this.handleError<IPrediction>('getPrediction'))
+    );
+  }
   
-  add(matchId: string, localNationalTeamGoals: number, visitorNationalTeamGoals: number): Observable<IPrediction> {
+  
+  /** GET - prediction items from the server
+  * 
+  * @param studentId 
+  * @returns student prediction-items array as IPredictionItems[]
+  */
+  getPredictionItems(studentId: string): Observable<IPredictionItem[]> {
+    const url = `${this.predictionsUrl}/items/${studentId}`;
+    return this.http.get<IPredictionItem[]>(url)
+    .pipe(
+      tap(_ => console.log(`fetched student '${this.studentId}' prediction items`)),
+      catchError(this.handleError<IPredictionItem[]>('getPredictions', []))
+    );
+  }
+  
+  /** POST - registers a new prediction for a match (for the first time)
+  * 
+  * @param studentId 
+  * @param matchId 
+  * @param LocalNationalTeamPredictedGoals 
+  * @param VisitorNationalTeamPredictedGoals 
+  * @returns 
+  */
+  add(studentId: string, matchId: string, LocalNationalTeamPredictedGoals: number, VisitorNationalTeamPredictedGoals: number): Observable<IPrediction> {    
     return this.http.post<IPrediction>
-    (this.getUrl(), { MatchId: matchId, LocalNationalTeamPredictedGoals: localNationalTeamGoals, VisitorNationalTeamPredictedGoals: visitorNationalTeamGoals }, this.httpOptions)
+    (this.predictionsUrl, { StudentId: studentId, MatchId: matchId, LocalNationalTeamPredictedGoals: LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals: VisitorNationalTeamPredictedGoals }, this.httpOptions)
     .pipe(
       tap((response: any) => 
         console.log(response.message)),
@@ -42,27 +80,22 @@ export class PredictionService {
     );
   }
   
-  /** PUT update a student specific (and existing) prediction from the server
+  /** PUT - update a student specific (and existing) prediction from the server
   * 
-  * @returns new prediction as IPrediction
+  * @param predictionId 
+  * @param LocalNationalTeamPredictedGoals 
+  * @param VisitorNationalTeamPredictedGoals 
+  * @returns 
   */
-  updatePrediction(predictionId: string, localNationalTeamGoals: number, visitorNationalTeamGoals: number): Observable<IPrediction> {
+  update(predictionId: bigint, LocalNationalTeamPredictedGoals: number, VisitorNationalTeamPredictedGoals: number): Observable<IPrediction> {
     const predictionUrl= `${this.predictionsUrl}/${predictionId}`;
     return this.http.put<IPrediction>(predictionUrl, 
-      { LocalNationalTeamPredictedGoals: localNationalTeamGoals, VisitorNationalTeamPredictedGoals: visitorNationalTeamGoals }
+      { LocalNationalTeamPredictedGoals: LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals: VisitorNationalTeamPredictedGoals }
     )
     .pipe(
-      tap(_ => console.log(`fetched student '${this.studentId}' predictions`)),
+      tap(_ => console.log(`fetched prediction '${predictionId}' predictions`)),
       catchError(this.handleError<IPrediction>('getPredictions'))
     );
-  }
-  
-  private getStudentId(): string {
-    this.route.params.subscribe(params => {
-      this.studentId = params['studentId'] // Retrieves the 'studentId' parameter from the URL
-    });
-    
-    return this.studentId!;
   }
   
   /**

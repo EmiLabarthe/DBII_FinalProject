@@ -18,8 +18,8 @@ const routes: Routes = [
   { path: 'ranking', component: RankingComponent },
   { path: 'fixture', component: FixtureComponent },
   { path: 'create-match', component: CreateMatchComponent },
+  { path: ':studentId/predictions', component: PredictionsComponent },
   { path: 'select-champion/:studentId', component: SelectChampionComponent},
-  { path: 'predictions/:studentId', component: PredictionsComponent },
 ];
 
 @NgModule({
