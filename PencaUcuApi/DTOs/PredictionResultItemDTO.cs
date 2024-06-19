@@ -4,10 +4,10 @@ namespace PencaUcuApi.DTOs
     {
         public string LocalNationalTeam { get; set; }
         public int LocalNationalTeamGoals { get; set; }
-        public int LocalNationalTeamPredictedGoals { get; set; }
+        public int? LocalNationalTeamPredictedGoals { get; set; }
         public string VisitorNationalTeam { get; set; }
         public int VisitorNationalTeamGoals { get; set; }
-        public int VisitorNationalTeamPredictedGoals { get; set; }
+        public int? VisitorNationalTeamPredictedGoals { get; set; }
         public int Points { get; set; }
         public DateTime Date { get; set; }
         public string StadiumName { get; set; }
@@ -15,13 +15,14 @@ namespace PencaUcuApi.DTOs
         public string City { get; set; }
 
         public PredictionResultItemDTO() { }
+
         public PredictionResultItemDTO(
             string localNationalTeam,
             int localNationalTeamGoals,
-            int localNationalTeamPredictedGoals,
+            int? localNationalTeamPredictedGoals,
             string visitorNationalTeam,
             int visitorNationalTeamGoals,
-            int visitorNationalTeamPredictedGoals,
+            int? visitorNationalTeamPredictedGoals,
             int points,
             DateTime date,
             string stadiumName,
@@ -29,10 +30,10 @@ namespace PencaUcuApi.DTOs
             string city
         )
         {
-            LocalNationalTeam =localNationalTeam;
-            VisitorNationalTeam = visitorNationalTeam;
+            LocalNationalTeam = localNationalTeam;
             LocalNationalTeamGoals = localNationalTeamGoals;
             LocalNationalTeamPredictedGoals = localNationalTeamPredictedGoals;
+            VisitorNationalTeam = visitorNationalTeam;
             VisitorNationalTeamGoals = visitorNationalTeamGoals;
             VisitorNationalTeamPredictedGoals = visitorNationalTeamPredictedGoals;
             Points = points;
