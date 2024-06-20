@@ -51,11 +51,22 @@ public class FixtureController : ControllerBase
             }
         }
 
-    [HttpPost]
-    public IActionResult Post([FromBody] object data)
+    [HttpPost("match")]
+    public async Task<IActionResult> Post([FromBody] Match match)
     {
-        // TODO: Implement your logic here
-        return Ok("Post method called");
+        if(match != null){
+            _dbContext.Database.ExecuteSqlInterpolated(
+                $"INSERT INTO Matches ( LocalNationalTeam, VisitorNationalTeam, Date, StadiumId, StageId) VALUES ({match.LocalNationalTeam},{match.VisitorNationalTeam},{match.Date},{match.StadiumId},{match.StageId})"
+            );
+            await _dbContext.SaveChangesAsync();
+
+            return StatusCode(
+                201,
+                new{ message = "Partido guardado con éxito"}
+            );
+        }
+        
+        return BadRequest();
     }
 
     [HttpPut("{id}")]
