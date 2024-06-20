@@ -10,7 +10,7 @@ import { IPredictionResultItem } from '../interfaces/IPredictionResultItem';
 })
 export class ResultService {
   
-  private resultsUrl= 'http://localhost:5245/Result';
+  private resultsUrl= 'http://localhost:8080/Result';
   private studentId: string | null = null;
   
   httpOptions = {

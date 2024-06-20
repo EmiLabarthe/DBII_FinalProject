@@ -8,7 +8,7 @@ import { Observable, catchError, of, tap } from 'rxjs';
 })
 export class RankingService {
   
-  private rankingURL = 'http://localhost:5245/Ranking';
+  private rankingURL = 'http://localhost:8080/Ranking';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
