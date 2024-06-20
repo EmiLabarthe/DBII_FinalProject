@@ -1,14 +1,4 @@
-<div class="page">
-    <div class="navbar">
-        <div class="logo" routerLink="/login"><img src="../../../assets/images/logo_copa_blanco.png"/></div>
-        <div class="buttons-container">
-            <button class="section">PREDICCIONES</button>
-            <button class="section">FIXTURE</button>
-            <button class="section" routerLink="/ranking">RANKING</button>
-            <button class="section settingsContainer"><img src="../../../../assets/images/settings.png" class="settings"></button>
-        </div>
-    </div>
-</div>
+<app-menu></app-menu>
 
 <div class="fixtureContainer">
   <div *ngFor="let item of fixture" class="matchContainer">

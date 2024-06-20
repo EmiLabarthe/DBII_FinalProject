@@ -1,7 +1,9 @@
-<div class="results">
-    <div class="match-item" *ngFor="let result of results">
+<app-menu></app-menu>
 
-        <div class="match-item date">
+<div class="results-container">
+    <div class="match-item-container" *ngFor="let result of results">
+
+        <div class="match-item-container date">
             <div>{{ result.date | date: 'fullDate' }}</div>
             <div>{{ result.date | date: 'hh:mm:ss a' }}</div>
         </div>

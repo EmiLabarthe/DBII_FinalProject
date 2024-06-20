@@ -1,0 +1,32 @@
+.results-container {
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #3868d0;
+}
+
+.match-item-container {
+  padding: 5px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0 10px;
+  width: 95%;
+  justify-content: space-around;
+  align-items: center;
+  background: #184098;
+  border-radius: 12px;
+  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.matchItemContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  height: 100%;
+  color: white;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}

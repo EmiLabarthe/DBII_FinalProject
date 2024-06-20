@@ -11,7 +11,7 @@ export class MatchService {
   
   private cachedMatch: IMatch | null = null;
   
-  private matchesUrl = 'http://localhost:8080/api/matches';  // URL to web api - CHECK PORT!!
+  private matchesUrl = 'http://localhost:5245/api/matches';  // URL to web api - CHECK PORT!!
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

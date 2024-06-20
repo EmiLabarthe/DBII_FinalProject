@@ -12,7 +12,7 @@ export class StudentService {
   
   private cachedStudent: IStudent | null = null;
   
-  private studentsUrl = 'http://localhost:8080/api/students';  // URL to web api
+  private studentsUrl = 'http://localhost:5245/api/students';  // URL to web api
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

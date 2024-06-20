@@ -15,7 +15,6 @@ const routes: Routes = [
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'menu/:id', component: MenuComponent },
   { path: 'ranking', component: RankingComponent },
   { path: 'fixture', component: FixtureComponent },
   { path: ':studentId/results', component: ResultsComponent },
