@@ -57,7 +57,7 @@ public class UserController : ControllerBase
         return Ok("Bien");
     }
 
-    [HttpPost]
+    [HttpPost] 
     public async Task<IActionResult> Post([FromBody] User user)
     {
         if (ModelState.IsValid)
