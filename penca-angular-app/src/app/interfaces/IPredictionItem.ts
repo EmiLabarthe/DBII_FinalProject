@@ -1,11 +1,11 @@
 export interface IPredictionItem {
-    PredictionId: string;
-    LocalNationalTeam: string;
-    LocalNationalTeamPredictedGoals: number;
-    VisitorNationalTeam: string;
-    VisitorNationalTeamPredictedGoals: number;
-    Date: Date;
-    StadiumName: string;
-    State: string;
-    City: string;
+    predictionId: string;
+    localNationalTeam: string;
+    localNationalTeamPredictedGoals: number;
+    visitorNationalTeam: string;
+    visitorNationalTeamPredictedGoals: number;
+    date: Date;
+    stadiumName: string;
+    state: string;
+    city: string;
 }

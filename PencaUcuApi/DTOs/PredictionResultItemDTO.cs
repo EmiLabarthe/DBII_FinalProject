@@ -8,7 +8,6 @@ namespace PencaUcuApi.DTOs
         public string VisitorNationalTeam { get; set; }
         public int VisitorNationalTeamGoals { get; set; }
         public int? VisitorNationalTeamPredictedGoals { get; set; }
-        public int Points { get; set; } = 0;
         public DateTime Date { get; set; }
         public string StadiumName { get; set; }
         public string State { get; set; }
@@ -23,7 +22,6 @@ namespace PencaUcuApi.DTOs
             string visitorNationalTeam,
             int visitorNationalTeamGoals,
             int? visitorNationalTeamPredictedGoals,
-            int points,
             DateTime date,
             string stadiumName,
             string state,
@@ -36,7 +34,6 @@ namespace PencaUcuApi.DTOs
             VisitorNationalTeam = visitorNationalTeam;
             VisitorNationalTeamGoals = visitorNationalTeamGoals;
             VisitorNationalTeamPredictedGoals = visitorNationalTeamPredictedGoals;
-            Points = points;
             Date = date;
             StadiumName = stadiumName;
             State = state;

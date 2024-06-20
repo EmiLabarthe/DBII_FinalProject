@@ -22,9 +22,6 @@ namespace PencaUcuApi.Models
         public int? VisitorNationalTeamPredictedGoals { get; set; }  // might have not predicted
 
         [Required]
-        public int Points { get; set; }
-
-        [Required]
         public DateTime Date { get; set; }
 
         [Required]
@@ -43,7 +40,6 @@ namespace PencaUcuApi.Models
             string visitorNationalTeam,
             int visitorNationalTeamGoals,
             int? visitorNationalTeamPredictedGoals,
-            int points,
             DateTime date,
             string stadiumName,
             string state,
@@ -58,7 +54,6 @@ namespace PencaUcuApi.Models
                 visitorNationalTeam ?? throw new ArgumentNullException(nameof(visitorNationalTeam));
             VisitorNationalTeamGoals = visitorNationalTeamGoals;
             VisitorNationalTeamPredictedGoals = visitorNationalTeamPredictedGoals;
-            Points = points;
             Date = date;
             StadiumName = stadiumName ?? throw new ArgumentNullException(nameof(stadiumName));
             State = state ?? throw new ArgumentNullException(nameof(state));

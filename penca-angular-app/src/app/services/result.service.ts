@@ -83,37 +83,58 @@ export class ResultService {
     const url = `${this.resultsUrl}/${studentId}-prediction`;
     return this.http.get<IPredictionResultItem[]>(url)
     .pipe(
-      tap(_ => console.log(`fetched student '${this.studentId}' result items`)),
+      tap(_ => console.log(`fetched student '${studentId}' result items`)),
       catchError(this.handleError<IPredictionResultItem[]>('getPredictionResults', []))
     );
   }
   
-  /** GET - result items from the server
-  * 
-  * @param studentId 
-  * @returns student result-items array as IPredictionResultItems[]
-  
-  getPredictionResultItem(matchId: string): Observable<IPredictionResultItem[]> {
-  const url = `${this.resultsUrl}/${matchId}/item`;
-  return this.http.get<IPredictionResultItem[]>(url)
-  .pipe(
-  tap(_ => console.log(`fetched student '${this.studentId}' result items`)),
-  catchError(this.handleError<IPredictionResultItem[]>('getPredictionResults', []))
-  );
-  } */
-  
   /**
-  * Handles the Http-operation that failed; letting the app continue its course.
-  * 
-  * @param operation - name of the operation that failed
-  * @param result - optional value to return as the observable result
-  */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
+   * 
+   * @param localGoals 
+   * @param localPredictedGoals 
+   * @param visitorGoals 
+   * @param visitorPredictedGoals 
+   * @returns points obtained from a prediction according to the actual result
+   */
+  getPoints(localGoals: number, localPredictedGoals: number, visitorGoals: number, visitorPredictedGoals: number): number {
+    // predicted the exact result correctly
+    if (localGoals == localPredictedGoals && visitorGoals == visitorPredictedGoals) {
+      return 4;
+    } // predicted the winner correctly
+    else if ((localGoals > visitorGoals && localPredictedGoals > visitorPredictedGoals)
+      || (localGoals < visitorGoals && localPredictedGoals < visitorPredictedGoals)
+  ) {
+    return 2;
   }
-  
+  return 0;
+}
+
+/** GET - result items from the server
+* 
+* @param studentId 
+* @returns student result-items array as IPredictionResultItems[]
+
+getPredictionResultItem(matchId: string): Observable<IPredictionResultItem[]> {
+const url = `${this.resultsUrl}/${matchId}/item`;
+return this.http.get<IPredictionResultItem[]>(url)
+.pipe(
+tap(_ => console.log(`fetched student '${this.studentId}' result items`)),
+catchError(this.handleError<IPredictionResultItem[]>('getPredictionResults', []))
+);
+} */
+
+/**
+* Handles the Http-operation that failed; letting the app continue its course.
+* 
+* @param operation - name of the operation that failed
+* @param result - optional value to return as the observable result
+*/
+private handleError<T>(operation = 'operation', result?: T) {
+  return (error: any): Observable<T> => {
+    console.error(error);
+    console.log(`${operation} failed: ${error.message}`);
+    return of(result as T);
+  };
+}
+
 }
