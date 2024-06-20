@@ -1,21 +1,27 @@
 <div class="page">
-    <div class="navbar">
-        <div class="logo" routerLink="/login"><img src="../../../assets/images/logo_copa_blanco.png"/></div>
-        <div class="buttons-container">
-            <button class="section">PREDICCIONES</button>
-            <button class="section">FIXTURE</button>
-            <button class="section" routerLink="/ranking">RANKING</button>
-            <button class="section settingsContainer"><img src="../../../../assets/images/settings.png" class="settings"></button>
-        </div>
+  <div class="navbar">
+    <div class="logo" routerLink="/login">
+      <img src="../../../assets/images/logo_copa_blanco.png" />
     </div>
+    <div class="buttons-container">
+      <button class="section">PREDICCIONES</button>
+      <button class="section">FIXTURE</button>
+      <button class="section" routerLink="/ranking">RANKING</button>
+      <button class="section settingsContainer">
+        <img src="../../../../assets/images/settings.png" class="settings" />
+      </button>
+    </div>
+  </div>
 </div>
 
 <div class="fixtureContainer">
   <div *ngFor="let item of fixture" class="matchContainer">
-    <div class="matchItemContainer">{{ item.localNationalTeam }} vs {{ item.visitorNationalTeam }}</div>
+    <div class="matchItemContainer">
+      {{ item.localNationalTeam }} vs {{ item.visitorNationalTeam }}
+    </div>
     <div class="matchItemContainer date">
-      <div>{{ item.date | date: 'fullDate' }}</div>
-      <div>{{ item.date | date:'hh:mm:ss a' }}</div>
+      <div>{{ item.date | date : "fullDate" }}</div>
+      <div>{{ item.date | date : "hh:mm:ss a" }}</div>
     </div>
     <div class="matchItemContainer">{{ item.stadiumName }}</div>
     <div class="matchItemContainer">{{ item.city }}, {{ item.state }}</div>

@@ -1,53 +1,57 @@
 <div class="results">
-    <div class="match-item" *ngFor="let result of results">
-
-        <div class="match-item date">
-            <div>{{ result.Date | date: 'fullDate' }}</div>
-            <div>{{ result.Date | date:'hh:mm:ss a' }}</div>
-        </div>
-
-        <div class="nations-item">
-            <div class="nation">
-                <img src="{{nationFlags.get(result.LocalNationalTeam)}}" alt="Bandera de {{result.LocalNationalTeam}}">
-                <div class="name">{{result.LocalNationalTeam}}</div>
-            </div>
-
-            <div class="goals">
-                <div class="goals result-goals">
-                    <div class="goals result-goals item">
-                        {{result.LocalNationalTeamGoals}}
-                    </div>
-                    -
-                    <div class="goals result-goals item">
-                        {{result.VisitorNationalTeamGoals}}
-                    </div>
-                </div>
-
-                <div class="goals prediction-goals">
-                    <div class="goals prediction-goals item">
-                        {{result.LocalNationalTeamPredictedGoals}}
-                    </div>
-                    -
-                    <div class="goals prediction-goals item">
-                        {{result.VisitorNationalTeamPredictedGoals}}
-                    </div>
-                </div>
-
-                <div class="points">
-                    {{result.Points}} pts
-                </div>
-            </div>
-
-            <div class="nation">
-                <img src="{{nationFlags.get(result.VisitorNationalTeam)}}"
-                    alt="Bandera de {{result.VisitorNationalTeam}}">
-                <div class="name">{{result.VisitorNationalTeam}}</div>
-            </div>
-        </div>
-
-        <div class="stadium-data">
-            <div class="matchItemContainer">{{ result.StadiumName }}</div>
-            <div class="matchItemContainer">{{ result.City }}, {{ result.State }}</div>
-        </div>
+  <div class="match-item" *ngFor="let result of results">
+    <div class="match-item date">
+      <div>{{ result.Date | date : "fullDate" }}</div>
+      <div>{{ result.Date | date : "hh:mm:ss a" }}</div>
     </div>
+
+    <div class="nations-item">
+      <div class="nation">
+        <img
+          src="{{ nationFlags.get(result.LocalNationalTeam) }}"
+          alt="Bandera de {{ result.LocalNationalTeam }}"
+        />
+        <div class="name">{{ result.LocalNationalTeam }}</div>
+      </div>
+
+      <div class="goals">
+        <div class="goals result-goals">
+          <div class="goals result-goals item">
+            {{ result.LocalNationalTeamGoals }}
+          </div>
+          -
+          <div class="goals result-goals item">
+            {{ result.VisitorNationalTeamGoals }}
+          </div>
+        </div>
+
+        <div class="goals prediction-goals">
+          <div class="goals prediction-goals item">
+            {{ result.LocalNationalTeamPredictedGoals }}
+          </div>
+          -
+          <div class="goals prediction-goals item">
+            {{ result.VisitorNationalTeamPredictedGoals }}
+          </div>
+        </div>
+
+        <div class="points">{{ result.Points }} pts</div>
+      </div>
+
+      <div class="nation">
+        <img
+          src="{{ nationFlags.get(result.VisitorNationalTeam) }}"
+          alt="Bandera de {{ result.VisitorNationalTeam }}"
+        />
+        <div class="name">{{ result.VisitorNationalTeam }}</div>
+      </div>
+    </div>
+
+    <div class="stadium-data">
+      <div class="matchItemContainer">{{ result.StadiumName }}</div>
+      <div class="matchItemContainer">
+        {{ result.City }}, {{ result.State }}
+      </div>
+    </div>
+  </div>
 </div>
