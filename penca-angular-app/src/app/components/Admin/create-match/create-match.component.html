@@ -2,7 +2,6 @@
   <div [hidden]="submitted">
     <h1>Registro de Partido</h1>
     <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
-      
       <div class="form-group">
         <label for="localNationalTeam">Selección 'Local'</label>
         <select
@@ -20,12 +19,6 @@
             {{ nationalTeam.CountryName }}
           </option>
         </select>
-        <div
-          
-          class="alert alert-danger"
-        >
-          El campo 'Selección Local' es obligatorio
-        </div>
       </div>
 
       <div class="form-group">
@@ -45,12 +38,6 @@
             {{ visitorNationalTeam.CountryName }}
           </option>
         </select>
-        <div
-          
-          class="alert alert-danger"
-        >
-          El campo 'Selección Visitante' es obligatorio
-        </div>
       </div>
 
       <div class="form-group">
@@ -67,12 +54,6 @@
             {{ stadium.Name }}
           </option>
         </select>
-        <div
-          
-          class="alert alert-danger"
-        >
-          El campo 'Estadio' es obligatorio
-        </div>
       </div>
 
       <div class="form-group">
@@ -86,12 +67,6 @@
           name="date"
           #date="ngModel"
         />
-        <div
-          
-          class="alert alert-danger"
-        >
-          El campo 'Fecha' es obligatorio
-        </div>
       </div>
 
       <div class="form-group">
@@ -105,9 +80,6 @@
           name="time"
           #time="ngModel"
         />
-        <div class="alert alert-danger">
-          El campo 'Hora' es obligatorio
-        </div>
       </div>
 
       <div class="form-group">
@@ -120,19 +92,10 @@
           name="stageId"
           #localNationalTeam="ngModel"
         >
-          <option
-            *ngFor="let stage of stages"
-            [value]="stage"
-          >
+          <option *ngFor="let stage of stages" [value]="stage">
             {{ stage }}
           </option>
         </select>
-        <div
-          
-          class="alert alert-danger"
-        >
-          El campo 'Stage' es obligatorio
-        </div>
       </div>
 
       <button type="button" class="btn btn-success" (click)="createMatch()">

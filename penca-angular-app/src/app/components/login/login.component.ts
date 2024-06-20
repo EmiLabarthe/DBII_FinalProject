@@ -35,7 +35,7 @@ export class LoginComponent {
           })
         ).subscribe({
           next: (response: IUser) => {
-            this.router.navigate([`/menu/${this.model.Id}`]);
+            this.router.navigate([`/create-match`]);
             this.model = { Id: '', Password: '', Type: '' };
           }
         });
