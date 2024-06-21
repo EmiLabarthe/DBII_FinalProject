@@ -148,30 +148,26 @@ public class ResultController : ControllerBase
         {
             var query = await _dbContext
                 .PredictionResultItemDTO.FromSqlRaw(
-                    "SELECT M.LocalNationalTeam, R.LocalNationalTeamGoals, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, R.VisitorNationalTeamGoals, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
-                        + "FROM Matches as M "
-                        + "INNER JOIN MatchResults as R ON M.Id = R.MatchId "
-                        + "INNER JOIN Predictions as P ON P.MatchId = M.Id "
-                        + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + "WHERE P.StudentId = @studentId;",
+                    "SELECT M.LocalNationalTeam, R.LocalNationalTeamGoals, P.LocalNationalTeamPredictedGoals, "
+                        + "M.VisitorNationalTeam, R.VisitorNationalTeamGoals, P.VisitorNationalTeamPredictedGoals, "
+                        + "M.Date, S.Name as StadiumName, S.State, S.City "
+                        + "FROM Matches AS M "
+                        + "INNER JOIN MatchResults AS R ON M.Id = R.MatchId "
+                        + "LEFT JOIN Predictions AS P ON P.MatchId = M.Id AND P.StudentId = @studentId "
+                        + "LEFT JOIN Stadiums AS S ON M.StadiumId = S.Id "
+                        + "WHERE P.StudentId = @studentId OR P.StudentId IS NULL;",
                     new MySqlParameter("@studentId", studentId)
                 )
                 .ToListAsync();
 
             if (!query.Any())
             {
-                return NotFound($"Student (id= '{studentId}') prediction-result items not found");
+                return NotFound($"Student (id= '{studentId}') prediction-result items not found.");
             }
 
             var predictionResultItems = query
                 .Select(p =>
                 {
-                    var points = GetPoints(
-                        p.LocalNationalTeamGoals,
-                        p.LocalNationalTeamPredictedGoals,
-                        p.VisitorNationalTeamGoals,
-                        p.VisitorNationalTeamPredictedGoals
-                    );
                     return new PredictionResultItem(
                         p.LocalNationalTeam,
                         p.LocalNationalTeamGoals,
@@ -179,7 +175,6 @@ public class ResultController : ControllerBase
                         p.VisitorNationalTeam,
                         p.VisitorNationalTeamGoals,
                         p.VisitorNationalTeamPredictedGoals,
-                        points,
                         p.Date,
                         p.StadiumName,
                         p.State,
@@ -236,7 +231,6 @@ public class ResultController : ControllerBase
                 predictionPredictionResultItemDTO.VisitorNationalTeam,
                 predictionPredictionResultItemDTO.VisitorNationalTeamGoals,
                 predictionPredictionResultItemDTO.VisitorNationalTeamPredictedGoals,
-                predictionPredictionResultItemDTO.Points,
                 predictionPredictionResultItemDTO.Date,
                 predictionPredictionResultItemDTO.StadiumName,
                 predictionPredictionResultItemDTO.State,
@@ -254,27 +248,6 @@ public class ResultController : ControllerBase
             );
             return BadRequest("An error occurred while fetching the prediction-result data");
         }
-    }
-
-    private int GetPoints(
-        int localGoals,
-        int localPredictedGoals,
-        int visitorGoals,
-        int visitorPredictedGoals
-    )
-    {
-        if (localGoals == localPredictedGoals && visitorGoals == visitorPredictedGoals) // predicted the exact result correctly
-        {
-            return 4;
-        }
-        else if ( // predicted the winner correctly
-            (localGoals > visitorGoals && localPredictedGoals > visitorPredictedGoals)
-            || (localGoals < visitorGoals && localPredictedGoals < visitorPredictedGoals)
-        )
-        {
-            return 2;
-        }
-        return 0;
     }
 
     [HttpDelete("{id}")]

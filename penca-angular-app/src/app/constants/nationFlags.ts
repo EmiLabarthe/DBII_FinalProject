@@ -13,7 +13,7 @@ export const NATION_FLAGS: Map<string, string> = new Map([
     ["Uruguay", "../../assets/images/uruguay-flag.png"],
     ["Brasil", "../../assets/images/brasil-flag.png"],
     ["Colombia", "../../assets/images/colombia-flag.png"],
-    ["Costa Rica", "../../assets/images/costa-rica-flag.png"],
+    ["Costa Rica", "../../assets/images/costa_rica-flag.png"],
     ["Paraguay", "../../assets/images/paraguay-flag.png"]
 ]);
 

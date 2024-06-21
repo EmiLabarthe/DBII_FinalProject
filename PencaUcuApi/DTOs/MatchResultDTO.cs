@@ -3,10 +3,10 @@ namespace PencaUcuApi.DTOs;
 public class MatchResultDTO
 {
     public int Id;
-    public long MatchId;
+    public long MatchId  { get; set; }
     public int LocalNationalTeamGoals { get; set; }
     public int VisitorNationalTeamGoals { get; set; }
-    public string WinnerId;
+    public string WinnerId  { get; set; }
 
     public MatchResultDTO() { }
 

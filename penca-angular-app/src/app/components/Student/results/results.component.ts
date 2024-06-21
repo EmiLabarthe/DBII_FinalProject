@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, catchError } from 'rxjs';
 import { NATION_FLAGS } from 'src/app/constants/nationFlags';
 import { IPredictionResultItem } from 'src/app/interfaces/IPredictionResultItem';
 import { ResultService } from 'src/app/services/result.service';
@@ -11,7 +12,7 @@ import { ResultService } from 'src/app/services/result.service';
 })
 export class ResultsComponent {
   results: IPredictionResultItem[] | undefined;
-
+  
   nationFlags= NATION_FLAGS;
   
   studentId: string | undefined;
@@ -36,5 +37,14 @@ export class ResultsComponent {
         console.error('Error fetching result items:', error);
       }
     });
+  }
+  
+  getPoints(predictionResultItem: IPredictionResultItem): number {
+    return this.resultService.getPoints(
+      predictionResultItem.localNationalTeamGoals,
+      predictionResultItem.localNationalTeamPredictedGoals,
+      predictionResultItem.visitorNationalTeamGoals,
+      predictionResultItem.visitorNationalTeamPredictedGoals
+    );
   }
 }
