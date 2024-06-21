@@ -5,9 +5,9 @@ namespace PencaUcuApi.Models
     public class PredictionItem
     {
         public string LocalNationalTeam { get; set; }
-        public int LocalNationalTeamPredictedGoals { get; set; }
+        public int? LocalNationalTeamPredictedGoals { get; set; }
         public string VisitorNationalTeam { get; set; }
-        public int VisitorNationalTeamPredictedGoals { get; set; }
+        public int? VisitorNationalTeamPredictedGoals { get; set; }
         public DateTime Date { get; set; }
         public string StadiumName { get; set; }
         public string State { get; set; }
@@ -15,9 +15,9 @@ namespace PencaUcuApi.Models
 
         public PredictionItem(
             string localNationalTeam,
-            int localNationalTeamPredictedGoals,
+            int? localNationalTeamPredictedGoals,
             string visitorNationalTeam,
-            int visitorNationalTeamPredictedGoals,
+            int? visitorNationalTeamPredictedGoals,
             DateTime date,
             string stadiumName,
             string state,
