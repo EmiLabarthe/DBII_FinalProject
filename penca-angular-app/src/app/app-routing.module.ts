@@ -9,6 +9,7 @@ import {CreateMatchComponent} from "./components/Admin/create-match/create-match
 import { PredictionsComponent } from './components/Student/predictions/predictions.component';
 import { SelectChampionComponent } from './components/Student/select-champion/select-champion.component';
 import { ResultsComponent } from './components/Student/results/results.component';
+import { UploadResultComponent } from './components/Admin/upload-result/upload-result.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,8 +21,9 @@ const routes: Routes = [
   { path: ':studentId/results', component: ResultsComponent },
   { path: 'create-match', component: CreateMatchComponent },
   { path: ':studentId/predictions', component: PredictionsComponent },
-  { path: 'select-champion/:studentId', component: SelectChampionComponent},
-  { path: 'menu/:studentId', component: MenuComponent}
+  { path: 'select-champion/:studentId', component: SelectChampionComponent },
+  { path: 'menu/:studentId', component: MenuComponent },
+  { path: 'upload-result', component: UploadResultComponent }
 ];
 
 @NgModule({
