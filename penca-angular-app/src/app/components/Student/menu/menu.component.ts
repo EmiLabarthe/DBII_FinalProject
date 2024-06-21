@@ -10,11 +10,11 @@ export class MenuComponent {
 
   constructor(private route: ActivatedRoute) { }
 
-  id: string | null = null;
+  studentId: string | null = null;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.id = params.get('id');
+      this.studentId = params.get('studentId');
     });
   }
 }

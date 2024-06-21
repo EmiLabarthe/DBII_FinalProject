@@ -13,16 +13,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-
+  
   model = { Id: '', Password: '', Type: '' };
   userTypes= ['Administrador', 'Estudiante'];
   
   falseType = false;
   falseId = false;
   falsePass = false;
-
+  
   constructor(private studentService: StudentService, private adminService: AdministratorService, private router: Router) { }
-
+  
   login(): void {
     if(this.model.Id && this.model.Password && this.model.Type){
       if(this.model.Type == this.userTypes[0]) { // Administrator login
@@ -49,7 +49,7 @@ export class LoginComponent {
           })
         ).subscribe({
           next: (response: IStudent) => {
-            this.router.navigate([`${this.model.Id}/predictions`]);
+            this.router.navigate([`predictions/${this.model.Id}`]);
             this.model = { Id: '', Password: '', Type: '' };
           }
           
@@ -63,8 +63,8 @@ export class LoginComponent {
       this.falsePass = true;
     }
   }
-
+  
   submitted = false;
   onSubmit() { this.submitted = true; }
-
+  
 }

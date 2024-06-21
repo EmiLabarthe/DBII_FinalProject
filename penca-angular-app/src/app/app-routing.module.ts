@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from "./components/login/login.component";
-import {MenuComponent} from "./components/Student/menu/menu.component";
 import {RegisterComponent} from "./components/Student/register/register.component";
 import {RankingComponent} from "./components/Student/ranking/ranking.component";
 import {FixtureComponent} from "./components/Student/fixture/fixture.component";
@@ -17,11 +16,10 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'ranking/:studentId', component: RankingComponent },
   { path: 'fixture/:studentId', component: FixtureComponent },
-  { path: ':studentId/results', component: ResultsComponent },
+  { path: 'results/:studentId', component: ResultsComponent },
   { path: 'create-match', component: CreateMatchComponent },
-  { path: ':studentId/predictions', component: PredictionsComponent },
-  { path: 'select-champion/:studentId', component: SelectChampionComponent},
-  { path: 'menu/:studentId', component: MenuComponent}
+  { path: 'predictions/:studentId', component: PredictionsComponent },
+  { path: 'select-champion/:studentId', component: SelectChampionComponent}
 ];
 
 @NgModule({

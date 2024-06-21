@@ -110,10 +110,10 @@ public class PredictionController : ControllerBase
             var query = await _dbContext
                 .PredictionItemDTO.FromSqlRaw(
                     "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
-                        + "FROM Predictions as P "
-                        + "INNER JOIN Matches as M ON P.MatchId = M.Id "
+                        + "FROM Matches as M "
+                        + "LEFT JOIN Predictions as P ON M.Id = P.MatchId AND P.StudentId = @studentId "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + "WHERE P.StudentId = @studentId AND M.Date > @currentTime",
+                        + "WHERE M.Date > @currentTime",
                     new MySqlParameter("@studentId", studentId),
                     new MySqlParameter("@currentTime", currentTime)
                 )
@@ -149,56 +149,6 @@ public class PredictionController : ControllerBase
             return BadRequest(
                 $"An error occurred while fetching the prediction-items for student with id '{studentId}'."
             );
-        }
-    }
-
-    [HttpGet("{predictionId}/item")] // Prediction/:predictionId
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionItem))]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetItemById(string predictionId)
-    {
-        try
-        {
-            var currentTime = DateTime.Now;
-            var query = await _dbContext
-                .PredictionItemDTO.FromSqlRaw(
-                    "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
-                        + "FROM Predictions as P "
-                        + "INNER JOIN Matches as M ON P.MatchId = M.Id "
-                        + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + $"WHERE P.Id = @id and M.Date > {currentTime};",
-                    new MySqlParameter("@id", predictionId)
-                )
-                .ToListAsync();
-            Console.WriteLine(query);
-
-            if (!query.Any())
-            {
-                return NotFound("Prediction item not found");
-            }
-
-            var predictionItemDTO = query.First();
-            var predictionItem = new PredictionItem(
-                predictionItemDTO.LocalNationalTeam,
-                predictionItemDTO.LocalNationalTeamPredictedGoals,
-                predictionItemDTO.VisitorNationalTeam,
-                predictionItemDTO.VisitorNationalTeamPredictedGoals,
-                predictionItemDTO.Date,
-                predictionItemDTO.StadiumName,
-                predictionItemDTO.State,
-                predictionItemDTO.City
-            );
-
-            return Ok(predictionItem);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(
-                ex,
-                "Error fetching prediction data for id {PredictionId}",
-                predictionId
-            );
-            return BadRequest("An error occurred while fetching the prediction data");
         }
     }
 
