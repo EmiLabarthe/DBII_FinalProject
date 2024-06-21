@@ -15,12 +15,13 @@ const routes: Routes = [
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'ranking', component: RankingComponent },
-  { path: 'fixture', component: FixtureComponent },
+  { path: 'ranking/:studentId', component: RankingComponent },
+  { path: 'fixture/:studentId', component: FixtureComponent },
   { path: ':studentId/results', component: ResultsComponent },
   { path: 'create-match', component: CreateMatchComponent },
   { path: ':studentId/predictions', component: PredictionsComponent },
   { path: 'select-champion/:studentId', component: SelectChampionComponent},
+  { path: 'menu/:studentId', component: MenuComponent}
 ];
 
 @NgModule({

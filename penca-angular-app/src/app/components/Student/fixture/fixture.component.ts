@@ -12,10 +12,15 @@ import { Observable } from 'rxjs';
 export class FixtureComponent implements OnInit {
 
   fixture: IFixtureItem[] | undefined;
+  studentId: string | null = null;
 
   constructor(private route: ActivatedRoute, private fixtureService: FixtureService) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.studentId = params.get('studentId');
+    });
+    
     this.fixtureService.getFixture().subscribe(
       (data: IFixtureItem[]) => {
         this.fixture = data;
