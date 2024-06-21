@@ -11,10 +11,16 @@ import { RankingService } from 'src/app/services/ranking.service';
 export class RankingComponent {
 
   ranking:  IRankingItem[] | undefined;
+  studentId: string | null = null;
 
   constructor(private route: ActivatedRoute, private rankingService: RankingService){}
 
+  
+
   ngOnInit(): void{
+    this.route.paramMap.subscribe(params => {
+      this.studentId = params.get('studentId');
+    });
     this.rankingService.getRanking().subscribe(
       (data: IRankingItem[]) => {
         this.ranking = data;

@@ -51,19 +51,6 @@ export class AdministratorService {
     }
   }
 
-
-  /** POST - registers an administator
-   * 
-   * @param id 
-   * @param password 
-   * @returns 
-  add(id: string, password: string): Observable<IUser> {
-    return this.http.post<IUser>(this.administratorsUrl, { Id: id, Password: password }, this.httpOptions).pipe(
-        tap((newAdministrator: IUser) => console.log(`added administrator w/ id=${newAdministrator.Id}`)),
-        catchError(this.handleError<IUser>('add'))
-      );
-  }*/
-
   /** POST: log of specified administrator
    * 
    * @param id 

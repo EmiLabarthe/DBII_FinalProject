@@ -1,13 +1,13 @@
-.fixtureContainer {
-  padding-top: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  background-color: #3868d0;
+.results-container {
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #3868d0;
 }
 
-.matchContainer {
+.match-item-container {
   padding: 5px;
   height: 60px;
   display: flex;

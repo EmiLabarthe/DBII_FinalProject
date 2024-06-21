@@ -48,9 +48,9 @@ export class UserService {
       return this.http.get<IUser>(url).pipe(
         tap((user: IUser) => {
           this.cachedUser = user; // Cache the fetched user
-          console.log(`fetched user id=${id}`);
+          console.log(`fetched user id= '${id}'.`);
         }),
-        catchError(this.handleError<IUser>(`getUser id=${id}`))
+        catchError(this.handleError<IUser>(`getUser id= '${id}'.`))
       );
     }
   }

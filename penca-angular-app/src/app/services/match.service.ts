@@ -58,12 +58,12 @@ export class MatchService {
    * @param localNationalTeamName 
    * @param visitorNationalTeamName 
    * @param date 
-   * @param stadiumId 
+   * @param stadiumName
    * @returns 
    */
-  add(localNationalTeamName: string, visitorNationalTeamName: string, date: Date, stadiumId: number): Observable<IMatch> {
-    return this.http.post<IMatch>(this.matchesUrl, 
-      { LocalNationalTeamName: localNationalTeamName, VisitorNationalTeamName: visitorNationalTeamName, Date: date, StadiumId: stadiumId }, 
+  add(localNationalTeamName: string, visitorNationalTeamName: string, date: string, stadiumId: number, stageId: string): Observable<IMatch> {
+    return this.http.post<IMatch>('http://localhost:8080/Fixture/match', 
+      { LocalNationalTeam: localNationalTeamName, VisitorNationalTeam: visitorNationalTeamName, Date: date, StadiumId: stadiumId, StageId: stageId }, 
       this.httpOptions)
       .pipe(
         tap((newMatch: IMatch) => console.log(`added match w/ id=${newMatch.Id}`)),

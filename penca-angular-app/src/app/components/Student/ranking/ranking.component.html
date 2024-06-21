@@ -1,30 +1,26 @@
-<div class="page">
-    <div class="navbar">
-        <div class="logo" routerLink="/login"><img src="../../../assets/images/logo_copa_blanco.png"/></div>
-        <div class="buttons-container">
-            <button class="section">PREDICCIONES</button>
-            <button class="section" routerLink="/fixture">FIXTURE</button>
-            <button class="section" routerLink="/ranking">RANKING</button>
-            <button class="section settingsContainer"><img src="../../../../assets/images/settings.png" class="settings"></button>
-        </div>
-    </div>
-</div>
+<app-menu></app-menu>
 
 <div class="rankingContainer">
-    <div class="titlesContainer">
-        <div class="position-name-title">
-            <div class="titleItem positionTitle">#</div>
-            <div class="titleItem">Nombre</div>
-        </div>
-        <div class="titleItem puntuationTitle">Puntuación</div>
+  <div class="titlesContainer">
+    <div class="position-name-title">
+      <div class="titleItem positionTitle">#</div>
+      <div class="titleItem">Nombre</div>
     </div>
-    <div class="participantsContainer">
-        <div *ngFor="let item of ranking; let i = index" [ngClass]="i % 2 === 0 ? 'color1' : 'color2'" class="participants">
-            <div class="position-name-container">
-                <div class="numberContainer">{{ i + 1 }}</div> 
-                <div class="nameContainer">{{ item.firstName }} {{ item.lastName }}</div> 
-            </div>
-            <div class="scoreContainer">{{item.score}}</div>
+    <div class="titleItem puntuationTitle">Puntuación</div>
+  </div>
+  <div class="participantsContainer">
+    <div
+      *ngFor="let item of ranking; let i = index"
+      [ngClass]="i % 2 === 0 ? 'color1' : 'color2'"
+      class="participants"
+    >
+      <div class="position-name-container">
+        <div class="numberContainer">{{ i + 1 }}</div>
+        <div class="nameContainer">
+          {{ item.firstName }} {{ item.lastName }}
         </div>
+      </div>
+      <div class="scoreContainer">{{ item.score }}</div>
     </div>
+  </div>
 </div>

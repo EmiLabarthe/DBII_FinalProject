@@ -2,6 +2,7 @@ export interface IMatch {
     Id: bigint;
     LocalNationalTeam: string;
     VisitorNationalTeam: string;
-    Date: Date;
+    Date: string;
     StadiumId: number;
+    StageId: string;
 }

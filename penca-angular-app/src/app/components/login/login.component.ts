@@ -35,7 +35,7 @@ export class LoginComponent {
           })
         ).subscribe({
           next: (response: IUser) => {
-            this.router.navigate([`/menu/${this.model.Id}`]);
+            this.router.navigate([`fixture`]);
             this.model = { Id: '', Password: '', Type: '' };
           }
         });
@@ -49,7 +49,7 @@ export class LoginComponent {
           })
         ).subscribe({
           next: (response: IStudent) => {
-            this.router.navigate([`/menu/${this.model.Id}`]);
+            this.router.navigate([`${this.model.Id}/predictions`]);
             this.model = { Id: '', Password: '', Type: '' };
           }
           
