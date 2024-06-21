@@ -18,6 +18,7 @@ import { FixtureComponent } from './components/Student/fixture/fixture.component
 import { PredictionsComponent } from './components/Student/predictions/predictions.component';
 import { SelectChampionComponent } from './components/Student/select-champion/select-champion.component';
 import { ResultsComponent } from './components/Student/results/results.component';
+import { UploadResultComponent } from './components/Admin/upload-result/upload-result.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { ResultsComponent } from './components/Student/results/results.component
     PredictionsComponent,
     SelectChampionComponent,
     ResultsComponent,
+    UploadResultComponent,
   ],
   imports: [
     BrowserModule,
