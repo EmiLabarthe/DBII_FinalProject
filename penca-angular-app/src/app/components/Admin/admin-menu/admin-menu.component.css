@@ -1,0 +1,35 @@
+.navbar{
+    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.buttons-container{
+    display: flex;
+    width: 50%;
+    height: 100%;
+    justify-content: space-around;
+    
+}
+
+.navbar {
+    width: 100%;
+    height: 70px;
+    left: 0px;
+    top: 0px;
+    background: #184098;
+    box-shadow: 6px 10px 8px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-button{
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+    border: none;
+    background-color: #184098;
+    height: 100%;
+}
+button:hover{
+    background-color: rgb(40, 119, 176);
+}
