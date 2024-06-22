@@ -1,6 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 # pal feli
 /PencaUcuApi/appsettings.json
+/PencaUcuApi/Properties/launchSettings.json
+/PencaUcuApi/PencaUcuApi.http
 appsettings.json
 
 # Compiled output

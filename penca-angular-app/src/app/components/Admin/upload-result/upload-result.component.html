@@ -1,0 +1,92 @@
+<div class="page">
+<app-admin-menu></app-admin-menu>
+
+  <div class="upload-form-container">
+    <form (ngSubmit)="onSubmit()" #activityForm="ngForm" class="my-form">
+      <h1>Subir nuevo resultado</h1>
+
+      <div class="fields-group">
+        <div class="form-group">
+          <div class="label-container">
+            <label for="id">Id de partido</label>
+          </div>
+          <input
+            type="text"
+            class="form-control field"
+            placeholder="ID"
+            name="id"
+            id="id"
+            [(ngModel)]="model.MatchId"
+            #id="ngModel"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <div class="label-container">
+            <label for="localNationalTeamGoals">Goles equipo local</label>
+          </div>
+          <input
+            type="text"
+            class="form-control field"
+            placeholder="Goles"
+            name="localNationalTeamGoals"
+            id="localNationalTeamGoals"
+            [(ngModel)]="model.LocalNationalTeamGoals"
+            #localNationalTeamGoals="ngModel"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <div class="label-container">
+            <label for="visitorNationalTeamGoals">Goles equipo visitante</label>
+          </div>
+          <input
+            type="text"
+            class="form-control field"
+            placeholder="Goles"
+            name="visitorNationalTeamGoals"
+            id="visitorNationalTeamGoals"
+            [(ngModel)]="model.VisitorNationalTeamGoals"
+            #visitorNationalTeamGoals="ngModel"
+          />
+        </div>
+
+        <div class="form-group">
+          <div class="label-container">
+            <label for="winnerId">Ganador</label>
+          </div>
+          <select
+            class="form-control field"
+            id="winnerId"
+            [(ngModel)]="model.WinnerId"
+            name="winnerId"
+            #winnerId="ngModel"
+            required
+          >
+            <option *ngFor="let team of teams" [value]="team">
+              {{ team }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-upload" (click)="submit()">
+        SUBIR RESULTADO
+      </button>
+    </form>
+  </div>
+
+  <div class="matches-container">
+    <div *ngFor="let match of matches; let i = index" 
+    [ngClass]="i % 2 === 0 ? 'color1' : 'color2'"
+    class="matches">
+      <div class="matchItem">{{ match.id }}</div>
+      <div class="matchItem">{{ match.localNationalTeam }}</div>
+      <div class="matchItem">{{ match.visitorNationalTeam }}</div>
+      <div class="matchItem">{{ match.date }}</div>
+      <div class="matchItem">{{ match.stageId }}</div>
+    </div>
+  </div>
+</div>
