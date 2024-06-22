@@ -8,6 +8,8 @@ import {CreateMatchComponent} from "./components/Admin/create-match/create-match
 import { PredictionsComponent } from './components/Student/predictions/predictions.component';
 import { SelectChampionComponent } from './components/Student/select-champion/select-champion.component';
 import { ResultsComponent } from './components/Student/results/results.component';
+import { UploadResultComponent } from './components/Admin/upload-result/upload-result.component';
+import { MenuComponent } from './components/Student/menu/menu.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,6 +20,10 @@ const routes: Routes = [
   { path: 'fixture/:studentId', component: FixtureComponent },
   { path: 'results/:studentId', component: ResultsComponent },
   { path: 'create-match', component: CreateMatchComponent },
+  { path: ':studentId/predictions', component: PredictionsComponent },
+  { path: 'select-champion/:studentId', component: SelectChampionComponent },
+  { path: 'menu/:studentId', component: MenuComponent },
+  { path: 'upload-result', component: UploadResultComponent },
   { path: 'predictions/:studentId', component: PredictionsComponent },
   { path: 'select-champion/:studentId', component: SelectChampionComponent}
 ];
