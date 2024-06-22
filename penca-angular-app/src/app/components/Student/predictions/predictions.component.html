@@ -2,8 +2,7 @@
 <div class="predictions">
   <div class="match-item" *ngFor="let prediction of predictions; let i = index">
     <div class="match-item date">
-      <div>{{ prediction.date | date: 'fullDate' }}</div>
-      <div>{{ prediction.date | date:'hh:mm:ss a' }}</div>
+      <div>Fecha: {{ prediction.date | date:'dd \'de\' MMMM \'a las\' HH:mm'}}</div>
     </div>
     <div class="nations-item">
       <div class="nation">
