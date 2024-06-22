@@ -1,11 +1,13 @@
+using PencaUcuApi.Models;
+
 namespace PencaUcuApi.DTOs;
 
 public class PredictionItemDTO
 {
     public string LocalNationalTeam { get; set; }
-    public int LocalNationalTeamPredictedGoals { get; set; }
+    public int? LocalNationalTeamPredictedGoals { get; set; }
     public string VisitorNationalTeam { get; set; }
-    public int VisitorNationalTeamPredictedGoals { get; set; }
+    public int? VisitorNationalTeamPredictedGoals { get; set; }
     public DateTime Date { get; set; }
     public string StadiumName { get; set; }
     public string State { get; set; }
@@ -15,9 +17,9 @@ public class PredictionItemDTO
 
     public PredictionItemDTO(
         string localTeam,
-        int localNationalTeamPredictedGoals,
+        int? localNationalTeamPredictedGoals,
         string visitorTeam,
-        int visitorNationalTeamPredictedGoals,
+        int? visitorNationalTeamPredictedGoals,
         DateTime matchDate,
         string stadium,
         string state,
