@@ -9,6 +9,7 @@ import { PredictionsComponent } from './components/Student/predictions/predictio
 import { SelectChampionComponent } from './components/Student/select-champion/select-champion.component';
 import { ResultsComponent } from './components/Student/results/results.component';
 import { UploadResultComponent } from './components/Admin/upload-result/upload-result.component';
+import { MenuComponent } from './components/Student/menu/menu.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
