@@ -1,5 +1,6 @@
 export interface IPredictionItem {
-    predictionId: string;
+    predictionId: bigint;
+    matchId: bigint;
     localNationalTeam: string;
     localNationalTeamPredictedGoals: number;
     visitorNationalTeam: string;

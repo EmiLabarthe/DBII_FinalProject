@@ -249,11 +249,4 @@ public class ResultController : ControllerBase
             return BadRequest("An error occurred while fetching the prediction-result data");
         }
     }
-
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        // TODO: Implement your logic here
-        return Ok($"Delete method called with id: {id}");
-    }
 }

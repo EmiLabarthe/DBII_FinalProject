@@ -24,7 +24,7 @@ public class PredictionController : ControllerBase
     [HttpGet("{predictionId}")] // Prediction/:predictionId
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetPrediction(string predictionId)
+    public async Task<IActionResult> GetPrediction(long predictionId)
     {
         try
         {
@@ -92,11 +92,53 @@ public class PredictionController : ControllerBase
         return BadRequest(ModelState);
     }
 
-    [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] PredictionDTO data)
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PredictionDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Put([FromBody] PredictionDTO data)
     {
-        // TODO: Implement your logic here
-        return Ok($"Put method called with id: {id}");
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await GetPrediction(data.Id);
+        if (result == null)
+        {
+            return NotFound($"Prediction with id '{data.Id}' not found.");
+        }
+
+        try
+        {
+            var sql =
+                "UPDATE Predictions "
+                + "SET LocalNationalTeamPredictedGoals = @localPredictedGoals, "
+                + "VisitorNationalTeamPredictedGoals = @visitorPredictedGoals, "
+                + "WHERE Id = @id;";
+
+            var rowsAffected = await _dbContext.Database.ExecuteSqlRawAsync(
+                sql,
+                new MySqlParameter("@id", data.Id),
+                new MySqlParameter("@localPredictedGoals", data.LocalNationalTeamPredictedGoals),
+                new MySqlParameter("@visitorPredictedGoals", data.VisitorNationalTeamPredictedGoals)
+            );
+
+            if (rowsAffected == 0)
+            {
+                return NotFound($"Prediction with id '{data.Id}' not found.");
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return new OkObjectResult(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error updating prediction with id '{data.Id}'.", data.Id);
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "An error occurred while updating the prediction."
+            );
+        }
     }
 
     [HttpGet("items/{studentId}")]
@@ -109,7 +151,7 @@ public class PredictionController : ControllerBase
             var currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var query = await _dbContext
                 .PredictionItemDTO.FromSqlRaw(
-                    "SELECT M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
+                    "SELECT P.Id, M.Id, M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
                         + "FROM Matches as M "
                         + "LEFT JOIN Predictions as P ON M.Id = P.MatchId AND P.StudentId = @studentId "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
@@ -126,6 +168,8 @@ public class PredictionController : ControllerBase
 
             var predictionItems = query
                 .Select(p => new PredictionItem(
+                    p.PredictionId,
+                    p.MatchId,
                     p.LocalNationalTeam,
                     p.LocalNationalTeamPredictedGoals,
                     p.VisitorNationalTeam,
@@ -191,12 +235,5 @@ public class PredictionController : ControllerBase
         }
 
         return BadRequest(ModelState);
-    }
-
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        // TODO: Implement your logic here
-        return Ok($"Delete method called with id: {id}");
     }
 }
