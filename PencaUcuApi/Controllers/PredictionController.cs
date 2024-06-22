@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -49,8 +50,6 @@ public class PredictionController : ControllerBase
                 res.LocalNationalTeamPredictedGoals,
                 res.VisitorNationalTeamPredictedGoals
             );
-            Console.WriteLine("stId", predictionDto.StudentId);
-            Console.WriteLine("mchId", predictionDto.MatchId);
             return Ok(predictionDto);
         }
         catch (Exception ex)
@@ -67,26 +66,42 @@ public class PredictionController : ControllerBase
     {
         if (ModelState.IsValid)
         {
-            var sql =
-                "INSERT INTO Predictions (StudentId, MatchId, LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals) "
-                + "VALUES (@studentId, @matchId, @localGoals, @visitorGoals)";
+            try
+            {
+                var sql =
+                    "INSERT INTO Predictions (StudentId, MatchId, LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals) "
+                    + "VALUES (@studentId, @matchId, @localGoals, @visitorGoals);";
 
-            await _dbContext.Database.ExecuteSqlRawAsync(
-                sql,
-                new MySqlParameter("@studentId", data.StudentId),
-                new MySqlParameter("@matchId", data.MatchId),
-                new MySqlParameter("@localGoals", data.LocalNationalTeamPredictedGoals),
-                new MySqlParameter("@visitorGoals", data.VisitorNationalTeamPredictedGoals)
-            );
-            await _dbContext.SaveChangesAsync();
-            return CreatedAtAction(
-                nameof(GetPrediction),
-                new { id = data.Id },
-                new
+                await _dbContext.Database.ExecuteSqlRawAsync(
+                    sql,
+                    new MySqlParameter("@studentId", data.StudentId),
+                    new MySqlParameter("@matchId", data.MatchId),
+                    new MySqlParameter("@localGoals", data.LocalNationalTeamPredictedGoals),
+                    new MySqlParameter("@visitorGoals", data.VisitorNationalTeamPredictedGoals)
+                );
+
+                var predictionDto = new PredictionDTO
                 {
-                    message = $"Prediction of student '{data.StudentId}', for match '{data.MatchId}' has been uploaded."
-                }
-            );
+                    StudentId = data.StudentId,
+                    MatchId = data.MatchId,
+                    LocalNationalTeamPredictedGoals = data.LocalNationalTeamPredictedGoals,
+                    VisitorNationalTeamPredictedGoals = data.VisitorNationalTeamPredictedGoals
+                };
+
+                return CreatedAtAction(
+                    nameof(GetPrediction),
+                    new { predictionId = predictionDto.Id },
+                    predictionDto
+                );
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while processing the prediction creation.");
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    "Error occurred while processing the request."
+                );
+            }
         }
 
         return BadRequest(ModelState);
@@ -113,7 +128,7 @@ public class PredictionController : ControllerBase
             var sql =
                 "UPDATE Predictions "
                 + "SET LocalNationalTeamPredictedGoals = @localPredictedGoals, "
-                + "VisitorNationalTeamPredictedGoals = @visitorPredictedGoals, "
+                + "VisitorNationalTeamPredictedGoals = @visitorPredictedGoals "
                 + "WHERE Id = @id;";
 
             var rowsAffected = await _dbContext.Database.ExecuteSqlRawAsync(
@@ -129,7 +144,16 @@ public class PredictionController : ControllerBase
             }
 
             await _dbContext.SaveChangesAsync();
-            return new OkObjectResult(result);
+            var updatedPredictionDTO = new PredictionDTO
+            {
+                Id = data.Id,
+                StudentId = data.StudentId,
+                MatchId = data.MatchId,
+                LocalNationalTeamPredictedGoals = data.LocalNationalTeamPredictedGoals,
+                VisitorNationalTeamPredictedGoals = data.VisitorNationalTeamPredictedGoals
+            };
+
+            return new ObjectResult(updatedPredictionDTO) { StatusCode = StatusCodes.Status200OK };
         }
         catch (Exception ex)
         {
@@ -151,7 +175,7 @@ public class PredictionController : ControllerBase
             var currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var query = await _dbContext
                 .PredictionItemDTO.FromSqlRaw(
-                    "SELECT P.Id, M.Id, M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
+                    "SELECT P.Id as PredictionId, M.Id as MatchId, M.LocalNationalTeam, P.LocalNationalTeamPredictedGoals, M.VisitorNationalTeam, P.VisitorNationalTeamPredictedGoals, M.Date, S.Name as StadiumName, S.State, S.City "
                         + "FROM Matches as M "
                         + "LEFT JOIN Predictions as P ON M.Id = P.MatchId AND P.StudentId = @studentId "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "

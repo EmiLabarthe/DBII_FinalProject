@@ -55,7 +55,7 @@ export class PredictionsComponent implements OnInit {
           console.log('Prediction added', response);
         });
       } else {
-        this.predictionService.update(prediction.predictionId, prediction.localNationalTeamPredictedGoals, prediction.visitorNationalTeamPredictedGoals)
+        this.predictionService.update(prediction, this.studentId!)
         .subscribe(response => {
           console.log('Prediction updated', response);
         });

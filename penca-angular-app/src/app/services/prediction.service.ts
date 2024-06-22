@@ -87,12 +87,12 @@ export class PredictionService {
   * @param VisitorNationalTeamPredictedGoals 
   * @returns 
   */
-  update(predictionId: bigint, LocalNationalTeamPredictedGoals: number, VisitorNationalTeamPredictedGoals: number): Observable<IPrediction> {
+  update(prediction: IPredictionItem, studentId: string): Observable<IPrediction> {
       return this.http.put<IPrediction>(this.predictionsUrl, 
-      { Id: predictionId, LocalNationalTeamPredictedGoals: LocalNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals: VisitorNationalTeamPredictedGoals }
+      { Id: prediction.predictionId, StudentId: studentId, MatchId: prediction.matchId, LocalNationalTeamPredictedGoals: prediction.localNationalTeamPredictedGoals, VisitorNationalTeamPredictedGoals: prediction.visitorNationalTeamPredictedGoals }
     )
     .pipe(
-      tap(_ => console.log(`fetched prediction '${predictionId}' predictions`)),
+      tap(_ => console.log(`fetched prediction '${prediction.predictionId}' predictions`)),
       catchError(this.handleError<IPrediction>('getPredictions'))
     );
   }
