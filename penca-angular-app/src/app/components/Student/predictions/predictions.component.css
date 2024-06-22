@@ -1,67 +1,8 @@
-.predictions {
+.predictions-container {
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-}
-
-.match-item {
-  width: 60%;
-  background-color: #fff;
-  margin-bottom: 20px;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.match-item .date {
-  display: flex;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #333;
-}
-
-.nations-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.nation {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.nation img {
-  width: 80px;
-  height: auto;
-  margin-right: 10px;
-}
-
-.nation .name {
-  font-weight: bold;
-}
-
-.localGoals-item,
-.visitorGoals-item {
-  display: flex;
-  align-items: center;
-}
-
-.localGoals-item input,
-.visitorGoals-item input {
-  width: 40px;
-  text-align: center;
-}
-
-.stadium-data {
-  display: flex;
-  justify-content: space-between;
-}
-
-.matchItemContainer {
-  width: 50%;
-  text-align: center;
+  width: 100%;
+  background-color: #192c76;
 }
