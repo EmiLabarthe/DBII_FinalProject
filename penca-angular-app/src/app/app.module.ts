@@ -19,6 +19,8 @@ import { PredictionsComponent } from './components/Student/predictions/predictio
 import { SelectChampionComponent } from './components/Student/select-champion/select-champion.component';
 import { ResultsComponent } from './components/Student/results/results.component';
 import { UploadResultComponent } from './components/Admin/upload-result/upload-result.component';
+import { AdminMenuComponent } from './components/Admin/admin-menu/admin-menu.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +35,7 @@ import { UploadResultComponent } from './components/Admin/upload-result/upload-r
     SelectChampionComponent,
     ResultsComponent,
     UploadResultComponent,
+    AdminMenuComponent,
   ],
   imports: [
     BrowserModule,

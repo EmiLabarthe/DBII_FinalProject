@@ -1,5 +1,5 @@
 export interface IMatchResult {
-    Id: bigint;
+    Id: bigint | null ;
     MatchId: bigint;
     LocalNationalTeamGoals: number;
     VisitorNationalTeamGoals: number;
