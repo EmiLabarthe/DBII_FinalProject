@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 
-<div class="results-container">
+<div class="matches-container">
   <div class="match-item-container" *ngFor="let result of results">
 
     <div class="match-item date">
@@ -14,13 +14,13 @@
       </div>
 
       <div class="goals">
-        <div class="goals item result">
+        <div class="goals item result" data-toggle="tooltip" data-placement="top" title="Resultado">
           <div class="score">{{ result.localNationalTeamGoals }}</div>
           -
           <div class="score">{{ result.visitorNationalTeamGoals }}</div>
         </div>
 
-        <div class="goals item prediction">
+        <div class="goals item prediction" data-toggle="tooltip" data-placement="top" title="Tu predicción">
           <div class="score predicted">{{ result.localNationalTeamPredictedGoals }}</div>
           -
           <div class="score predicted">{{ result.visitorNationalTeamPredictedGoals }}</div>
