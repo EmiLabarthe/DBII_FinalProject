@@ -10,12 +10,12 @@
         <div class="name">{{prediction.localNationalTeam}}</div>
       </div>
       <div class="goals">
-        <div class="goals item">
+        <div class="goals item" data-toggle="tooltip" data-placement="top" title="Goles de {{prediction.localNationalTeam}}">
           <input type="number" class="form-control" [(ngModel)]="prediction.localNationalTeamPredictedGoals" min="0"
             max="99" maxlength="2">
         </div>
         -
-        <div class="goals item">
+        <div class="goals item" data-toggle="tooltip" data-placement="top" title="Goles de {{prediction.visitorNationalTeam}}">
           <input type="number" class="form-control" [(ngModel)]="prediction.visitorNationalTeamPredictedGoals" min="0"
             max="99" maxlength="2">
         </div>

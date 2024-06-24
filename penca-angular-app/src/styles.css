@@ -5,22 +5,26 @@ html {
 body {
   height: 100%;
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #002037;
 }
 
 .matches-container {
   margin-top: 50px;
   padding-top: 20px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  justify-items: center;
   align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
   width: 100%;
   background: linear-gradient(to bottom, #0d0062, #366bff);
 }
 
 .match-item-container {
-  width: 50%;
+  width: 100%;
+  max-width: 550px;
   background-color: #1e4f8a;
   margin: 20px 0;
   padding-bottom: 10px;
@@ -79,6 +83,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #c4f5ff;
 }
 
 .goals .item {
@@ -118,11 +123,9 @@ body {
 
 .goals .item input[type="number"]::-webkit-inner-spin-button::after,
 .goals .item input[type="number"]::-webkit-outer-spin-button::after {
-  content: '\25bc';
+  content: "\25bc";
   font-size: 1.2rem;
 }
-
-
 
 .match-item-container:hover .goals .item {
   background-color: #1e4f8a;
@@ -179,4 +182,19 @@ body {
 .goals .item:hover .tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+@media (max-width: 840px) {
+  .matches-container {
+    margin-top: 50px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    width: 100%;
+    background: linear-gradient(to bottom, #0d0062, #366bff);
+  }
 }
