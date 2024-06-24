@@ -7,7 +7,7 @@
     <div class="nations-item">
       <div class="nation">
         <img [src]="nationFlags.get(prediction.localNationalTeam)" alt="Bandera de {{prediction.localNationalTeam}}">
-        <div class="name">{{prediction.localNationalTeam}}</div>
+        <div class="name">{{prediction.localNationalTeam | uppercase}}</div>
       </div>
       <div class="goals">
         <div class="goals item" data-toggle="tooltip" data-placement="top" title="Goles de {{prediction.localNationalTeam}}">
@@ -24,7 +24,7 @@
       <div class="nation">
         <img [src]="nationFlags.get(prediction.visitorNationalTeam)"
           alt="Bandera de {{prediction.visitorNationalTeam}}">
-        <div class="name">{{prediction.visitorNationalTeam}}</div>
+        <div class="name">{{prediction.visitorNationalTeam | uppercase}}</div>
       </div>
     </div>
     <div class="stadium-data">
