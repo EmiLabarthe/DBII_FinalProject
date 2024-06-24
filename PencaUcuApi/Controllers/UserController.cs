@@ -44,20 +44,18 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get()
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Get()
     {
-        // Implement your GET logic here
-        var users = _dbContext.Users.ToList();
-        return Ok(users);
+        var response = await _dbContext.Set<User>().FromSqlRaw("SELECT * FROM Users").ToListAsync();
+
+        var userDtos = response.Select(user => user.ToDto()).ToList();
+
+        return Ok(userDtos);
     }
 
-    [HttpGet("Prueba")]
-    public IActionResult Prueba()
-    {
-        return Ok("Bien");
-    }
-
-    [HttpPost] 
+    [HttpPost]
     public async Task<IActionResult> Post([FromBody] User user)
     {
         if (ModelState.IsValid)
