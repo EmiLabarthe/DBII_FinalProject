@@ -4,6 +4,8 @@ namespace PencaUcuApi.Models
 {
     public class PredictionItem
     {
+        public long? PredictionId { get; set; }
+        public long MatchId { get; set; }
         public string LocalNationalTeam { get; set; }
         public int? LocalNationalTeamPredictedGoals { get; set; }
         public string VisitorNationalTeam { get; set; }
@@ -14,6 +16,8 @@ namespace PencaUcuApi.Models
         public string City { get; set; }
 
         public PredictionItem(
+            long? predictionId,
+            long matchId,
             string localNationalTeam,
             int? localNationalTeamPredictedGoals,
             string visitorNationalTeam,
@@ -24,6 +28,8 @@ namespace PencaUcuApi.Models
             string city
         )
         {
+            PredictionId = predictionId;
+            MatchId = matchId;
             LocalNationalTeam =
                 localNationalTeam ?? throw new ArgumentNullException(nameof(localNationalTeam));
             VisitorNationalTeam =

@@ -1,32 +1,111 @@
 .results-container {
-    padding-top: 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    background-color: #3868d0;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #192c76;
 }
 
 .match-item-container {
-  padding: 5px;
-  height: 60px;
+  width: 50%;
+  background-color: #334fcb;
+  margin: 20px 0px;
+  padding-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgb(255, 255, 255);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.match-item-container:hover {
+  background-color: #0c0f6c;
+  transform: translateY(-5px);
+}
+
+.match-item-container .date {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-radius: 8px 8px 0px 0px;
+  background-color: #000637;
+  display: flex;
+  justify-content: end;
+  font-weight: bold;
+  color: #c4f5ff;
+  font-size: 18px;
+}
+
+.nations-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 15px;
+}
+
+.nation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.nation img {
+  justify-content: center;
+  width: 80px;
+  height: auto;
+}
+
+.nation .name {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: #fff;
+}
+
+.goals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.goals .item {
+  background-color: #060012;
   display: flex;
   flex-direction: row;
-  margin: 10px 0 10px;
-  width: 95%;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  background: #184098;
-  border-radius: 12px;
-  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+  margin: 5px 0;
+  color: #c4f5ff;
+}
+
+.score {
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.goals .item.result {
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.goals .item.prediction {
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.points {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  color: #c4f5ff;
+  margin-top: 10px;
+}
+
+.stadium-data {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
 }
 
 .matchItemContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 25%;
-  height: 100%;
-  color: white;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  width: 50%;
+  text-align: center;
+  color: #c4f5ff;
+  font-weight: bold;
 }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +20,13 @@ import { SelectChampionComponent } from './components/Student/select-champion/se
 import { ResultsComponent } from './components/Student/results/results.component';
 import { UploadResultComponent } from './components/Admin/upload-result/upload-result.component';
 import { AdminMenuComponent } from './components/Admin/admin-menu/admin-menu.component';
+import { UploadChampionComponent } from './components/Admin/upload-champion/upload-champion.component';
+
+
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
 
 @NgModule({
   declarations: [
@@ -36,6 +43,7 @@ import { AdminMenuComponent } from './components/Admin/admin-menu/admin-menu.com
     ResultsComponent,
     UploadResultComponent,
     AdminMenuComponent,
+    UploadChampionComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +54,7 @@ import { AdminMenuComponent } from './components/Admin/admin-menu/admin-menu.com
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
