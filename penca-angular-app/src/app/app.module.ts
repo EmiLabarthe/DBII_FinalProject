@@ -20,6 +20,7 @@ import { SelectChampionComponent } from './components/Student/select-champion/se
 import { ResultsComponent } from './components/Student/results/results.component';
 import { UploadResultComponent } from './components/Admin/upload-result/upload-result.component';
 import { AdminMenuComponent } from './components/Admin/admin-menu/admin-menu.component';
+import { UploadChampionComponent } from './components/Admin/upload-champion/upload-champion.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AdminMenuComponent } from './components/Admin/admin-menu/admin-menu.com
     ResultsComponent,
     UploadResultComponent,
     AdminMenuComponent,
+    UploadChampionComponent,
   ],
   imports: [
     BrowserModule,

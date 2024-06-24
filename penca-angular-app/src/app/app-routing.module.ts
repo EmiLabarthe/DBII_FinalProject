@@ -10,6 +10,7 @@ import { SelectChampionComponent } from './components/Student/select-champion/se
 import { ResultsComponent } from './components/Student/results/results.component';
 import { UploadResultComponent } from './components/Admin/upload-result/upload-result.component';
 import { MenuComponent } from './components/Student/menu/menu.component';
+import { UploadChampionComponent } from './components/Admin/upload-champion/upload-champion.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'menu/:studentId', component: MenuComponent },
   { path: 'upload-result', component: UploadResultComponent },
   { path: 'predictions/:studentId', component: PredictionsComponent },
-  { path: 'select-champion/:studentId', component: SelectChampionComponent}
+  { path: 'select-champion/:studentId', component: SelectChampionComponent},
+  { path: 'upload-champion', component: UploadChampionComponent }
 ];
 
 @NgModule({
