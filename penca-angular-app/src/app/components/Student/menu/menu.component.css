@@ -117,23 +117,3 @@ background: #1C66BE;
 
   color: #ffffff;
 }
-
-.settingsContainer{
-  justify-content: right;
-  width: 10%;
-  margin-right: 10px;
-}
-
-.settingsContainer:hover {
-  background-color: initial;
-}
-
-.settings{
-  background: none;
-  height: 50px;
-  width: 50px;
-}
-
-.settings:hover {
-  filter: brightness(0.7); /* Darker effect on hover */
-}
