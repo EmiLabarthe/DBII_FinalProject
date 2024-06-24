@@ -1,26 +1,28 @@
 <app-menu></app-menu>
-<div class="predictions">
-  <div class="match-item" *ngFor="let prediction of this.predictions">
+<div class="predictions-container">
+  <div class="match-item-container" *ngFor="let prediction of predictions; let i = index">
     <div class="match-item date">
-      <div>{{ prediction.date | date: 'fullDate' }}</div>
-      <div>{{ prediction.date | date:'hh:mm:ss a' }}</div>
+      <div>Fecha: {{ prediction.date | date:'dd \'de\' MMMM \'a las\' HH:mm'}}</div>
     </div>
     <div class="nations-item">
       <div class="nation">
-        <img src="{{nationFlags.get(prediction.localNationalTeam)}}" alt="Bandera de {{prediction.localNationalTeam}}">
+        <img [src]="nationFlags.get(prediction.localNationalTeam)" alt="Bandera de {{prediction.localNationalTeam}}">
         <div class="name">{{prediction.localNationalTeam}}</div>
       </div>
-      <div class="localGoals-item">
-        <input type="number" class="form-control" placeholder="{{prediction.localNationalTeamPredictedGoals}}" min="0"
-          max="99" maxlength="2">
+      <div class="goals">
+        <div class="goals item">
+          <input type="number" class="form-control" [(ngModel)]="prediction.localNationalTeamPredictedGoals" min="0"
+            max="99" maxlength="2">
+        </div>
+        -
+        <div class="goals item">
+          <input type="number" class="form-control" [(ngModel)]="prediction.visitorNationalTeamPredictedGoals" min="0"
+            max="99" maxlength="2">
+        </div>
       </div>
-      -
-      <div class="visitorGoals-item">
-        <input type="number" class="form-control" placeholder="{{prediction.visitorNationalTeamPredictedGoals}}" min="0"
-          max="99" maxlength="2">
-      </div>
+      
       <div class="nation">
-        <img src="{{nationFlags.get(prediction.visitorNationalTeam)}}"
+        <img [src]="nationFlags.get(prediction.visitorNationalTeam)"
           alt="Bandera de {{prediction.visitorNationalTeam}}">
         <div class="name">{{prediction.visitorNationalTeam}}</div>
       </div>
@@ -30,4 +32,7 @@
       <div class="matchItemContainer">{{ prediction.city }}, {{ prediction.state }}</div>
     </div>
   </div>
+  <button type="button" class="btn btn-success" (click)="save()">
+    Guardar
+  </button>
 </div>

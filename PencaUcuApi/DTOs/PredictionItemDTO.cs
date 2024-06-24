@@ -4,6 +4,8 @@ namespace PencaUcuApi.DTOs;
 
 public class PredictionItemDTO
 {
+    public long? PredictionId { get; set; }
+    public long MatchId { get; set; }
     public string LocalNationalTeam { get; set; }
     public int? LocalNationalTeamPredictedGoals { get; set; }
     public string VisitorNationalTeam { get; set; }
@@ -16,6 +18,8 @@ public class PredictionItemDTO
     public PredictionItemDTO() { }
 
     public PredictionItemDTO(
+        long? predictionId,
+        long matchId,
         string localTeam,
         int? localNationalTeamPredictedGoals,
         string visitorTeam,
@@ -26,6 +30,8 @@ public class PredictionItemDTO
         string city
     )
     {
+        PredictionId = predictionId;
+        MatchId = matchId;
         LocalNationalTeam = localTeam;
         LocalNationalTeamPredictedGoals = localNationalTeamPredictedGoals;
         VisitorNationalTeam = visitorTeam;

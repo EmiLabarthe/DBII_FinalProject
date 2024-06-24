@@ -12,8 +12,9 @@ import { PredictionService } from 'src/app/services/prediction.service';
 export class PredictionsComponent implements OnInit {
   
   predictions: IPredictionItem[] | undefined;
-
-  nationFlags= NATION_FLAGS;
+  originalPredictions: IPredictionItem[] | undefined;
+  
+  nationFlags = NATION_FLAGS;
   
   studentId: string | undefined;
   
@@ -22,7 +23,7 @@ export class PredictionsComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const studentId = params['studentId'];
-      this.studentId= studentId;
+      this.studentId = studentId;
     });
     this.getPredictionItems();
   }
@@ -31,6 +32,7 @@ export class PredictionsComponent implements OnInit {
     this.predictionService.getPredictionItems(this.studentId!).subscribe({
       next: (response: IPredictionItem[]) => {
         this.predictions = response;
+        this.originalPredictions = JSON.parse(JSON.stringify(response));
         console.log(response);
       },
       error: (error) => {
@@ -38,8 +40,29 @@ export class PredictionsComponent implements OnInit {
       }
     });
   }
-
-  save(){
-
+  
+  hasPredictionChanged(prediction: IPredictionItem, index: number): boolean {
+    return JSON.stringify(prediction) !== JSON.stringify(this.originalPredictions![index]);
+  }
+  
+  save(): void {
+    const modifiedPredictions = this.predictions!.filter((prediction, index) => this.hasPredictionChanged(prediction, index));
+    
+    modifiedPredictions.forEach(prediction => {
+      if(!prediction.predictionId){
+        this.predictionService.add(this.studentId!, prediction.matchId, prediction.localNationalTeamPredictedGoals, prediction.visitorNationalTeamPredictedGoals)
+        .subscribe(response => {
+          console.log('Prediction added', response);
+        });
+      } else {
+        this.predictionService.update(prediction, this.studentId!)
+        .subscribe(response => {
+          console.log('Prediction updated', response);
+        });
+      }
+      
+    });
+    
+    this.originalPredictions = JSON.parse(JSON.stringify(this.predictions));
   }
 }

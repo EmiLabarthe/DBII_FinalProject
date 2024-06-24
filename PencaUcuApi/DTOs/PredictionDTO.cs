@@ -3,7 +3,7 @@ namespace PencaUcuApi.DTOs;
 public class PredictionDTO
 {
     
-    public int Id;
+    public long Id { get; set; }
     public string StudentId  { get; set; }
     public long MatchId { get; set; }
     public int LocalNationalTeamPredictedGoals { get; set; }
