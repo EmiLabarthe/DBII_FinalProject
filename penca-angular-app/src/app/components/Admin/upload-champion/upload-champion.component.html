@@ -1,0 +1,50 @@
+<div class="page">
+    <app-admin-menu></app-admin-menu>
+    
+    <div class="upload-form-container">
+        <form (ngSubmit)="onSubmit()" #activityForm="ngForm" class="my-form">
+            <h1>REGISTRAR CAMPEÓN Y VICECAMPEÓN</h1>
+            <div class="fields-container">
+            <div class="form-group">
+                <div class="label-container">
+                <label for="championId">Campeón</label>
+                </div>
+                <select
+                class="form-control field"
+                id="championId"
+                [(ngModel)]="model.ChampionId"
+                name="championId"
+                #winnerId="ngModel"
+                required
+                >
+                <option *ngFor="let team of teams" [value]="team">
+                    {{ team }}
+                </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <div class="label-container">
+                    <label for="viceChampionId">Vice campeón</label>
+                </div>
+                <select
+                    class="form-control field"
+                    id="viceChampionId"
+                    [(ngModel)]="model.ViceChampionId"
+                    name="viceChampionId"
+                    #winnerId="ngModel"
+                    required
+                >
+                    <option *ngFor="let team of teams" [value]="team">
+                    {{ team }}
+                    </option>
+                </select>
+            </div>
+            </div>
+            <button type="button" class="btn btn-upload" (click)="submit()">
+            SUBIR RESULTADO
+            </button>
+        </form>
+    </div>
+</div>
+    
