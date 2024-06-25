@@ -1,29 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
+using PencaUcuApi.Models;
+using PencaUcuApi.DTOs;
 
 namespace PencaUcuApi.Controllers;
 [ApiController]
 [Route("[controller]")]
 
-/*
-Endpoints:
-POST
-/new_match	
-Params:     str id_a_team, str id_b_team, str id_phase	
-Devuelve:   200- Ok o 400- Bad request / 401- Unauthorized	
-Ingresa nuevo partido
-
-POST
-/match_result
-Params:     str id_a_team, str id_b_team, boolean groups
-Devuelve:   200- Ok o 400- Bad request / 401- Unauthorized
-Ingresa resultado partido. Si es de grupos, cambia las estadísticas de las selecciones
-
-POST
-/end_tournament	
-Params:     -	
-Devuelve:   200- Ok o 400- Bad request / 401- Unauthorized	
-Termina penca, debería actualizar puntos por acierto de campeon / subcampeon
-*/
 public class AdminController : ControllerBase
 {
     private readonly MyDbContext _dbContext;
@@ -42,11 +26,34 @@ public class AdminController : ControllerBase
         return Ok("Get method called");
     }
 
-    [HttpPost]
-    public IActionResult Post([FromBody] object data)
+    // /Student/login
+    [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Login([FromBody] LoginDTO data)
     {
-        // TODO: Implement your logic here
-        return Ok("Post method called");
+        if (data == null)
+        {
+            return BadRequest();
+        }
+
+        var query = await _dbContext
+            .UserDTOs.FromSqlRaw(
+                "SELECT * FROM Users as U "
+                    + "INNER JOIN Administrators as A ON U.Id = A.AdminId AND A.AdminId = @adminId;",
+                new MySqlParameter("@adminId", data.Id)
+            )
+            .ToListAsync();
+
+        if (!query.Any())
+        {
+            return NotFound($"Admin (id= '{data.Id}') not found");
+        }
+        else if (query[0].Password != data.Password) {
+            return NotFound($"Password incorrect. Please try again.");
+        }
+        return Ok(query[0]);
+        
     }
 
     [HttpPut("{id}")]

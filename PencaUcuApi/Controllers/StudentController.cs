@@ -92,7 +92,41 @@ public class StudentController : ControllerBase
             return NotFound();
         }
 
-        return CreatedAtAction(nameof(Get), new { id = student.StudentId }, new { message = "Student saved" });
+        return CreatedAtAction(
+            nameof(Get),
+            new { id = student.StudentId },
+            new { message = "Student saved" }
+        );
+    }
+
+    // /Student/login
+    [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Login([FromBody] LoginDTO data)
+    {
+        if (data == null)
+        {
+            return BadRequest();
+        }
+
+        var query = await _dbContext
+            .UserDTOs.FromSqlRaw(
+                "SELECT * FROM Users as U "
+                    + "INNER JOIN Students as S ON U.Id = S.StudentId AND S.StudentId = @studentId;",
+                new MySqlParameter("@studentId", data.Id)
+            )
+            .ToListAsync();
+
+        if (!query.Any())
+        {
+            return NotFound($"Student (id= '{data.Id}') not found");
+        }
+        else if (query[0].Password != data.Password) {
+            return NotFound($"Password incorrect. Please try again.");
+        }
+        return Ok(query[0]);
+        
     }
 
     // api/students/{id}

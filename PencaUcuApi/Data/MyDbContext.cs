@@ -19,7 +19,7 @@ public class MyDbContext : DbContext
     public DbSet<StudentCareer> StudentCareers { get; set; }
     public DbSet<StudentTournamentPrediction> StudentTournamentPredictions { get; set; }
     public DbSet<UserDTO> UserDTOs { get; set; }
-    public DbSet<StudentWithUserDTO> StudentScoreDTOs { get; set; }
+    public DbSet<StudentDTO> StudentScoreDTOs { get; set; }
     public DbSet<StudentWithUserDTO> StudentDTOs { get; set; }
     public DbSet<PredictionDTO> PredictionDTO { get; set; }
     public DbSet<FixtureItemDTO> FixtureItemDTO { get; set; }
