@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { IPrediction } from '../interfaces/IPrediction';
 import { ActivatedRoute } from '@angular/router';
+import { IUser } from '../interfaces/IUser';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class StudentService {
   
   private cachedStudent: IStudent | null = null;
   
-  private studentsUrl = 'http://localhost:8080/api/students';  // URL to web api
+  private studentsUrl = 'http://localhost:8080/Student';  // URL to web api
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -40,7 +41,7 @@ export class StudentService {
   * @returns IStudent found, or 404 if id not found
   */
   getStudent(id: string): Observable<IStudent> {
-    if (this.cachedStudent && this.cachedStudent.Id === id) {
+    if (this.cachedStudent && this.cachedStudent.id === id) {
       return of(this.cachedStudent); // Return the cached student if it equals the requested ID
     } else {
       const url = `${this.studentsUrl}/${id}`;
@@ -54,43 +55,17 @@ export class StudentService {
     }
   }
   
-  
-  /** DECIDE WHERE TO SAVE THE NEW USER INSTANCE AS A STUDENT --> both in api or two separate requests from the client
-  * 
-  * @param id 
-  * @param password 
-  * @returns 
-  add(id: string, password: string): Observable<IStudent> {
-    return this.http.post<IStudent>(this.studentsUrl, { StudentId: id, Password: password }, this.httpOptions).pipe(
-      tap((newStudent: IStudent) => console.log(`added match w/ id=${newStudent.Id}`)),
-      catchError(this.handleError<IStudent>('add'))
-    );
-  }*/
-  
   /** POST: log of specified student
   * 
   * @param id 
   * @param password 
   * @returns 
   */
-  login(id: string, password: string): Observable<IStudent> {
+  login(id: string, password: string): Observable<IUser> {
     const url = `${this.studentsUrl}/login`;
-    return this.http.post<IStudent>(url, { StudentId: id, Password: password }, this.httpOptions).pipe(
-      tap((newStudent: IStudent) => console.log(`logged student w/ id=${newStudent.Id}`)),
-      catchError(this.handleError<IStudent>('login'))
-    );
-  }
-  
-  /** DELETE: remove specified Student from the server
-  * 
-  * @param id 
-  */
-  delete(id: number): Observable<boolean> {
-    const url = `${this.studentsUrl}/${id}`;
-    return this.http.delete(url).pipe(
-      tap(_ => console.log(`deleted match id=${id}`)),
-      map(() => true), // If the operation is successful, response is mapped into a 'true' boolean
-      catchError(this.handleError<boolean>(`delete id=${id}`))
+    return this.http.post<IUser>(url, { Id: id, Password: password }, this.httpOptions).pipe(
+      tap((user: IUser) => console.log(`logged student w/ id=${user.id}`)),
+      catchError(this.handleError<IUser>('login'))
     );
   }
   

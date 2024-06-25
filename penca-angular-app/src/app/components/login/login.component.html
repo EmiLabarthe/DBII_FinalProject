@@ -13,7 +13,7 @@
           <select
             class="form-control field"
             id="type"
-            [(ngModel)]="model.Type"
+            [(ngModel)]="model.type"
             name="type"
             #type="ngModel"
             required
@@ -37,7 +37,7 @@
             placeholder="CI"
             name="id"
             id="id"
-            [(ngModel)]="model.Id"
+            [(ngModel)]="model.id"
             #id="ngModel"
             required
           />
@@ -55,7 +55,7 @@
             placeholder="Contraseña"
             name="pass"
             id="password"
-            [(ngModel)]="model.Password"
+            [(ngModel)]="model.password"
             #password="ngModel"
           />
           <div [hidden]="!falsePass" class="alert alert-danger sin-cuenta">
