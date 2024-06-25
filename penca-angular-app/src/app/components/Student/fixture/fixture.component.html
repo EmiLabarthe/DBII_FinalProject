@@ -7,8 +7,7 @@
       {{ item.localNationalTeam }} vs {{ item.visitorNationalTeam }}
     </div>
     <div class="matchItemContainer date">
-      <div>{{ item.date | date : "fullDate" }}</div>
-      <div>{{ item.date | date : "hh:mm:ss a" }}</div>
+      <div>{{ item.date | date:'dd \'de\' MMMM \'a las\' HH:mm'}}</div>
     </div>
     <div class="matchItemContainer">{{ item.stadiumName }}</div>
     <div class="matchItemContainer">{{ item.city }}, {{ item.state }}</div>

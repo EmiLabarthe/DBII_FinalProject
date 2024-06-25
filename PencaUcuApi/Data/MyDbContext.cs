@@ -18,6 +18,7 @@ public class MyDbContext : DbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<StudentCareer> StudentCareers { get; set; }
     public DbSet<StudentTournamentPrediction> StudentTournamentPredictions { get; set; }
+    public DbSet<UserDTO> UserDTOs { get; set; }
     public DbSet<StudentWithUserDTO> StudentScoreDTOs { get; set; }
     public DbSet<StudentWithUserDTO> StudentDTOs { get; set; }
     public DbSet<PredictionDTO> PredictionDTO { get; set; }
@@ -28,7 +29,8 @@ public class MyDbContext : DbContext
     public DbSet<MatchResultDTO> MatchResultsDTO { get; set; }
     public DbSet<PredictionResultItem> PredictionResultItem { get; set; }
     public DbSet<PredictionResultItemDTO> PredictionResultItemDTO { get; set; }
-    public DbSet<TournamentResultDTO> TournamentResultDTO { get; set;}
+    public DbSet<TournamentResultDTO> TournamentResultDTO { get; set; }
+
     public MyDbContext(DbContextOptions<MyDbContext> options)
         : base(options) { }
 
@@ -36,6 +38,7 @@ public class MyDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<UserDTO>().HasNoKey();
         modelBuilder.Entity<StudentWithUserDTO>().HasNoKey();
         modelBuilder.Entity<StudentDTO>().HasNoKey();
         modelBuilder.Entity<PredictionDTO>().HasNoKey();

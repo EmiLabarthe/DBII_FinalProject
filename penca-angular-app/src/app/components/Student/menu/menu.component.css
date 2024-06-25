@@ -1,11 +1,13 @@
 /* Rectangle 18 */
 .navbar {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 70px;
-  left: 0px;
-  top: 0px;
-
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
   background: #184098;
   box-shadow: 6px 10px 8px rgba(0, 0, 0, 0.25);
 }
@@ -23,34 +25,6 @@ img {
     width: 150px;
 }
 
-/* AJUSTES */
-.ajustes {
-  position: absolute;
-  width: 144px;
-  height: 36.96px;
-  left: 1291px;
-  top: 35.02px;
-
-  font-family: "Mochiy Pop One";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 36px;
-  /* identical to box height */
-
-  color: #ffffff;
-}
-
-/* Rectangle 19 - sombra 
-
-position: absolute;
-width: 282px;
-height: 108px;
-left: 570px;
-top: 0px;
-
-background: #1C66BE;
-*/
 .buttons-container{
     display: flex;
     flex-direction: row;
@@ -74,65 +48,9 @@ background: #1C66BE;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-style: normal;
     font-size: 25px;
-    /* identical to box height */
     color: #ffffff;
 }
 .section:hover{
     background-color: #2657d2b5;
 }
 
-/* RANKING */
-.ranking {
-  position: absolute;
-  width: 141px;
-  height: 36.96px;
-  left: 1095px;
-  top: 35.02px;
-
-  font-family: "Mochiy Pop One";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 36px;
-  /* identical to box height */
-
-  color: #ffffff;
-}
-
-/* PREDICCIONES */
-.predicciones {
-  position: absolute;
-  width: 229px;
-  height: 36.96px;
-  left: 597px;
-  top: 35.02px;
-
-  font-family: "Mochiy Pop One";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 36px;
-  /* identical to box height */
-
-  color: #ffffff;
-}
-
-.settingsContainer{
-  justify-content: right;
-  width: 10%;
-  margin-right: 10px;
-}
-
-.settingsContainer:hover {
-  background-color: initial;
-}
-
-.settings{
-  background: none;
-  height: 50px;
-  width: 50px;
-}
-
-.settings:hover {
-  filter: brightness(0.7); /* Darker effect on hover */
-}

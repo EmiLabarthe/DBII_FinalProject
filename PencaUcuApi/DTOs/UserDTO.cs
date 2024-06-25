@@ -7,12 +7,12 @@ public class UserDTO
     public string Email { get; set; }
     public string Gender { get; set; }
     public string Password { get; set; }
-    public UserDTO(string id, string firstName, string lastName, string mailAddress, string gender, string password)
+    public UserDTO(string id, string firstName, string lastName, string gender, string email, string password)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
-        Email = mailAddress;
+        Email = email;
         Gender = gender;
         Password = password;
     }

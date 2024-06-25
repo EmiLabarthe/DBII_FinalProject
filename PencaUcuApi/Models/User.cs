@@ -32,6 +32,6 @@ public class User
 
     public UserDTO ToDto()
     {
-        return new UserDTO(Id, FirstName, LastName, Email, Gender, Password);
+        return new UserDTO(Id, FirstName, LastName, Gender, Email, Password);
     }
 }
