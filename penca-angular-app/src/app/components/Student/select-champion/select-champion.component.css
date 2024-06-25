@@ -1,7 +1,7 @@
 
 /* Big screen */
 /* Rectangles and names in comments are references with Figma */
-.container{
+.x{
     width: 100%;
     height: 100%;
     padding: 0;
@@ -65,7 +65,7 @@ h1{
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 25%;
+    height: 34%;
 }
 
 .field{

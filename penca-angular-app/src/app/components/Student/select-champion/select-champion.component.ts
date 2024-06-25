@@ -48,7 +48,7 @@ export class SelectChampionComponent {
       .subscribe({
         next: (response: IStudentTournamentPrediction) => {
           console.log(response);
-          this.router.navigate(['/ranking']);
+          this.router.navigate([`/fixture/${this.studentId}`]);
           alert('Predicción subida con éxito');
         }
       });

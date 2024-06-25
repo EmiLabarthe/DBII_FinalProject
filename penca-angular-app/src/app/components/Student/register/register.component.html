@@ -1,4 +1,4 @@
-<div class="container">
+<div class="x">
   <div class="logo-container">
     <img src="../../../assets/images/logo_copa_blanco.png" />
   </div>
@@ -98,6 +98,30 @@
           >
             <option *ngFor="let gender of genders" [value]="gender">
               {{ gender }}
+            </option>
+          </select>
+          <div
+            [hidden]="gender.valid || gender.pristine"
+            class="alert alert-danger"
+          >
+            Debe completar el campo 'Género'.
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="label-container">
+            <label for="career">Carrera</label>
+          </div>
+          <select
+            class="form-control field"
+            id="career"
+            name="career"
+            name="career"
+            [(ngModel)]="model.Career"
+            #gender="ngModel"
+            required
+          >
+            <option *ngFor="let career of careers" [value]="career.careerId">
+              {{ career.name }}
             </option>
           </select>
           <div
