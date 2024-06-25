@@ -18,15 +18,15 @@ export class RegisterComponent {
 
   careers = CAREERS;
 
-  model = { Id:'', FirstName: '', LastName: '',
-    Gender: '', Email: '', Career: '', Password: '' } as IStudent;
+  model = { id:'', firstName: '', lastName: '',
+    gender: '', email: '', career: '', password: '' } as IStudent;
 
   genders= ['Masculino', 'Femenino', 'Otros'];
 
   async register() {
 
-    this.userService.add(this.model.Id, this.model.FirstName, this.model.LastName,
-      this.model.Gender, this.model.Email, this.model.Career, this.model.Password)
+    this.userService.add(this.model.id, this.model.firstName, this.model.lastName,
+      this.model.gender, this.model.email, this.model.career, this.model.password)
 
       .subscribe({
         next: (response: IStudent) => {

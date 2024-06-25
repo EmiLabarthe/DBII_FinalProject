@@ -101,7 +101,7 @@ public class StudentController : ControllerBase
 
     // /Student/login
     [HttpPost("login")]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserDTO))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserLoginDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Login([FromBody] LoginDTO data)
     {
@@ -111,9 +111,8 @@ public class StudentController : ControllerBase
         }
 
         var query = await _dbContext
-            .UserDTOs.FromSqlRaw(
-                "SELECT * FROM Users as U "
-                    + "INNER JOIN Students as S ON U.Id = S.StudentId AND S.StudentId = @studentId;",
+            .UserLoginDTOs.FromSqlRaw(
+                "SELECT U.Id, U.FirstName, U.LastName, U.Email, U.Gender, U.Password FROM Users as U;",
                 new MySqlParameter("@studentId", data.Id)
             )
             .ToListAsync();
