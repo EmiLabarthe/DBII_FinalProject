@@ -56,7 +56,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] User user)
+    public async Task<IActionResult> Post([FromBody] UserDTO user)
     {
         if (ModelState.IsValid)
         {
@@ -67,10 +67,15 @@ public class UserController : ControllerBase
 
             var student = new StudentDTO(user.Id, 0);
             var result = await PostStudent(student);
+            var careerDTO = new StudentCareerDTO(user.Id, user.Career);
+            var result2 = await PostStudentCareer(careerDTO);
             if (
                 result is ObjectResult objectResult
                 && objectResult.StatusCode >= 200
                 && objectResult.StatusCode <= 299
+                && result2 is ObjectResult objectResult2
+                && objectResult2.StatusCode >= 200
+                && objectResult2.StatusCode <= 299
             )
             {
                 return CreatedAtAction(
@@ -118,6 +123,30 @@ public class UserController : ControllerBase
             new { id = student.StudentId },
             new { message = "Student saved" }
         );
+    }
+
+    [HttpPost("student-career")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(StudentCareerDTO))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> PostStudentCareer([FromBody] StudentCareerDTO student)
+    {
+        if (student == null)
+        {
+            return BadRequest();
+        }
+
+        int rowsAffected = await _dbContext.Database.ExecuteSqlRawAsync(
+            "INSERT INTO StudentCareer (StudentId, CareerId) VALUES (@id, @career)",
+            new MySqlParameter("@id", student.StudentId),
+            new MySqlParameter("@career", student.Career)
+        );
+
+        if (rowsAffected == 0)
+        {
+            return NotFound();
+        }
+
+        return Created("Added to StudentCareer", student);
     }
 
     [HttpGet("{id}")]
