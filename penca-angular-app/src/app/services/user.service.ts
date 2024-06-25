@@ -66,10 +66,10 @@ export class UserService {
   * @param password 
   * @returns 
   */
-  add(id: string, firstName: string, lastName: string, gender: string, mailAddress: string, password: string): Observable<IStudent> {
+  add(id: string, firstName: string, lastName: string, gender: string, mailAddress: string, career: string, password: string): Observable<IStudent> {
     const url = `${this.usersUrl}`;
     return this.http.post<IStudent>
-    (url, { Id: id, FirstName: firstName, LastName: lastName, Email: mailAddress, Gender: gender, Password: password }, this.httpOptions)
+    (url, { Id: id, FirstName: firstName, LastName: lastName, Email: mailAddress, Gender: gender,Career: career, Password: password }, this.httpOptions)
     .pipe(
       tap((response: any) => 
         console.log(response.message)),
