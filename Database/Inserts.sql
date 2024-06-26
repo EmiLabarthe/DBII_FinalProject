@@ -19,10 +19,24 @@ INSERT INTO Users (Id, FirstName, LastName, Gender, Email, Password) VALUES
 ('77777777', 'Camila', 'Fernández', 'Femenino', 'camila.fernandez@ucu.com', '123456'),
 ('88888888', 'Sebastián', 'López', 'Masculino', 'sebastian.lopez@ucu.com', '123456'),
 ('99999999', 'Natalia', 'Sánchez', 'Femenino', 'natalia.sanchez@ucu.com', '123456'),
-('12121212', 'Alejandro', 'Ruiz', 'Masculino', 'alejandro.ruiz@ucu.com', '123456');
+('12121212', 'Alejandro', 'Ruiz', 'Masculino', 'alejandro.ruiz@ucu.com', '123456'),
+('10101010', 'Fernando', 'Castro', 'Masculino', 'fernando.castro@ucu.com', '123456'),
+('12131415', 'Lucía', 'Romero', 'Femenino', 'lucia.romero@ucu.com', '123456'),
+('16171819', 'Carlos', 'Ramírez', 'Masculino', 'carlos.ramirez@ucu.com', '123456'),
+('20212223', 'Sofía', 'Ortiz', 'Femenino', 'sofia.ortiz@ucu.com', '123456'),
+('24252627', 'Diego', 'Silva', 'Masculino', 'diego.silva@ucu.com', '123456'),
+('28293031', 'Mariana', 'Morales', 'Femenino', 'mariana.morales@ucu.com', '123456'),
+('32333435', 'Pablo', 'Jiménez', 'Masculino', 'pablo.jimenez@ucu.com', '123456'),
+('36373839', 'Adriana', 'Ramos', 'Femenino', 'adriana.ramos@ucu.com', '123456'),
+('40414243', 'Gabriel', 'Vargas', 'Masculino', 'gabriel.vargas@ucu.com', '123456'),
+('44454647', 'Laura', 'Castillo', 'Femenino', 'laura.castillo@ucu.com', '123456');
 
 INSERT INTO Students (StudentId) VALUES
-('11111111'), ('22222222'), ('44444444'), ('55555555'), ('66666666'), ('77777777'), ('99999999');
+('11111111'), ('22222222'), ('44444444'), ('55555555'), 
+('66666666'), ('77777777'), ('99999999'),('10101010'), 
+('12131415'), ('16171819'), ('20212223'), ('24252627'), 
+('28293031'), ('32333435'), ('36373839'), ('40414243'), 
+('44454647');
 
 INSERT INTO Administrators (AdminId) VALUES
 ('33333333'), ('88888888'), ('12121212');
@@ -35,7 +49,10 @@ INSERT INTO Careers (Name) VALUES
 
 INSERT INTO StudentCareer (StudentId, CareerId) VALUES
 ('11111111', 1), ('22222222', 1), ('44444444', 2), ('55555555', 2),
-('66666666', 3), ('77777777', 1), ('99999999', 3);
+('66666666', 3), ('77777777', 1), ('99999999', 3), ('10101010', 2), 
+('12131415', 4), ('16171819', 4), ('20212223', 2), ('24252627', 1), 
+('28293031', 1), ('32333435', 4), ('36373839', 3), ('40414243', 2), 
+('44454647', 3);
 
 INSERT INTO NationalTeams (CountryName, GroupStageId) VALUES
 ('Argentina', 'A'), ('Perú', 'A'), ('Chile', 'A'), ('Canadá', 'A'),
