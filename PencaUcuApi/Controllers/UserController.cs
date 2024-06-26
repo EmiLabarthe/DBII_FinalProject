@@ -56,7 +56,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] UserDTO user)
+    public async Task<IActionResult> Post([FromBody] RegistryDTO user)
     {
         if (ModelState.IsValid)
         {

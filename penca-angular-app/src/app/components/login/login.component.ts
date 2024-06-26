@@ -24,7 +24,6 @@ export class LoginComponent {
   login(): void {
     if (this.model.id && this.model.password && this.model.type) {
       if (this.model.type === this.userTypes[0]) { // Administrator login
-        /*
         this.adminService.login(this.model.id, this.model.password).subscribe({
           next: (response: IUser) => {
             console.log(response);
@@ -40,7 +39,7 @@ export class LoginComponent {
             console.error('Error logging admin in: ', error);
             alert('Error al iniciar sesión como admin. Por favor, vuelva a intentar.');
           }
-        });*/
+        });
         this.router.navigate([`/create-match`]);
       } else { // Student login
         this.studentService.login(this.model.id, this.model.password).subscribe({
