@@ -31,6 +31,10 @@ public class MyDbContext : DbContext
     public DbSet<PredictionResultItemDTO> PredictionResultItemDTO { get; set; }
     public DbSet<TournamentResultDTO> TournamentResultDTO { get; set; }
 
+    public DbSet<NotificationDTO> NotificationDTO { get; set; }
+    public DbSet<TodayMatchesDTO> TodayMatchesDTO { get; set; }
+
+
     public MyDbContext(DbContextOptions<MyDbContext> options)
         : base(options) { }
 
@@ -50,5 +54,9 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<PredictionResultItemDTO>().HasNoKey();
         modelBuilder.Entity<MatchResultDTO>().HasNoKey();
         modelBuilder.Entity<TournamentResultDTO>().HasNoKey();
+        modelBuilder.Entity<NotificationDTO>().HasNoKey();
+        modelBuilder.Entity<TodayMatchesDTO>().HasNoKey();
+
+
     }
 }
