@@ -41,7 +41,7 @@ export class UserService {
   * @returns IUser found, or 404 if id not found
   */
   getUser(id: string): Observable<IUser> {
-    if (this.cachedUser && this.cachedUser.Id === id) {
+    if (this.cachedUser && this.cachedUser.id === id) {
       return of(this.cachedUser); // Return the cached user if it equals the requested ID
     } else {
       const url = `${this.usersUrl}/${id}`;
@@ -66,35 +66,15 @@ export class UserService {
   * @param password 
   * @returns 
   */
-  add(id: string, firstName: string, lastName: string, gender: string, mailAddress: string, password: string): Observable<IStudent> {
+  add(id: string, firstName: string, lastName: string, gender: string, mailAddress: string, career: string, password: string): Observable<IStudent> {
     const url = `${this.usersUrl}`;
     return this.http.post<IStudent>
-    (url, { Id: id, FirstName: firstName, LastName: lastName, Email: mailAddress, Gender: gender, Password: password }, this.httpOptions)
+    (url, { Id: id, FirstName: firstName, LastName: lastName, Email: mailAddress, Gender: gender,Career: career, Password: password }, this.httpOptions)
     .pipe(
       tap((response: any) => 
         console.log(response.message)),
       catchError(this.handleError<IStudent>('add'))
     );
-  }
-  
-  /** POST: log of specified student
-  * 
-  * @param id 
-  * @param password 
-  * @returns 
-  */
-  logStudentIn(id: string, password: string): Observable<IStudent> {
-    return this.studentService.login(id, password);
-  }
-  
-  /** POST: log of specified admin
-  * 
-  * @param id 
-  * @param password 
-  * @returns 
-  */
-  logAdministratorIn(id: string, password: string): Observable<IUser> {
-    return this.administratorService.login(id, password);
   }
   
   /**

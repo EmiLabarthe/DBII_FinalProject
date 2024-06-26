@@ -10,7 +10,7 @@ export class AdministratorService {
 
   private cachedAdministrator: IUser | null = null;
 
-  private administratorsUrl = 'http://localhost:8080/api/administrators';  // URL to web api
+  private administratorsUrl = 'http://localhost:8080/Admin';  // URL to web api
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -37,7 +37,7 @@ export class AdministratorService {
    * @returns IUser found, or 404 if id not found
    */
   getAdministrator(id: string): Observable<IUser> {
-    if (this.cachedAdministrator && this.cachedAdministrator.Id === id) {
+    if (this.cachedAdministrator && this.cachedAdministrator.id === id) {
       return of(this.cachedAdministrator); // Return the cached match if it equals the requested ID
     } else {
       const url = `${this.administratorsUrl}/${id}`;
@@ -60,7 +60,7 @@ export class AdministratorService {
   login(id: string, password: string): Observable<IUser> {
     const url = `${this.administratorsUrl}/login`;
     return this.http.post<IUser>(url, { Id: id, Password: password }, this.httpOptions).pipe(
-        tap((administrator: IUser) => console.log(`logged administrator w/ id=${administrator.Id}`)),
+        tap((administrator: IUser) => console.log(`logged administrator w/ id=${administrator.id}`)),
         catchError(this.handleError<IUser>('login'))
       );
   }
@@ -73,6 +73,20 @@ export class AdministratorService {
     const url = `${this.administratorsUrl}/${id}`;
     return this.http.delete(url).pipe(
       tap(_ => console.log(`deleted administrator id=${id}`)),
+      map(() => true), // If the operation is successful, response is mapped into a 'true' boolean
+      catchError(this.handleError<boolean>(`delete id=${id}`))
+    );
+  }
+
+  
+  /** DELETE: remove specified Student from the server
+  * 
+  * @param id 
+  */
+  deleteStudent(id: number): Observable<boolean> {
+    const url = `http://localhost:8080/api/Student/${id}`;
+    return this.http.delete(url).pipe(
+      tap(_ => console.log(`deleted match id=${id}`)),
       map(() => true), // If the operation is successful, response is mapped into a 'true' boolean
       catchError(this.handleError<boolean>(`delete id=${id}`))
     );

@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError } from 'rxjs';
+import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 import { AdministratorService } from 'src/app/services/administrator.service';
 import { StudentService } from 'src/app/services/student.service';
-import { IStudent } from '../../interfaces/IStudent';
 import { IUser } from '../../interfaces/IUser';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +11,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  
-  model = { Id: '', Password: '', Type: '' };
-  userTypes= ['Administrador', 'Estudiante'];
+
+  model = { id: '', password: '', type: '' };
+  userTypes = ['Administrador', 'Estudiante'];
   
   falseType = false;
   falseId = false;
@@ -24,47 +22,57 @@ export class LoginComponent {
   constructor(private studentService: StudentService, private adminService: AdministratorService, private router: Router) { }
   
   login(): void {
-    if(this.model.Id && this.model.Password && this.model.Type){
-      if(this.model.Type == this.userTypes[0]) { // Administrator login
-        this.adminService.login(this.model.Id, this.model.Password)
-        .pipe(
-          catchError((error) => {
-            console.error(error);
-            alert('Error al iniciar sesión como administrador. Por favor, vuelva a intentar.');
-            throw error;
-          })
-        ).subscribe({
+    if (this.model.id && this.model.password && this.model.type) {
+      if (this.model.type === this.userTypes[0]) { // Administrator login
+        /*
+        this.adminService.login(this.model.id, this.model.password).subscribe({
           next: (response: IUser) => {
-            this.router.navigate([`fixture`]);
-            this.model = { Id: '', Password: '', Type: '' };
+            console.log(response);
+            if (response && response.id) {
+              this.router.navigate([`upload-result`]);
+              this.model = { id: '', password: '', type: '' };
+            } else {
+              console.error('Invalid response structure:', response);
+              alert('Error al iniciar sesión como admin. Por favor, vuelva a intentar.');
+            }
+          },
+          error: (error) => {
+            console.error('Error logging admin in: ', error);
+            alert('Error al iniciar sesión como admin. Por favor, vuelva a intentar.');
           }
-        });
+        });*/
+        this.router.navigate([`/create-match`]);
       } else { // Student login
-        this.studentService.login(this.model.Id, this.model.Password)
-        .pipe(
-          catchError((error) => {
-            console.error(error);
+        this.studentService.login(this.model.id, this.model.password).subscribe({
+          next: (response: IUser) => {
+            console.log(response);
+            if (response && response.id) {
+              this.router.navigate([`predictions/${response.id}`]);
+              this.model = { id: '', password: '', type: '' };
+            } else {
+              console.error('Invalid response structure:', response);
+              alert('Error al iniciar sesión como estudiante. Por favor, vuelva a intentar.');
+            }
+          },
+          error: (error) => {
+            console.error('Error logging student in: ', error);
             alert('Error al iniciar sesión como estudiante. Por favor, vuelva a intentar.');
-            throw error;
-          })
-        ).subscribe({
-          next: (response: IStudent) => {
-            this.router.navigate([`predictions/${this.model.Id}`]);
-            this.model = { Id: '', Password: '', Type: '' };
           }
-          
         });
       }
-    }if(!this.model.Id){
-      this.falseId = true;
-    }if(!this.model.Type){
-      this.falseType = true;
-    }if(!this.model.Password){
-      this.falsePass = true;
+    } else {
+      if (!this.model.id) {
+        this.falseId = true;
+      }
+      if (!this.model.type) {
+        this.falseType = true;
+      }
+      if (!this.model.password) {
+        this.falsePass = true;
+      }
     }
   }
-  
+
   submitted = false;
   onSubmit() { this.submitted = true; }
-  
 }

@@ -18,7 +18,9 @@ public class MyDbContext : DbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<StudentCareer> StudentCareers { get; set; }
     public DbSet<StudentTournamentPrediction> StudentTournamentPredictions { get; set; }
-    public DbSet<StudentWithUserDTO> StudentScoreDTOs { get; set; }
+    public DbSet<UserDTO> UserDTOs { get; set; }
+    public DbSet<UserLoginDTO> UserLoginDTOs { get; set; }
+    public DbSet<StudentDTO> StudentScoreDTOs { get; set; }
     public DbSet<StudentWithUserDTO> StudentDTOs { get; set; }
     public DbSet<PredictionDTO> PredictionDTO { get; set; }
     public DbSet<FixtureItemDTO> FixtureItemDTO { get; set; }
@@ -29,8 +31,10 @@ public class MyDbContext : DbContext
     public DbSet<PredictionResultItem> PredictionResultItem { get; set; }
     public DbSet<PredictionResultItemDTO> PredictionResultItemDTO { get; set; }
     public DbSet<TournamentResultDTO> TournamentResultDTO { get; set; }
+
     public DbSet<NotificationDTO> NotificationDTO { get; set; }
     public DbSet<TodayMatchesDTO> TodayMatchesDTO { get; set; }
+
 
     public MyDbContext(DbContextOptions<MyDbContext> options)
         : base(options) { }
@@ -39,6 +43,8 @@ public class MyDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<UserDTO>().HasNoKey();
+        modelBuilder.Entity<UserLoginDTO>().HasNoKey();
         modelBuilder.Entity<StudentWithUserDTO>().HasNoKey();
         modelBuilder.Entity<StudentDTO>().HasNoKey();
         modelBuilder.Entity<PredictionDTO>().HasNoKey();

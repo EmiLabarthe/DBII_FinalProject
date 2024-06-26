@@ -179,7 +179,7 @@ public class PredictionController : ControllerBase
                         + "FROM Matches as M "
                         + "LEFT JOIN Predictions as P ON M.Id = P.MatchId AND P.StudentId = @studentId "
                         + "LEFT JOIN Stadiums as S ON M.StadiumId = S.Id "
-                        + "WHERE M.Date > @currentTime",
+                        + "WHERE M.Date > DATE_ADD(@currentTime, INTERVAL 1 HOUR)",
                     new MySqlParameter("@studentId", studentId),
                     new MySqlParameter("@currentTime", currentTime)
                 )
