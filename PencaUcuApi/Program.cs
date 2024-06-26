@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using PencaUcuApi.Scheduler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,4 +48,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Tarea para avisar por mail de predicciones
+DailyTaskScheduler scheduler = new DailyTaskScheduler();
+DailyTaskScheduler.connectionString = connectionString;
+scheduler.Start();
 app.Run();
