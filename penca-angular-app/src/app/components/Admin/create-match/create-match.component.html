@@ -1,107 +1,109 @@
 <app-admin-menu></app-admin-menu>
-<div class="container">
-  <div [hidden]="submitted">
-    <h1>Registro de Partido</h1>
-    <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
-      <div class="form-group">
-        <label for="localNationalTeam">Selección 'Local'</label>
-        <select
-          class="form-control"
-          id="localNationalTeam"
-          required
-          [(ngModel)]="model.LocalNationalTeam"
-          name="localNationalTeam"
-          #localNationalTeam="ngModel"
-        >
-          <option
-            *ngFor="let nationalTeam of nationalTeams"
-            [value]="nationalTeam.CountryName"
+<div class="screenboard">
+  <div class="wrapper">
+    <div [hidden]="submitted">
+      <h1>Registro de Partido</h1>
+      <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
+        <div class="form-group">
+          <label for="localNationalTeam">Selección 'Local'</label>
+          <select
+            class="form-control"
+            id="localNationalTeam"
+            required
+            [(ngModel)]="model.LocalNationalTeam"
+            name="localNationalTeam"
+            #localNationalTeam="ngModel"
           >
-            {{ nationalTeam.CountryName }}
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="visitorNationalTeam">Selección 'Visitante'</label>
-        <select
-          class="form-control"
-          id="visitorNationalTeam"
-          required
-          [(ngModel)]="model.VisitorNationalTeam"
-          name="visitorNationalTeam"
-          #visitorNationalTeam="ngModel"
-        >
-          <option
-            *ngFor="let visitorNationalTeam of nationalTeams"
-            [value]="visitorNationalTeam.CountryName"
+            <option
+              *ngFor="let nationalTeam of nationalTeams"
+              [value]="nationalTeam.CountryName"
+            >
+              {{ nationalTeam.CountryName }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="visitorNationalTeam">Selección 'Visitante'</label>
+          <select
+            class="form-control"
+            id="visitorNationalTeam"
+            required
+            [(ngModel)]="model.VisitorNationalTeam"
+            name="visitorNationalTeam"
+            #visitorNationalTeam="ngModel"
           >
-            {{ visitorNationalTeam.CountryName }}
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="stadium">Estadio</label>
-        <select
-          class="form-control"
-          id="stadium"
-          required
-          [(ngModel)]="model.StadiumId"
-          name="stadium"
-          #stadium="ngModel"
-        >
-          <option *ngFor="let stadium of stadiums" [value]="stadium.Id">
-            {{ stadium.Name }}
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="date">Fecha</label>
-        <input
-          type="date"
-          class="form-control"
-          id="date"
-          required
-          [(ngModel)]="model2.Date"
-          name="date"
-          #date="ngModel"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="time">Hora</label>
-        <input
-          type="time"
-          class="form-control"
-          id="time"
-          required
-          [(ngModel)]="model2.Time"
-          name="time"
-          #time="ngModel"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="StageId">Stage</label>
-        <select
-          class="form-control"
-          id="StageId"
-          required
-          [(ngModel)]="model.StageId"
-          name="stageId"
-          #localNationalTeam="ngModel"
-        >
-          <option *ngFor="let stage of stages" [value]="stage">
-            {{ stage }}
-          </option>
-        </select>
-      </div>
-
-      <button type="button" class="btn btn-success" (click)="createMatch()">
-        Registrar Partido
-      </button>
-    </form>
+            <option
+              *ngFor="let visitorNationalTeam of nationalTeams"
+              [value]="visitorNationalTeam.CountryName"
+            >
+              {{ visitorNationalTeam.CountryName }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="stadium">Estadio</label>
+          <select
+            class="form-control"
+            id="stadium"
+            required
+            [(ngModel)]="model.StadiumId"
+            name="stadium"
+            #stadium="ngModel"
+          >
+            <option *ngFor="let stadium of stadiums" [value]="stadium.Id">
+              {{ stadium.Name }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="date">Fecha</label>
+          <input
+            type="date"
+            class="form-control"
+            id="date"
+            required
+            [(ngModel)]="model2.Date"
+            name="date"
+            #date="ngModel"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label for="time">Hora</label>
+          <input
+            type="time"
+            class="form-control"
+            id="time"
+            required
+            [(ngModel)]="model2.Time"
+            name="time"
+            #time="ngModel"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label for="StageId">Stage</label>
+          <select
+            class="form-control"
+            id="StageId"
+            required
+            [(ngModel)]="model.StageId"
+            name="stageId"
+            #localNationalTeam="ngModel"
+          >
+            <option *ngFor="let stage of stages" [value]="stage">
+              {{ stage }}
+            </option>
+          </select>
+        </div>
+  
+        <button type="button" class="btn" (click)="createMatch()">
+          Registrar Partido
+        </button>
+      </form>
+    </div>
   </div>
 </div>

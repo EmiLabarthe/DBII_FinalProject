@@ -10,7 +10,6 @@ body {
 }
 
 .matches-container {
-  margin-top: 50px;
   padding-top: 20px;
   display: grid;
   justify-items: center;
@@ -18,7 +17,9 @@ body {
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   width: 100%;
-  background: linear-gradient(to bottom, #0d0062, #366bff);
+  min-height: 100vh;
+  background: linear-gradient(180deg, #184098 70.5%, #031a3c 100%);
+  align-content: flex-start; 
 }
 
 .match-item-container {
@@ -184,17 +185,71 @@ body {
   opacity: 1;
 }
 
+/* navbar */
+/* Rectangle 18 */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  background: #184098;
+  border-bottom: rgb(253, 42, 42, 1) solid 6px;
+  box-shadow: 6px 10px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* logo_copa_blanco 2 */
+.logo {
+  position: absolute;
+  width: 321px;
+  height: 84.2px;
+  left: 24px;
+  top: 11.4px;
+}
+
+img {
+  width: 150px;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+}
+
+/* FIXTURE */
+.section {
+  position: relative;
+  width: 200px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #184098;
+
+  height: 100%;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-style: normal;
+  font-size: 25px;
+  color: #ffffff;
+}
+.section:hover {
+  background-color: #2657d2b5;
+}
+
 @media (max-width: 840px) {
   .matches-container {
-    margin-top: 50px;
-    padding-top: 20px;
     display: flex;
     flex-direction: column;
     justify-items: center;
     align-items: center;
     gap: 20px;
     width: 100%;
-    width: 100%;
-    background: linear-gradient(to bottom, #0d0062, #366bff);
   }
 }
