@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, catchError } from 'rxjs';
+import * as $ from 'jquery';
 import { NATION_FLAGS } from 'src/app/constants/nationFlags';
 import { IPredictionResultItem } from 'src/app/interfaces/IPredictionResultItem';
 import { ResultService } from 'src/app/services/result.service';
@@ -10,7 +10,7 @@ import { ResultService } from 'src/app/services/result.service';
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css']
 })
-export class ResultsComponent {
+export class ResultsComponent implements OnInit, AfterViewInit {
   results: IPredictionResultItem[] | undefined;
   
   nationFlags= NATION_FLAGS;
@@ -19,6 +19,10 @@ export class ResultsComponent {
   
   constructor(private route: ActivatedRoute, private resultService: ResultService) { }
   
+  ngAfterViewInit() {
+    ($('[data-toggle="tooltip"]') as any).tooltip();
+  }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       const studentId = params['studentId'];

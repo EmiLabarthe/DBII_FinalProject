@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import * as $ from 'jquery';
 import { ActivatedRoute } from '@angular/router';
 import { NATION_FLAGS } from 'src/app/constants/nationFlags';
 import { IPredictionItem } from 'src/app/interfaces/IPredictionItem';
@@ -9,7 +10,7 @@ import { PredictionService } from 'src/app/services/prediction.service';
   templateUrl: './predictions.component.html',
   styleUrls: ['./predictions.component.css',]
 })
-export class PredictionsComponent implements OnInit {
+export class PredictionsComponent implements OnInit, AfterViewInit {
   
   predictions: IPredictionItem[] | undefined;
   originalPredictions: IPredictionItem[] | undefined;
@@ -20,6 +21,10 @@ export class PredictionsComponent implements OnInit {
   
   constructor(private route: ActivatedRoute, private predictionService: PredictionService) { }
   
+  ngAfterViewInit() {
+    ($('[data-toggle="tooltip"]') as any).tooltip();
+  }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       const studentId = params['studentId'];

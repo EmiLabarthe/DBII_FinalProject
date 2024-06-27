@@ -40,6 +40,7 @@ export class LoginComponent {
             alert('Error al iniciar sesión como admin. Por favor, vuelva a intentar.');
           }
         });
+        this.router.navigate([`/create-match`]);
       } else { // Student login
         this.studentService.login(this.model.id, this.model.password).subscribe({
           next: (response: IUser) => {
