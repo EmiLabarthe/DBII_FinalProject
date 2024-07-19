@@ -1,45 +1,36 @@
-/* Big screen */
-/* Rectangles and names in comments are references with Figma */
+/* Mobile-first */
 
 .screenboard {
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   padding: 0;
+  margin: 0;
   display: flex;
-  position: absolute;
-  justify-content: space-around;
-  background: linear-gradient(180deg, #184098 70.5%, #031a3c 100%);
-}
-
-.logo-container {
-  position: relative;
-  display: flex;
-  height: 90%;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 40%;
+  background-image: url('../../../assets/images/background.jpg');
 }
 
-.logo-container img {
+img {
   height: auto;
-  width: 400px;
+  width: 300px;
 }
 
-h1 {
+h2 {
   margin-top: 30px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-style: normal;
   color: white;
 }
 
-/* Rectangle 1 */
 .form-container {
   box-sizing: border-box;
   position: relative;
   padding: 0;
   justify-content: center;
   text-align: center;
-  width: 32%;
+  width: 60%;
   height: 70%;
   top: 13%;
   background: linear-gradient(180deg, #184098 84.5%, #173a4e 100%);
@@ -47,6 +38,7 @@ h1 {
   box-shadow: 0 2px 4px rgba(255, 255, 255, 255);
   border-radius: 34px;
 }
+
 .my-form {
   padding: 40px 0;
   margin: 0;
@@ -129,37 +121,16 @@ a {
   color: red;
 }
 
-/* Phone */
-@media (max-width: 800px) {
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Laptop screen */
+@media (min-width: 840px) {
+  .screenboard {
+    flex-direction: row;
     justify-content: space-around;
-    height: 100%;
-  }
-
-  .logo-container {
-    width: 90%;
-    height: 15%;
-    margin-top: 0px;
-    margin-bottom: 0;
+    align-items: center;
   }
 
   .form-container {
-    left: initial;
-    width: 80%;
-    height: 70%;
-    margin-top: 0px;
-    top: initial;
+    width: 45%;
   }
-}
 
-@media (max-width: 840px) {
-  .screenboard {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-  }
 }

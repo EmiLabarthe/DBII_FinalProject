@@ -1,76 +1,42 @@
 <div class="screenboard">
-  <div class="logo-container">
-    <img src="../../../assets/images/logo_copa_blanco.png" />
-  </div>
+  <img src="../../../assets/images/logo_copa_blanco.png" />
   <div class="form-container">
     <form (ngSubmit)="onSubmit()" #activityForm="ngForm" class="my-form">
-      <h1>LOGIN</h1>
-      <div class="fields-group">
-        <div class="form-group">
-          <div class="label-container">
-            <label for="type">Tipo de Usuario</label>
-          </div>
-          <select
-            class="form-control field"
-            id="type"
-            [(ngModel)]="model.type"
-            name="type"
-            #type="ngModel"
-            required
-          >
-            <option *ngFor="let type of userTypes" [value]="type">
-              {{ type }}
-            </option>
-          </select>
-          <div [hidden]="!falseType" class="alert alert-danger sin-cuenta">
-            Debe completar el campo 'Tipo de usuario'
-          </div>
+      <h2>Sign In</h2>
+      <div class="inputField">
+        <select class="form-control field" id="type" [(ngModel)]="model.type" name="type" #type="ngModel" required>
+          <option *ngFor="let type of userTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+        <span>User Type</span>
+        <i></i>
+        <div [hidden]="!falseType" class="alert alert-danger sin-cuenta">
+          Missing value for 'User Type'.
         </div>
+      </div>
 
-        <div class="form-group">
-          <div class="label-container">
-            <label for="id">Cédula de Identidad</label>
-          </div>
-          <input
-            type="text"
-            class="form-control field"
-            placeholder="CI"
-            name="id"
-            id="id"
-            [(ngModel)]="model.id"
-            #id="ngModel"
-            required
-          />
-        </div>
-        <div [hidden]="!falseId" class="alert alert-danger sin-cuenta">
-          Debe completar el campo 'Cédula de Identidad'.
-        </div>
-        <div class="form-group">
-          <div class="label-container">
-            <label for="password">Contraseña</label>
-          </div>
-          <input
-            type="password"
-            class="form-control field"
-            placeholder="Contraseña"
-            name="pass"
-            id="password"
-            [(ngModel)]="model.password"
-            #password="ngModel"
-          />
-          <div [hidden]="!falsePass" class="alert alert-danger sin-cuenta">
-            Debe completar el campo 'Contraseña'.
-          </div>
+      <div class="inputField">
+        <input type="text" class="form-control field" name="id" id="id" [(ngModel)]="model.id" #id="ngModel" required />
+        <span>Id</span>
+        <i></i>
+      </div>
+      <div [hidden]="!falseId" class="alert alert-danger sin-cuenta">
+        Missing value for 'Id'.
+      </div>
+      <div class="inputField">
+        <input type="password" class="form-control field" name="pass" id="password" [(ngModel)]="model.password"
+          #password="ngModel" />
+        <span>Password</span>
+        <i></i>
+        <div [hidden]="!falsePass" class="alert alert-danger sin-cuenta">
+          Missing value for 'Password'.
         </div>
       </div>
-      <button type="button" class="btn btn-login" (click)="login()">
-        INICIAR SESIÓN
-      </button>
-      <div class="sin-cuenta-container">
-        <p class="sin-cuenta">
-          No tienes una cuenta? <a href="/register"><u>Registrate aquí</u></a>
-        </p>
+      <div class="links">
+        <a href="/register">Sign Up</a>
       </div>
+      <input type="submit" value="Login" (click)="login()">
     </form>
   </div>
 </div>
