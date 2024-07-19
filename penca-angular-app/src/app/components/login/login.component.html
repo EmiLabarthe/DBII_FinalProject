@@ -1,42 +1,39 @@
 <div class="screenboard">
-  <img src="../../../assets/images/logo_copa_blanco.png" />
-  <div class="form-container">
-    <form (ngSubmit)="onSubmit()" #activityForm="ngForm" class="my-form">
+  <picture>
+    <source media="(min-width:840px)" srcset="../../../assets/images/logo-vertical.png">
+    <img src="../../../assets/images/logo_copa_blanco.png" alt="logo" />
+  </picture>
+  <div class="box">
+    <form (ngSubmit)="login()" #loginForm="ngForm">
       <h2>Sign In</h2>
       <div class="inputField">
-        <select class="form-control field" id="type" [(ngModel)]="model.type" name="type" #type="ngModel" required>
+        <select [(ngModel)]="model.type" name="type" #type="ngModel" required aria-describedby="userTypeError">
+          <option value="" disabled selected></option>
           <option *ngFor="let type of userTypes" [value]="type">
             {{ type }}
           </option>
         </select>
         <span>User Type</span>
-        <i></i>
-        <div [hidden]="!falseType" class="alert alert-danger sin-cuenta">
-          Missing value for 'User Type'.
-        </div>
+        <i class="blank"></i>
+        <div id="userTypeError" class="error-message" *ngIf="type.invalid && type.touched">Please select a user type.</div>
       </div>
-
       <div class="inputField">
-        <input type="text" class="form-control field" name="id" id="id" [(ngModel)]="model.id" #id="ngModel" required />
+        <input type="text" [(ngModel)]="model.id" name="id" #id="ngModel" required />
         <span>Id</span>
-        <i></i>
-      </div>
-      <div [hidden]="!falseId" class="alert alert-danger sin-cuenta">
-        Missing value for 'Id'.
+        <i class="blank"></i>
+        <div id="idError" class="error-message" *ngIf="id.invalid && id.touched">Please enter your ID.</div>
       </div>
       <div class="inputField">
-        <input type="password" class="form-control field" name="pass" id="password" [(ngModel)]="model.password"
-          #password="ngModel" />
+        <input type="password" [(ngModel)]="model.password" name="password" #password="ngModel" required minlength="1" />
         <span>Password</span>
-        <i></i>
-        <div [hidden]="!falsePass" class="alert alert-danger sin-cuenta">
-          Missing value for 'Password'.
-        </div>
+        <i class="blank"></i>
+        <div id="passwordError" class="error-message" *ngIf="password.invalid && password.touched">Please enter your password.</div>
       </div>
-      <div class="links">
-        <a href="/register">Sign Up</a>
-      </div>
-      <input type="submit" value="Login" (click)="login()">
+      <a href="/register">Sign Up</a>
+      <input type="submit" value="Login" [disabled]="loginForm.invalid">
     </form>
   </div>
+  <picture class="footballs">
+    <img src="../../../assets/images/footballs.png" alt="logo" />
+  </picture>
 </div>
