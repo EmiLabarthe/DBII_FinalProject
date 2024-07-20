@@ -197,7 +197,7 @@ body {
   display: flex;
   justify-content: space-between;
   background: #184098;
-  border-bottom: rgb(253, 42, 42, 1) solid 6px;
+  border-bottom: #fd2b2b solid 6px;
   box-shadow: 6px 10px 8px rgba(0, 0, 0, 0.25);
 }
 
