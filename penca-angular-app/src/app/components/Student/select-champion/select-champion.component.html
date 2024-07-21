@@ -1,61 +1,60 @@
-<div class="x">
-  <div class="logo-container">
-    <img src="../../../assets/images/logo_copa_blanco.png" />
-  </div>
-  <div class="form-container">
-    <form (ngSubmit)="upload()" class="my-form">
-      <h1>Predicción de torneo</h1>
-      <div class="fields-group">
-        <div class="form-group">
-          <div class="label-container">
-            <label for="ChampionId">Campeón</label>
+<div class="screenboard">
+  <picture>
+    <source media="(min-width:840px)" srcset="../../../../assets/images/logo-vertical.png">
+    <img src="../../../../assets/images/logo_copa_blanco.png" alt="logo" />
+  </picture>
+  <div class="box">
+    <form (ngSubmit)="upload()" #predictionForm="ngForm">
+      <div class="wrapper">
+        <i class="bi bi-info-circle-fill info-icon"></i>
+        <div class="popUp">
+          <img class="cover" src="../../../../assets/images/popUp-background.jfif" alt="cover" />
+          <p>¡Careful! Once you submit this predictions, you will not be able to change them. Please make sure your
+            selections are final before confirming.</p>
+          <div class="points">
+            <p>Asserting champion | 10 points</p>
+            <p>Asserting vice-champion prediction | 5 points</p>
           </div>
-          <select
-            class="form-control field"
-            id="ChampionId"
-            name="ChampionId"
-            [(ngModel)]="model.ChampionId"
-            #ChampionId="ngModel"
-            required
-          >
-            <option *ngFor="let team of teams" [value]="team">
-              {{ team }}
-            </option>
-          </select>
-          <div
-            [hidden]="ChampionId.valid || ChampionId.pristine"
-            class="alert alert-danger"
-          >
-            Debe completar el campo 'Campeón'.
-          </div>
+          <p>Once the tournament ends, points will be automatically added to your score according to your predictions
+          </p>
         </div>
-        <div class="form-group">
-          <div class="label-container">
-            <label for="ViceChampionId">Vice campeón</label>
+        <h2>Tournament Predictions</h2>
+        <div class="fields-wrapper">
+          <div class="inputField">
+            <select [(ngModel)]="model.ChampionId" name="championId" #championId="ngModel" required
+              aria-describedby="championIdError">
+              <option value="" disabled selected></option>
+              <option *ngFor="let nationalTeam of nationalTeams" [value]="nationalTeam">
+                {{ nationalTeam }}
+              </option>
+            </select>
+            <span>Champion</span>
+            <i class="blank"></i>
+            <div id="championIdError" class="error-message" *ngIf="championId.invalid && championId.touched">Please
+              select your champion prediction.
+            </div>
           </div>
-          <select
-            class="form-control field"
-            id="ViceChampionId"
-            name="ViceChampionId"
-            [(ngModel)]="model.ViceChampionId"
-            #ViceChampionId="ngModel"
-            required
-          >
-            <option *ngFor="let team of teams" [value]="team">
-              {{ team }}
-            </option>
-          </select>
-          <div
-            [hidden]="ViceChampionId.valid || ViceChampionId.pristine"
-            class="alert alert-danger"
-          >
-            Debe completar el campo 'Campeón'.
+          <div class="inputField">
+            <select [(ngModel)]="model.ViceChampionId" name="viceChampionId" #viceChampionId="ngModel" required
+              aria-describedby="viceChampionIdError">
+              <option value="" disabled selected></option>
+              <option *ngFor="let nationalTeam of nationalTeams" [value]="nationalTeam">
+                {{ nationalTeam }}
+              </option>
+            </select>
+            <span>Vice-Champion</span>
+            <i class="blank"></i>
+            <div id="viceChampionIdError" class="error-message"
+              *ngIf="viceChampionId.invalid && viceChampionId.touched">
+              Please select your vice-champion prediction.
+            </div>
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-login" (click)="upload()">
-        Guardar predicción
-      </button>
+      <input type="submit" value="Confirm" [disabled]="predictionForm.invalid">
     </form>
   </div>
+  <picture class="footballs">
+    <img src="../../../assets/images/footballs.png" alt="logo" />
+  </picture>
 </div>

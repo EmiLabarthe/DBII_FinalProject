@@ -214,6 +214,10 @@ img {
 .box form input[type="submit"]:valid {
   opacity: 0.8;
 }
+.box form input[type="submit"]:hover {
+  transform: translate(1px, 1px);
+  background: #b52222;
+}
 
 .error-message {
   color: #ff2f2f;
