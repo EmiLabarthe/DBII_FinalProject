@@ -1,159 +1,77 @@
-<div class="x">
-  <div class="logo-container">
-    <img src="../../../assets/images/logo_copa_blanco.png" />
-  </div>
-  <div class="form-container">
-    <form (ngSubmit)="register()" class="my-form">
-      <h1>Registro de Estudiante</h1>
-      <div class="fields-group">
-        <div class="form-group">
-          <div class="label-container">
-            <label for="firstName">Nombre</label>
-          </div>
-          <input
-            type="text"
-            class="form-control field"
-            id="firstName"
-            name="firstName"
-            [(ngModel)]="model.firstName"
-            #firstName="ngModel"
-            required
-          />
+<div class="screenboard">
+  <picture>
+    <source media="(min-width:840px)" srcset="../../../../assets/images/logo-vertical.png">
+    <img src="../../../../assets/images/logo_copa_blanco.png" alt="logo" />
+  </picture>
+  <div class="box">
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+      <h2>Register</h2>
+      <div class="fields-wrapper">
+        <div class="inputField">
+          <input type="text" [(ngModel)]="model.id" name="id" #id="ngModel" required />
+          <span>Id</span>
+          <i class="blank"></i>
+          <div id="idError" class="error-message" *ngIf="id.invalid && id.touched">Please enter your ID.</div>
         </div>
-        <div
-          [hidden]="firstName.valid || firstName.pristine"
-          class="alert alert-danger"
-        >
-          Debe completar el campo 'Nombre'.
+        <div class="inputField">
+          <input type="text" [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel" required />
+          <span>First Name</span>
+          <i class="blank"></i>
+          <div id="firstNameError" class="error-message" *ngIf="firstName.invalid && firstName.touched">Please enter
+            your first name.</div>
         </div>
-        <div class="form-group">
-          <div class="label-container">
-            <label for="lastName">Apellido</label>
-          </div>
-          <input
-            type="text"
-            class="form-control field"
-            id="lastName"
-            name="lastName"
-            [(ngModel)]="model.lastName"
-            #lastName="ngModel"
-            required
-          />
+        <div class="inputField">
+          <input type="text" [(ngModel)]="model.lastName" name="lastName" #lastName="ngModel" required />
+          <span>Last Name</span>
+          <i class="blank"></i>
+          <div id="lastNameError" class="error-message" *ngIf="lastName.invalid && lastName.touched">Please enter your
+            last name.</div>
         </div>
-        <div
-          [hidden]="lastName.valid || lastName.pristine"
-          class="alert alert-danger"
-        >
-          Debe completar el campo 'Apellido'.
+        <div class="inputField">
+          <input type="email" [(ngModel)]="model.email" name="email" #email="ngModel" required />
+          <span>Mail Address</span>
+          <i class="blank"></i>
+          <div id="emailError" class="error-message" *ngIf="email.invalid && email.touched">Please enter your mail
+            address.</div>
         </div>
-        <div class="form-group">
-          <div class="label-container">
-            <label for="id">Cédula de Identidad</label>
-          </div>
-          <input
-            type="text"
-            class="form-control field"
-            id="id"
-            name="id"
-            [(ngModel)]="model.id"
-            #id="ngModel"
-            required
-          />
-        </div>
-        <div [hidden]="id.valid || id.pristine" class="alert alert-danger">
-          Debe completar el campo 'Cédula de Identidad'.
-        </div>
-        <div class="form-group">
-          <div class="label-container">
-            <label for="mailAddress">Dirección Mail</label>
-          </div>
-          <input
-            type="text"
-            class="form-control field"
-            id="mailAddress"
-            name="mailAddress"
-            [(ngModel)]="model.email"
-            #mailAddress="ngModel"
-            required
-          />
-        </div>
-        <div
-          [hidden]="mailAddress.valid || mailAddress.pristine"
-          class="alert alert-danger"
-        >
-          Debe completar el campo 'Dirección Mail'.
-        </div>
-        <div class="form-group">
-          <div class="label-container">
-            <label for="gender">Género</label>
-          </div>
-          <select
-            class="form-control field"
-            id="gender"
-            name="gender"
-            name="gender"
-            [(ngModel)]="model.gender"
-            #gender="ngModel"
-            required
-          >
+        <div class="inputField">
+          <select [(ngModel)]="model.gender" name="gender" #gender="ngModel" required aria-describedby="genderError">
+            <option value="" disabled selected></option>
             <option *ngFor="let gender of genders" [value]="gender">
               {{ gender }}
             </option>
           </select>
-          <div
-            [hidden]="gender.valid || gender.pristine"
-            class="alert alert-danger"
-          >
-            Debe completar el campo 'Género'.
+          <span>Gender</span>
+          <i class="blank"></i>
+          <div id="genderError" class="error-message" *ngIf="gender.invalid && gender.touched">Please select a gender.
           </div>
         </div>
-        <div class="form-group">
-          <div class="label-container">
-            <label for="career">Carrera</label>
-          </div>
-          <select
-            class="form-control field"
-            id="career"
-            name="career"
-            name="career"
-            [(ngModel)]="model.career"
-            #gender="ngModel"
-            required
-          >
-            <option *ngFor="let career of careers" [value]="career.careerId">
-              {{ career.name }}
+        <div class="inputField">
+          <select [(ngModel)]="model.career" name="career" #career="ngModel" required aria-describedby="careerError">
+            <option value="" disabled selected></option>
+            <option *ngFor="let career of careers" [value]="career">
+              {{ career }}
             </option>
           </select>
-          <div
-            [hidden]="gender.valid || gender.pristine"
-            class="alert alert-danger"
-          >
-            Debe completar el campo 'Género'.
+          <span>Career</span>
+          <i class="blank"></i>
+          <div id="careerError" class="error-message" *ngIf="career.invalid && career.touched">Please select a career.
           </div>
         </div>
-        <div class="form-group">
-          <div class="label-container">
-            <label for="password">Contraseña</label>
-          </div>
-          <input
-            type="password"
-            class="form-control field"
-            id="password"
-            name="password"
-            [(ngModel)]="model.password"
-            #password="ngModel"
-          />
-        </div>
-        <div
-          [hidden]="password.valid || password.pristine"
-          class="alert alert-danger"
-        >
-          Debe completar el campo 'Contraseña'.
+        <div class="inputField">
+          <input type="password" [(ngModel)]="model.password" name="register_password" #register_password="ngModel"
+            required minlength="1" />
+          <span>Password</span>
+          <i class="blank"></i>
+          <div id="register_passwordError" class="error-message"
+            *ngIf="register_password.invalid && register_password.touched">Please enter your
+            password.</div>
         </div>
       </div>
-      <button type="button" class="btn btn-login" (click)="register()">
-        Registrarme
-      </button>
+      <input type="submit" value="Register" [disabled]="registerForm.invalid">
     </form>
   </div>
+  <picture class="footballs">
+    <img src="../../../assets/images/footballs.png" alt="logo" />
+  </picture>
 </div>
